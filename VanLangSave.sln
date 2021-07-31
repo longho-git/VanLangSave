@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31424.327
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VanLangSave", "VanLangSave\VanLangSave.csproj", "{D9A789EB-3E42-4116-BBB2-9FC4EEA79482}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VanLangSave.Tests", "VanLangSave.Tests\VanLangSave.Tests.csproj", "{06BE60F8-886D-401F-8CBC-6B80BD917BE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9A789EB-3E42-4116-BBB2-9FC4EEA79482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9A789EB-3E42-4116-BBB2-9FC4EEA79482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9A789EB-3E42-4116-BBB2-9FC4EEA79482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9A789EB-3E42-4116-BBB2-9FC4EEA79482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06BE60F8-886D-401F-8CBC-6B80BD917BE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06BE60F8-886D-401F-8CBC-6B80BD917BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06BE60F8-886D-401F-8CBC-6B80BD917BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06BE60F8-886D-401F-8CBC-6B80BD917BE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C44699E6-884E-4ED6-B470-83EBA09B7FA5}
+	EndGlobalSection
+EndGlobal
