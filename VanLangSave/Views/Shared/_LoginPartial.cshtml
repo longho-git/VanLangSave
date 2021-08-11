@@ -3,20 +3,20 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
+        <li class="head-list">
+            <a href="#"><span><i class="fas fa-user-circle"></i></span> TÀI KHOẢN</a>
+            <ul>
+                <li class="son-list"><a href="#"><span><i class="far fa-address-card"></i></span> Thông tin tài khoản</a></li>
+                <li class="son-list"><a href="#"><span><i class="far fa-clone"></i></span> Quản lý bài đăng</a></li>
+                <li class="son-list"><a href="#"><span><i class="fas fa-history"></i></span> Lịch sử giao dịch</a></li>
+                <li class="son-list custom-border"><a href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a></li>
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </ul>
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+<li class="head-list">@Html.ActionLink("ĐĂNG NHẬP", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
 }
