@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App">
+      <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
+      <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\AutoGenerate\AspNetCore.AutoGenerate\AspNetCore.AutoGenerate.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\IoC\AspNetCore.IoC.Autofact\AspNetCore.IoC.Autofact.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\MVC\AspNetCore.Mvc.JwtBearer\AspNetCore.Mvc.JwtBearer.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\MVC\AspNetCore.Mvc\AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\Validation\AspNetCore.FluentValidation\AspNetCore.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\Domains\ApplicationDomain\ApplicationDomain.csproj" />
+    <ProjectReference Include="..\..\Infrastructures\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+</Project>
