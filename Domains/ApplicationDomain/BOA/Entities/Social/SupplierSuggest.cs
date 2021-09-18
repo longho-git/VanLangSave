@@ -12,6 +12,5 @@ namespace ApplicationDomain.BOA.Entities
         public int ProductNeedId { get; set; }
         public ProductNeed ProductNeed { get; set; }
         public int SupplierId { get; set; }
-        public Supplier Supplier { get; set; }
     }
 }

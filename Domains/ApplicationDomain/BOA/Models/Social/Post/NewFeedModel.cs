@@ -37,8 +37,21 @@ namespace ApplicationDomain.BOA.Models.Posts
         }
         public int UserId { get; set; }
         public string UserUserName { get; set; }
+        public string OwnerAvatarImage { get; set; }
+        public string OwnerName { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public string ImageMain{ get; set; }
+        public int? CategoryId { get; set; }
+        public int Condition { get; set; }
+        public string ConditionName
+        {
+            get
+            {
+                return ConditionProduct.GetName(this.Condition);
+            }
+        }
+        public int Quantity { get; set; }
+        public string CategoryName { get; set; }
         public NewFeedModel()
         {
             this.Id = 0;
@@ -51,6 +64,8 @@ namespace ApplicationDomain.BOA.Models.Posts
             this.UserUserName = "";
             this.CreatedDate = DateTime.Now; 
             this.ImageMain = "";
+            this.OwnerAvatarImage = "";
+            this.OwnerName = "";
         }
     }
 

@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\BuildingBlocks\DataBinding\AspNetCore.DataBinding.AutoMapper\AspNetCore.DataBinding.AutoMapper.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\Domain\AspNetCore.Domain\AspNetCore.Domain.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\EmailSender\AspNetCore.EmailSender\AspNetCore.EmailSender.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\MVC\AspNetCore.Mvc.JwtBearer\AspNetCore.Mvc.JwtBearer.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\UnitOfWork\AspNetCore.UnitOfWork\AspNetCore.UnitOfWork.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\Validation\AspNetCore.FluentValidation\AspNetCore.FluentValidation.csproj" />
   </ItemGroup>

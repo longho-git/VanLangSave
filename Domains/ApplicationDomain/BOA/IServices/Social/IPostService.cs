@@ -19,5 +19,6 @@ namespace ApplicationDomain.BOA.IServices
         Task<IEnumerable<NewFeedModel>> GetPostOfUserIdAsync(int id);
         Task<IEnumerable<NewFeedModel>> GetPostsAsync();
         Task<bool> ActivePostAsync(int id,int active, UserIdentity<int> issuer);
+        Task<IEnumerable<NewFeedModel>> GetPostsByCategoryIdAsync(int CategoryId);
     }
 }

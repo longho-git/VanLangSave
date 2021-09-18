@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories.BOA
         {
             return dbSet
                 .Where(r => r.Active == true)
-                    .OrderBy(r => r.Content);
+                    .OrderByDescending(r => r.CreatedDate);
         }
         public IQueryable GetPosts()
         {
@@ -29,6 +29,12 @@ namespace Infrastructure.Repositories.BOA
         public IQueryable GetPostById(int id)
         {
             return dbSet.Where(d => d.Id == id).Include(d => d.User);
+        }
+        public IQueryable GetPostsCategoryId(int CategoryId)
+        {
+            return dbSet
+                .Where(r => r.Active == true && r.CategoryId == CategoryId)
+                    .OrderByDescending(r => r.CreatedDate);
         }
 
         public IQueryable GetPostByUserId(int id)

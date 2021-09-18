@@ -6,7 +6,7 @@ namespace ApplicationDomain.BOA.Entities
 {
     public class ImagePost : EntityBase<int>
     {
-        public string ImageURL { get; set; }
+        public string src { get; set; }
         public bool MainPost { get; set; }
         public Post Post { get; set; }
         public int PostId { get; set; }

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationDomain.BOA.Models;
 using ApplicationDomain.Helper;
+using ApplicationDomain.BOA.Models.UserProfiles;
 
 namespace ApplicationDomain.BOA.Services
 {
@@ -19,11 +20,13 @@ namespace ApplicationDomain.BOA.Services
     {
         private readonly IPostRepository _PostRepository;
         private readonly IImagePostService _imagePostService;
+        private readonly IUserProfileRepository _userProfileRepository;
         private readonly IImagePostRepository _imagePostRepository;
         public PostService(
             IPostRepository PostRepository,
             IImagePostService imagePostService,
             IImagePostRepository imagePostRepository,
+            IUserProfileRepository userProfileRepository,
             IMapper mapper,
             IUnitOfWork uow
             ) : base(mapper, uow)
@@ -31,6 +34,7 @@ namespace ApplicationDomain.BOA.Services
             _PostRepository = PostRepository;
             _imagePostService = imagePostService;
             _imagePostRepository = imagePostRepository;
+            _userProfileRepository = userProfileRepository;
 ;
         }
 
@@ -40,13 +44,14 @@ namespace ApplicationDomain.BOA.Services
             foreach (var item in postList)
             {
                 var images = await _imagePostRepository.GetImagePostByPostId(item.Id).MapQueryTo<ImagePostModel>(_mapper).ToListAsync();
+                var userProfile = await _userProfileRepository.GetDistricByUserId(item.UserId).MapQueryTo<UserProfileModel>(_mapper).ToListAsync();
                 if (images.Count > 0)
                 {
                     foreach (var image in images)
                     {
                         if (image.MainPost == true)
                         {
-                            item.ImageMain = image.ImageURL;
+                            item.ImageMain = image.src;
                         }
                     }
                 }
@@ -54,8 +59,36 @@ namespace ApplicationDomain.BOA.Services
                 {
                     item.ImageMain = null;
                 }
+                item.OwnerName = userProfile[0].LastName + " " + userProfile[0].FirstName;
+                item.OwnerAvatarImage = userProfile[0].AvatarURL;
+            }
+            return postList;
+        }
 
 
+        public async Task<IEnumerable<NewFeedModel>> GetPostsByCategoryIdAsync(int CategoryId)
+        {
+            var postList = await _PostRepository.GetPostsCategoryId(CategoryId).MapQueryTo<NewFeedModel>(_mapper).ToListAsync();
+            foreach (var item in postList)
+            {
+                var images = await _imagePostRepository.GetImagePostByPostId(item.Id).MapQueryTo<ImagePostModel>(_mapper).ToListAsync();
+                var userProfile = await _userProfileRepository.GetDistricByUserId(item.UserId).MapQueryTo<UserProfileModel>(_mapper).ToListAsync();
+                if (images.Count > 0)
+                {
+                    foreach (var image in images)
+                    {
+                        if (image.MainPost == true)
+                        {
+                            item.ImageMain = image.src;
+                        }
+                    }
+                }
+                else
+                {
+                    item.ImageMain = null;
+                }
+                item.OwnerName = userProfile[0].LastName + " " + userProfile[0].FirstName;
+                item.OwnerAvatarImage = userProfile[0].AvatarURL;
             }
             return postList;
         }
@@ -66,13 +99,14 @@ namespace ApplicationDomain.BOA.Services
             foreach (var item in postList)
             {
                 var images = await _imagePostRepository.GetImagePostByPostId(item.Id).MapQueryTo<ImagePostModel>(_mapper).ToListAsync();
+                var userProfile = await _userProfileRepository.GetDistricByUserId(item.UserId).MapQueryTo<UserProfileModel>(_mapper).ToListAsync();
                 if (images.Count > 0)
                 {
                     foreach (var image in images)
                     {
                         if (image.MainPost == true)
                         {
-                            item.ImageMain = image.ImageURL;
+                            item.ImageMain = image.src;
                         }
                     }
                 }
@@ -80,8 +114,8 @@ namespace ApplicationDomain.BOA.Services
                 {
                     item.ImageMain = null;
                 }
-
-
+                item.OwnerName = userProfile[0].LastName + " " + userProfile[0].FirstName;
+                item.OwnerAvatarImage = userProfile[0].AvatarURL;
             }
             return postList;
         }
@@ -98,7 +132,7 @@ namespace ApplicationDomain.BOA.Services
                     {
                         if (image.MainPost == true)
                         {
-                            item.ImageMain = image.ImageURL;
+                            item.ImageMain = image.src;
                         }
                     }
                 }
@@ -115,7 +149,14 @@ namespace ApplicationDomain.BOA.Services
 
         public async Task<PostModel> GetPostByIdAsync(int id)
         {
-            return await _PostRepository.GetPostById(id).MapQueryTo<PostModel>(_mapper).FirstOrDefaultAsync();
+
+            var post = await _PostRepository.GetPostById(id).MapQueryTo<PostModel>(_mapper).FirstOrDefaultAsync();
+            var images = await _imagePostRepository.GetImagePostByPostId(post.Id).MapQueryTo<ImagePostModel>(_mapper).ToListAsync();
+            var userProfile = await _userProfileRepository.GetDistricByUserId(post.UserId).MapQueryTo<UserProfileModel>(_mapper).ToListAsync();
+            post.ImagePostModelRqList = images;
+            post.OwnerName = userProfile[0].LastName + " " + userProfile[0].FirstName;
+            post.OwnerAvatarImage = userProfile[0].AvatarURL;
+            return post;
         }
 
         public async Task<int> CreatePostAsync(PostModelRq model, UserIdentity<int> issuer)

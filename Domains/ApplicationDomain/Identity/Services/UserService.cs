@@ -29,7 +29,6 @@ namespace ApplicationDomain.Identity.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserProfileRepository _userProfileRepository;
-        private readonly ISupplierRepository _supplierRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IEmailSender _emailSender;
         private readonly IEmailRepository _emailTemplateRepository;
@@ -38,7 +37,6 @@ namespace ApplicationDomain.Identity.Services
         public UserService(
             IMapper mapper,
             IUnitOfWork uow,
-            ISupplierRepository supplierRepository,
             IUserRepository userRepository,
             IUserProfileRepository userProfileRepository,
             IRoleRepository roleRepository,
@@ -48,7 +46,6 @@ namespace ApplicationDomain.Identity.Services
             IEmailRepository emailTemplateRepository
             ) : base(mapper, uow)
         {
-            _supplierRepository = supplierRepository;
             _userRepository = userRepository;
             _userProfileRepository = userProfileRepository;
             _userManagement = userManagement;
@@ -138,7 +135,7 @@ namespace ApplicationDomain.Identity.Services
                     CreatedByUserName = user.UserName,
                     BirthDay= model.BirthDay,
                     CreatedDate = DateTimeOffset.Now,
-                    AvatarURL = "https://www.dropbox.com/s/x05w3wuhjlzbdk2/bmyntj4e.xkj.jpg?dl=1",
+                    AvatarURL = "https://www.dropbox.com/s/qinze1b6wxs2mu3/rerts1zk.gfo.png?dl=1",
                 };
 
                 _userProfileRepository.Create(userProfileEntity);

@@ -1,8 +1,10 @@
 ﻿using ApplicationDomain.BOA.Entities;
+using ApplicationDomain.BOA.IRepositorie;
 using ApplicationDomain.BOA.IRepositories;
+using ApplicationDomain.BOA.IService;
 using ApplicationDomain.BOA.IServices;
 using ApplicationDomain.BOA.Models;
-using ApplicationDomain.BOA.Models.Suppliers;
+using ApplicationDomain.BOA.Models.Categories;
 using AspNetCore.AutoGenerate;
 using AspNetCore.Common.Identity;
 using AspNetCore.DataBinding.AutoMapper;
@@ -20,41 +22,41 @@ using System.Threading.Tasks;
 
 namespace ApplicationDomain.BOA.Services
 {
-    public class SupplierService : ServiceBase, ISupplierService
+    public class CategoryService : ServiceBase, ICategoryService
     {
-        private readonly ISupplierRepository _SupplierRepository;
+        private readonly ICategoryRepository _CategoryRepository;
         private readonly IProvinceRepository _provinceRepository;
-        public SupplierService(
-            ISupplierRepository SupplierRepository,
+        public CategoryService(
+            ICategoryRepository CategoryRepository,
             IProvinceRepository provinceRepository,
             IMapper mapper,
             IUnitOfWork uow
             ) : base(mapper, uow)
         {
-            _SupplierRepository = SupplierRepository;
+            _CategoryRepository = CategoryRepository;
             _provinceRepository = provinceRepository;
         }
 
-        public async Task<IEnumerable<SupplierModel>> GetSuppliersAsync()
+        public async Task<IEnumerable<CategoryModel>> GetCategorysAsync()
         {
-            return await _SupplierRepository.GetSuppliers().MapQueryTo<SupplierModel>(_mapper).ToListAsync();
+            return await _CategoryRepository.GetCategories().MapQueryTo<CategoryModel>(_mapper).ToListAsync();
         }
 
-        public async Task<SupplierModel> GetSupplierByIdAsync(int id)
+        public async Task<CategoryModel> GetCategoryByIdAsync(int id)
         {
-            return await _SupplierRepository.GetSupplierById(id).MapQueryTo<SupplierModel>(_mapper).FirstOrDefaultAsync();
+            return await _CategoryRepository.GetCategoryById(id).MapQueryTo<CategoryModel>(_mapper).FirstOrDefaultAsync();
         }
 
-        public async Task<int> CreateSupplierAsync(SupplierModelRq model, UserIdentity<int> issuer)
+        public async Task<int> CreateCategoryAsync(CategoryModelRq model, UserIdentity<int> issuer)
         {
             try
             {
-                var Supplier = _mapper.Map<Supplier>(model);
-                Supplier.CreateBy(issuer).UpdateBy(issuer);
-                _SupplierRepository.Create(Supplier);
+                var Category = _mapper.Map<Category>(model);
+                Category.CreateBy(issuer).UpdateBy(issuer);
+                _CategoryRepository.Create(Category);
                 if (await _uow.SaveChangesAsync() == 1)
                 {
-                    return Supplier.Id;
+                    return Category.Id;
                 }
                 return 0;
             }
@@ -63,23 +65,20 @@ namespace ApplicationDomain.BOA.Services
                 throw e;
             }
         }
-       public async Task<IEnumerable<SupplierModel>> GetSupplierByUserIdAsync(int id)
-        {
-            return await _SupplierRepository.GetSupplierByUserId(id).MapQueryTo<SupplierModel>(_mapper).ToListAsync();
-        }
+     
 
-        public async Task<bool> UpdateSupplierAsync(int id, SupplierModelRq model, UserIdentity<int> issuer)
+        public async Task<bool> UpdateCategoryAsync(int id, CategoryModelRq model, UserIdentity<int> issuer)
         {
             try
             {
-                var Supplier = await _SupplierRepository.GetEntityByIdAsync(id);
-                if (Supplier == null)
+                var Category = await _CategoryRepository.GetEntityByIdAsync(id);
+                if (Category == null)
                 {
                     return false;
                 }
-                _mapper.Map(model, Supplier);
-                Supplier.UpdateBy(issuer);
-                _SupplierRepository.Update(Supplier);
+                _mapper.Map(model, Category);
+                Category.UpdateBy(issuer);
+                _CategoryRepository.Update(Category);
                 if (await _uow.SaveChangesAsync() == 1)
                 {
                     return true;
@@ -92,12 +91,12 @@ namespace ApplicationDomain.BOA.Services
             }
         }
 
-        public async Task<bool> DeleteSupplierAsync(int id)
+        public async Task<bool> DeleteCategoryAsync(int id)
         {
             try
             {
-                var Supplier = await _SupplierRepository.GetEntityByIdAsync(id);
-                _SupplierRepository.Delete(Supplier);
+                var Category = await _CategoryRepository.GetEntityByIdAsync(id);
+                _CategoryRepository.Delete(Category);
                 if (await _uow.SaveChangesAsync() == 1)
                 {
                     return true;

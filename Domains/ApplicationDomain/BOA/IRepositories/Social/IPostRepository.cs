@@ -10,5 +10,6 @@ namespace ApplicationDomain.BOA.IRepositories
         IQueryable GetPostById(int id);
         IQueryable GetPostByUserId(int id);
         IQueryable GetPostsActive();
+        IQueryable GetPostsCategoryId(int CategoryId);
     }
 }

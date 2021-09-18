@@ -12,6 +12,9 @@ namespace ApplicationDomain.BOA.Models.Posts
         public string Title { get; set; }
         public string Content { get; set; }
         public int Type { get; set; }
+        public int Condition { get; set; }
+        public int Quantity { get; set; }
+        public int? CategoryId { get; set; }
         public List<ImagePostModelRq> ImagePostModelRqList { get; set; }
     }
 
@@ -30,6 +33,9 @@ namespace ApplicationDomain.BOA.Models.Posts
         {
             RuleFor(p => p.Title).NotEmpty();
             RuleFor(p => p.Content).NotEmpty();
+            RuleFor(p => p.CategoryId).NotEmpty();
+            RuleFor(p => p.Quantity).NotEmpty();
+            RuleFor(p => p.Condition).NotEmpty();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ApplicationDomain.BOA.Entities;
+using ApplicationDomain.Helper;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,19 @@ namespace ApplicationDomain.BOA.Models.Posts
         public bool Active { get; set; }
         public int UserId { get; set; }
         public string UserUserName { get; set; }
+        public int? CategoryId { get; set; }
+        public int Condition { get; set; }
+        public int Quantity { get; set; }
+        public string CategoryName { get; set; }
+        public string OwnerAvatarImage { get; set; }
+        public string OwnerName { get; set; }
+        public string ConditionName
+        {
+            get
+            {
+                return ConditionProduct.GetName(this.Condition);
+            }
+        }
         public DateTimeOffset CreatedDate { get; set; }
         public IEnumerable<ImagePostModel> ImagePostModelRqList { get; set; }
         public PostModel()

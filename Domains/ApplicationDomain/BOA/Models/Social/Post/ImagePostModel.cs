@@ -5,7 +5,7 @@ namespace ApplicationDomain.BOA.Models
 {
     public class ImagePostModel 
     {
-        public string ImageURL { get; set; }
+        public string src { get; set; }
         public bool MainPost { get; set; }
 
     }

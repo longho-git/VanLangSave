@@ -11,6 +11,7 @@ namespace Infrastructure.EntityConfigurations.BOA
         public override void OnConfigure(EntityTypeBuilder<Post> builder)
         {
             builder.HasOne(p => p.User).WithMany().HasForeignKey(p => p.UserId).OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
+            builder.HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId).OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
         }
     }
 }
