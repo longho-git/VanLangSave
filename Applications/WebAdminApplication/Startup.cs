@@ -176,11 +176,9 @@ namespace WebAdminApplication
             var reportDirectory = Path.Combine(env.ContentRootPath, "Reports");
             app.UseCors(builder =>
                  builder
-                 .WithOrigins("http://localhost:3000")
                  .AllowAnyOrigin()
                  .AllowAnyMethod()
                  .AllowAnyHeader()
-                 .SetIsOriginAllowed(origin => true)
                  .AllowCredentials());
 
             app.UseDefaultFiles();
@@ -190,7 +188,7 @@ namespace WebAdminApplication
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "/");
+                    template: "index.html");
 
                 routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
             });
@@ -218,6 +216,7 @@ namespace WebAdminApplication
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
                 spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+
             });
 
 

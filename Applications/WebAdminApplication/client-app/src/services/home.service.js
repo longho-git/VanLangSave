@@ -3,14 +3,9 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_ENDPOINT;
 
 class HomeService {
-  getNewFeed() {
-    const token = localStorage.getItem('token');
-    const accessToken = JSON.parse(token);
-    const config = {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    };
+  getPostActive() {
     return axios
-      .get(API_URL + 'Post/active', config)
+      .get(API_URL + 'Post/active')
       .then((response) => {
         return response.data;
       })

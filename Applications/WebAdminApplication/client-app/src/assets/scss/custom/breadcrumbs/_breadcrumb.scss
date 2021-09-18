@@ -1,0 +1,59 @@
+//
+// Breadcrumb
+//
+
+// Breadcrumb
+
+$breadcrumb-padding-y: 0.5rem !default;
+$breadcrumb-padding-x: 1rem !default;
+$breadcrumb-item-padding: 0.5rem !default;
+$breadcrumb-margin-bottom: 1rem !default;
+$breadcrumb-bg: $gray-100 !default;
+$breadcrumb-divider-color: $gray-600 !default;
+$breadcrumb-active-color: $gray-600 !default;
+$breadcrumb-divider: quote('-') !default;
+$breadcrumb-border-radius: $border-radius !default;
+
+$breadcrumb-dark-bg: $default !default;
+$breadcrumb-dark-color: $gray-100 !default;
+$breadcrumb-dark-hover-color: $white !default;
+$breadcrumb-dark-active-color: $gray-300 !default;
+$breadcrumb-dark-divider-color: $gray-500 !default;
+
+.breadcrumb-item {
+  font-size: $font-size-sm;
+}
+
+.breadcrumb-dark {
+  background-color: $breadcrumb-dark-bg;
+
+  .breadcrumb-item {
+    font-weight: 600;
+
+    a {
+      color: $breadcrumb-dark-color;
+
+      &:hover {
+        color: $breadcrumb-dark-hover-color;
+      }
+    }
+
+    + .breadcrumb-item {
+      &::before {
+        color: $breadcrumb-dark-divider-color;
+      }
+    }
+
+    &.active {
+      color: $breadcrumb-dark-active-color;
+    }
+  }
+}
+
+// Links
+
+.breadcrumb-links {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}

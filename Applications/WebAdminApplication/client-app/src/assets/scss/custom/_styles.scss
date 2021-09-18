@@ -1,0 +1,28 @@
+// Breadcrumbs
+@import 'variables';
+@import 'breadcrumbs/breadcrumb';
+// Navbars
+@import 'navbars/navbar';
+@import 'navbars/navbar-floating';
+@import 'navbars/navbar-vertical';
+@import 'navbars/navbar-search';
+@import 'navbars/navbar-dropdown';
+@import 'navbars/navbar-collapse';
+@import 'navbars/navbar-top';
+// Headers
+@import 'headers/header';
+// Content
+@import 'content/main-content';
+// tables
+@import 'tables';
+@import 'tables/table';
+@import 'tables/table-actions';
+@import 'tables/table-sortable';
+//dropzone
+@import 'dropzone';
+@import 'plugin-dropzone';
+
+@import 'plugin-react-bootstrap-sweetalert';
+@import 'plugin-react-notification-alert';
+
+@import 'sweet-alert-2';

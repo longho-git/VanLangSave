@@ -24,12 +24,30 @@ namespace WebAdminApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPostsActiveAsync()
         {
-            var issuer = GetCurrentUserIdentity<int>();
-            if (issuer == null)
+            try
             {
-                return BadRequest("Vui lòng đăng nhập !!!");
+                return Ok(await _postService.GetPostsActiveAsync());
             }
-            return Ok(await _postService.GetPostsActiveAsync());
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+        }
+
+        [Route("category/{categoryId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetPostsCategoryIdAsync(int categoryId)
+        {
+            try
+            {
+                return Ok(await _postService.GetPostsByCategoryIdAsync(categoryId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
 
         [Route("")]

@@ -1,8 +1,14 @@
 import React from 'react';
-import Routes from 'routes/routes';
+import AdminRoutes from 'routes/admin.routes';
+import HomeRoutes from 'routes/home.routes';
 
 function App() {
-  return <Routes />;
+  return (
+    <>
+      <HomeRoutes />
+      <AdminRoutes />
+    </>
+  );
 }
 
 export default App;

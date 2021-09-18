@@ -17,11 +17,11 @@ import 'assets/vendor/nucleo/css/nucleo.css';
 import 'assets/scss/argon-dashboard-pro-react.scss?v1.2.0';
 
 // import AuthLayout from 'layouts/Auth.js';
-import App from 'App/App';
 import { Provider } from 'react-redux';
 import configureStore from 'utils/store';
 import { ConnectedRouter } from 'connected-react-router';
 import history from './utils/history';
+import App from './App/App';
 
 // Create redux store with history
 const initialState = {};

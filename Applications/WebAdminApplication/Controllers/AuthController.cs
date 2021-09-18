@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ApplicationDomain.BOA.IServices;
+using ApplicationDomain.BOA.Models.UserProfiles;
 using ApplicationDomain.Identity.IServices;
 using ApplicationDomain.Identity.Models;
 using ApplicationDomain.Identity.Models.Permissions;
@@ -60,7 +61,13 @@ namespace WebAdminApplication.Controllers
                 List<Claim> additionClaims = new List<Claim>();
                 additionClaims.Add(new Claim("permission", JsonConvert.SerializeObject(grantedPermission)));
                 var token = _jwtTokenService.GenerateToken(result.UserIdentity, result.Roles, additionClaims);
-                return Ok(token);
+                var profile = await _userProfileService.GetDistricByUserIdAsync(result.UserIdentity.Id);
+                var resultLogin = new LoginModel()
+                {
+                    Token = token,
+                    UserProfile = profile,
+                };
+                return Ok(resultLogin);
             }
 
             if (result.IsLockedOut)
