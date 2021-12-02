@@ -14,6 +14,20 @@ namespace ApplicationDomain.BOA.Models.Posts
         public string Content { get; set; }
         public int Type { get; set; }
         public int Statuts { get; set; }
+        public string TypeName
+        {
+            get
+            {
+                if (Type == 1)
+                {
+                    return "Tặng";
+                }
+                else
+                {
+                    return "Trao đổi";
+                }
+            }
+        }
         public bool Active { get; set; }
         public int UserId { get; set; }
         public string UserUserName { get; set; }

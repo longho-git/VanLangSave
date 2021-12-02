@@ -3,8 +3,9 @@ using AutoMapper;
 
 namespace ApplicationDomain.BOA.Models
 {
-    public class ImagePostModelRq 
+    public class ImagePostModelRq
     {
+        public int? Id { get; set; }
         public string src { get; set; }
         public bool MainPost { get; set; }
         public int PostId { get; set; }

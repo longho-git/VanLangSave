@@ -9,7 +9,5 @@ namespace AspNetCore.Common.Identity
         public string UserName { get; set; }
         public List<string> Roles { get; set; }
         public EmployeeInfoModel EmployeeInfoModel { get; set; }
-
-        
     }
 }

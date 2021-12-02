@@ -98,5 +98,12 @@ namespace AspNetCore.AutoGenerate
             const string alphanumericCharacters = "abcdefghijklmnopqrstuvwxyz";
             return GetRandomString(length, alphanumericCharacters, false, false).ToUpper();
         }
+        public static string OneWayEncryption(string password)
+        {
+            byte[] arrByte = new byte[password.Length];
+            SHA256 shaM = new SHA256CryptoServiceProvider();
+            arrByte = shaM.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return Convert.ToBase64String(arrByte);
+        }
     }
 }

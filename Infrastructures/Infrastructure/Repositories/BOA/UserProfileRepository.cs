@@ -24,6 +24,11 @@ namespace Infrastructure.Repositories.BOA
             return dbSet.Where(d => d.Id == id).Include(d => d.User);
         }
 
+        public IQueryable GetUserProfileBySysAdmin()
+        {
+            return dbSet.Include(d => d.User).Where(r=> r.User.Id == 1);
+        }
+
         public IQueryable GetDistricByUserId(int id)
         {
             return dbSet.Where(d => d.UserId == id);

@@ -56,23 +56,15 @@ namespace Infrastructure.SeedData
         private static async Task SeedDataAsync(ApplicationDbContext dbContext)
         {
             IdentityResult systemAdminResult = await SeedSystemAdminAsync(dbContext);
-            //if (systemAdminResult.Succeeded)
-            //{
-            await SeedRoleAsync(dbContext);
-            //}
-            //var userManagement = _serviceProvider.GetService<UserManager<User>>();
-            //var systemAdmin = userManagement.FindByNameAsync("system").Result;
-            //await userManagement.AddToRoleAsync(systemAdmin, ROLE_CONSTANT.SYSADMIN);
-
-            //await SeedDistrictAsync(dbContext,
-            //        await SeedProvinceAsync(dbContext));
-            //    await SeedDepartmentAsync(dbContext,
-            //        await SeedBranchAsync(dbContext,
-            //            await SeedCompanyAsync(dbContext)));
-      
-          
-
-
+            if (systemAdminResult.Succeeded)
+            {
+                await SeedRoleAsync(dbContext);
+            }
+            var userManagement = _serviceProvider.GetService<UserManager<User>>();
+            var systemAdmin = userManagement.FindByNameAsync("system").Result;
+            await userManagement.AddToRoleAsync(systemAdmin, ROLE_CONSTANT.SYSADMIN);
+            await SeedEmailTemplate(dbContext);
+            await SeedCategoryAsync(dbContext);
 
         }
 
@@ -82,18 +74,19 @@ namespace Infrastructure.SeedData
             var roleManagers = _serviceProvider.GetService<RoleManager<Role>>();
             var userManager = _serviceProvider.GetService<UserManager<User>>();
             var user = userManager.FindByNameAsync("system").Result;
-            //var roleSystem = new Role
+            await dbContext.SaveChangesAsync();
+            var roleSystem = new Role
 
-            ////{
-            ////    Name = ROLE_CONSTANT.SYSADMIN,
-            ////    CreatedByUserId = user.Id,
-            ////    CreatedDate = DateTimeOffset.UtcNow,
-            ////    CreatedByUserName = user.UserName,
-            ////    UpdatedByUserId = user.Id,
-            ////    UpdatedDate = DateTimeOffset.UtcNow,
-            ////    UpdatedByUserName = user.UserName
-            ////};
-            //await roleManagers.CreateAsync(roleSystem);
+            {
+                Name = ROLE_CONSTANT.SYSADMIN,
+                CreatedByUserId = user.Id,
+                CreatedDate = DateTimeOffset.UtcNow,
+                CreatedByUserName = user.UserName,
+                UpdatedByUserId = user.Id,
+                UpdatedDate = DateTimeOffset.UtcNow,
+                UpdatedByUserName = user.UserName
+            };
+            await roleManagers.CreateAsync(roleSystem);
             await dbContext.SaveChangesAsync();
             var roleEmployee = new Role
             {
@@ -107,43 +100,18 @@ namespace Infrastructure.SeedData
             };
             await roleManagers.CreateAsync(roleEmployee);
             await dbContext.SaveChangesAsync();
-            //var roleCustomer = new Role
-            //{
-            //    Name = ROLE_CONSTANT.CUSTOMER,
-            //    CreatedByUserId = user.Id,
-            //    CreatedDate = DateTimeOffset.UtcNow,
-            //    CreatedByUserName = user.UserName,
-            //    UpdatedByUserId = user.Id,
-            //    UpdatedDate = DateTimeOffset.UtcNow,
-            //    UpdatedByUserName = user.UserName
-            //};
-            //await roleManagers.CreateAsync(roleCustomer);
-            //await dbContext.SaveChangesAsync();
-            //var roleSupplier = new Role
-            //{
-            //    Name = ROLE_CONSTANT.SUPPLIER,
-            //    CreatedByUserId = user.Id,
-            //    CreatedDate = DateTimeOffset.UtcNow,
-            //    CreatedByUserName = user.UserName,
-            //    UpdatedByUserId = user.Id,
-            //    UpdatedDate = DateTimeOffset.UtcNow,
-            //    UpdatedByUserName = user.UserName
-            //};
-            //await roleManagers.CreateAsync(roleSupplier);
-            //await dbContext.SaveChangesAsync();
-
-            //var roleAdmin = new Role
-            //{
-            //    Name = ROLE_CONSTANT.ADMIN,
-            //    CreatedByUserId = user.Id,
-            //    CreatedDate = DateTimeOffset.UtcNow,
-            //    CreatedByUserName = user.UserName,
-            //    UpdatedByUserId = user.Id,
-            //    UpdatedDate = DateTimeOffset.UtcNow,
-            //    UpdatedByUserName = user.UserName
-            //};
-            //await roleManagers.CreateAsync(roleAdmin);
-            //await dbContext.SaveChangesAsync();
+            var roleAdmin = new Role
+            {
+                Name = ROLE_CONSTANT.MANAGER,
+                CreatedByUserId = user.Id,
+                CreatedDate = DateTimeOffset.UtcNow,
+                CreatedByUserName = user.UserName,
+                UpdatedByUserId = user.Id,
+                UpdatedDate = DateTimeOffset.UtcNow,
+                UpdatedByUserName = user.UserName
+            };
+            await roleManagers.CreateAsync(roleAdmin);
+            await dbContext.SaveChangesAsync();
         }
 
 
@@ -216,102 +184,86 @@ namespace Infrastructure.SeedData
         }
 
 
-        private static async Task<int> SeedBranchAsync(ApplicationDbContext dbContext, int companyid)
+        private static async Task<int> SeedCategoryAsync(ApplicationDbContext dbContext)
         {
-            Console.WriteLine("Start to seed Branch");
+            Console.WriteLine("Start to seed Category");
             var userManagement = _serviceProvider.GetService<UserManager<User>>();
             var system = userManagement.FindByNameAsync("system").Result;
-            var model = new Branch
+            var phone = new Category
             {
-                Code = "HCM",
-                Email = "VNThcm@gmail.com",
-                Address = "Binh tan",
-                Fax = "123456789",
-                ForeignName = "Tuloc HCM tech Vietnam",
-                LogoURL = "https://testurl.com/corp001.png",
-                Name = "Chi nhanh HCM",
-                PhoneNumber = "0936915227",
-                ShortName = "VNT HCM Tech",
-                TaxCode = "123456789",
-                CompanyId = companyid,
-                DistrictId = 1,
+                Name = "Điện Thoại & Phụ Kiện",
+                Col = 3,
+                ImageURL = "https://meta.vn/Data/image/2021/07/19/top-nhung-dong-dien-thoai-tot-dang-mua-nhat-hien-nay-3.jpg",
                 CreatedByUserId = system.Id,
                 CreatedByUserName = system.UserName,
                 UpdatedByUserId = system.Id,
                 UpdatedByUserName = system.UserName,
             };
-            await dbContext.AddAsync(model);
+            await dbContext.AddAsync(phone);
+            await dbContext.SaveChangesAsync();
+            var fashion = new Category
+            {
+                Name = "Thời Trang",
+                Col = 3,
+                ImageURL = "https://images.pexels.com/photos/994523/pexels-photo-994523.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+                CreatedByUserId = system.Id,
+                CreatedByUserName = system.UserName,
+                UpdatedByUserId = system.Id,
+                UpdatedByUserName = system.UserName,
+            };
+            await dbContext.AddAsync(fashion);
+            await dbContext.SaveChangesAsync();
+            var lap = new Category
+            {
+                Name = "Máy tính $ Laptop",
+                Col = 6,
+                ImageURL = "https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+                CreatedByUserId = system.Id,
+                CreatedByUserName = system.UserName,
+                UpdatedByUserId = system.Id,
+                UpdatedByUserName = system.UserName,
+            };
+            await dbContext.AddAsync(lap);
+            await dbContext.SaveChangesAsync();
+            var phone1 = new Category
+            {
+                Name = "Nhà cửa đời sống",
+                Col =6,
+                ImageURL = "https://images.pexels.com/photos/4262010/pexels-photo-4262010.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+                CreatedByUserId = system.Id,
+                CreatedByUserName = system.UserName,
+                UpdatedByUserId = system.Id,
+                UpdatedByUserName = system.UserName,
+            };
+            await dbContext.AddAsync(phone1);
+            await dbContext.SaveChangesAsync();
+            var fashion1 = new Category
+            {
+                Name = "Balo túi ví",
+                Col = 3,
+                ImageURL = "https://images.pexels.com/photos/1546003/pexels-photo-1546003.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+                CreatedByUserId = system.Id,
+                CreatedByUserName = system.UserName,
+                UpdatedByUserId = system.Id,
+                UpdatedByUserName = system.UserName,
+            };
+            await dbContext.AddAsync(fashion1);
+            await dbContext.SaveChangesAsync();
+            var lap1 = new Category
+            {
+                Name = "Sách",
+                Col = 3,
+                ImageURL = "https://images.pexels.com/photos/694740/pexels-photo-694740.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+                CreatedByUserId = system.Id,
+                CreatedByUserName = system.UserName,
+                UpdatedByUserId = system.Id,
+                UpdatedByUserName = system.UserName,
+            };
+            await dbContext.AddAsync(lap1);
             await dbContext.SaveChangesAsync();
             Console.WriteLine("Finished seed Branch");
-            return model.Id;
+            return 1;
         }
-
-        private static async Task<int> SeedDepartmentAsync(ApplicationDbContext dbContext, int branchId)
-        {
-            Console.WriteLine("Start to seed Department");
-            var userManagement = _serviceProvider.GetService<UserManager<User>>();
-            var system = userManagement.FindByNameAsync("system").Result;
-            var model = new Department
-            {
-                Code = "VNT",
-                Email = "department@gmail.com",
-                Name = "Department",
-                PhoneNumber = "0936915227",
-                BranchId = branchId,
-                CreatedByUserId = system.Id,
-                CreatedByUserName = system.UserName,
-                UpdatedByUserId = system.Id,
-                UpdatedByUserName = system.UserName,
-            };
-            await dbContext.AddAsync(model);
-            await dbContext.SaveChangesAsync();
-            Console.WriteLine("Finished seed Department");
-            return model.Id;
-        }
-
-        private static async Task<int> SeedProvinceAsync(ApplicationDbContext dbContext)
-        {
-            Console.WriteLine("Start to seed Province");
-            var userManagement = _serviceProvider.GetService<UserManager<User>>();
-            var system = userManagement.FindByNameAsync("system").Result;
-            var model = new Province
-            {
-                Code = "01",
-                Name = "Thành Phố Hồ Chí Minh",
-                Type = "Thành Phố",
-                CreatedByUserId = system.Id,
-                CreatedByUserName = system.UserName,
-                UpdatedByUserId = system.Id,
-                UpdatedByUserName = system.UserName,
-            };
-            await dbContext.AddAsync(model);
-            await dbContext.SaveChangesAsync();
-            Console.WriteLine("Finished seed Province");
-            return model.Id;
-        }
-
-        private static async Task<int> SeedDistrictAsync(ApplicationDbContext dbContext, int provinceId)
-        {
-            Console.WriteLine("Start to seed District");
-            var userManagement = _serviceProvider.GetService<UserManager<User>>();
-            var system = userManagement.FindByNameAsync("system").Result;
-            var model = new District
-            {
-                Code = "01",
-                Name = "Quận Bình Thạnh",
-                Type = "Quận",
-                ProvinceId = provinceId,
-                CreatedByUserId = system.Id,
-                CreatedByUserName = system.UserName,
-                UpdatedByUserId = system.Id,
-                UpdatedByUserName = system.UserName,
-            };
-            await dbContext.AddAsync(model);
-            await dbContext.SaveChangesAsync();
-            Console.WriteLine("Finished seed District");
-            return model.Id;
-        }
-     
 
         private static async Task SeedEmailTemplate(ApplicationDbContext dbContext)
         {
@@ -320,39 +272,39 @@ namespace Infrastructure.SeedData
             {
                 Name = "NewUserEmail",
                 EmailContent = "<span>" +
-                "Xin chào #email<br /><br />" +
-                "Dưới đây là thông tin đăng nhập của bạn vào hệ thống của chúng tôi:< br />" +
-                "Tên đăng nhập: < b >#username</b><br />" +
-                "Mật khẩu: < b >#password</b><br />" +
-                "Để an toàn cho việc đăng nhập vào hệ thống, bạn vui lòng đăng nhập vào hệ thống và sử dụng chức năng đổi mật khẩu.< br />< br />" +
-                "Xin cảm ơn,< br />" +
+                "Xin chào #email<br/><br/>" +
+                "Dưới đây là thông tin đăng nhập của bạn vào hệ thống của chúng tôi:<br/>" +
+                "Tên đăng nhập: <b>#username</b><br />" +
+                "Mật khẩu: <b>#password</b><br />" +
+                "Để an toàn cho việc đăng nhập vào hệ thống, bạn vui lòng đăng nhập vào hệ thống và sử dụng chức năng đổi mật khẩu.<br/><br/>" +
+                "Xin cảm ơn,<br/>" +
                 "VNT support" +
-                "</ span > ",
+                "</span> ",
                 EmailSubject = "Thông tin đăng nhập hệ thống [VNTtech.vn]"
             });
             emailTemplates.Add(new EmailTemplate()
             {
                 Name = "ResetUserPasswordEmail",
                 EmailContent = "<span>" +
-                "Xin chào < b >#email</b>,<br /><br />" +
-                "Mật khẩu cho tài khoản < b >#username</b> của bạn đã thay đổi:<br />" +
-                "Mật khẩu mới: < b >#password</b><br />" +
+                "Xin chào <b>#email</b>,<br/><br/>" +
+                "Mật khẩu cho tài khoản <b>#username</b> của bạn đã thay đổi:<br/>" +
+                "Mật khẩu mới: <b>#password</b><br/>" +
                 "Để an toàn cho việc đăng nhập vào hệ thống," +
-                "bạn vui lòng đăng nhập vào hệ thống và sử dụng chức năng đổi mật khẩu.< br />< br />" +
-                "Xin cảm ơn,< br />" +
+                "bạn vui lòng đăng nhập vào hệ thống và sử dụng chức năng đổi mật khẩu.<br/><br/>" +
+                "Xin cảm ơn,<br/>" +
                 "VNT support" +
-                "</ span > ",
+                "</span> ",
                 EmailSubject = "Khôi phục mật khẩu đăng nhập hệ thống [VNTtech.vn]"
             });
             emailTemplates.Add(new EmailTemplate()
             {
                 Name = "ChangeUserPasswordEmail",
                 EmailContent = "<span>" +
-                "Xin chào < b >#email</b>,<br /><br />" +
-                "Mật khẩu cho tài khoản < b >#username</b> của bạn đã thay đổi.<br /><br />" +
-                "Xin cảm ơn,< br />" +
+                "Xin chào <b>#email</b>,<br/><br/>" +
+                "Mật khẩu cho tài khoản <b>#username</b> của bạn đã thay đổi.<br/><br/>" +
+                "Xin cảm ơn,<br/>" +
                 "VNT support" +
-                "</ span > ",
+                "</span> ",
                 EmailSubject = "Thay đổi mật khẩu đăng nhập hệ thống [VNTtech.vn]"
             });
             dbContext.AddRange(emailTemplates);

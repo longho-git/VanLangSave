@@ -19,6 +19,7 @@ namespace ApplicationDomain.BOA.Models.UserProfiles
         public string Address { get; set; }
         public DateTime BirthDay { get; set; }
         public int UserId { get; set; }
+        public int Sex { get; set; }
     }
 
     public class UserProfileModelMapper : Profile

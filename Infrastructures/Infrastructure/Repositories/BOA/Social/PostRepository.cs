@@ -1,5 +1,6 @@
 ﻿using ApplicationDomain.BOA.Entities;
 using ApplicationDomain.BOA.IRepositories;
+using ApplicationDomain.Helper;
 using AspNetCore.UnitOfWork.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -17,13 +18,14 @@ namespace Infrastructure.Repositories.BOA
         public IQueryable GetPostsActive()
         {
             return dbSet
-                .Where(r => r.Active == true)
+                .Where(r => r.Active == true && r.Statuts != PostStatus.Hidden && r.Statuts != PostStatus.Done)
                     .OrderByDescending(r => r.CreatedDate);
         }
-        public IQueryable GetPosts()
+        public IQueryable GetPostsWaiting()
         {
             return dbSet
-                    .OrderBy(r => r.Content);
+                .Where(d => d.Statuts == 1)
+                    .OrderBy(r => r.CreatedDate);
         }
 
         public IQueryable GetPostById(int id)
@@ -33,14 +35,32 @@ namespace Infrastructure.Repositories.BOA
         public IQueryable GetPostsCategoryId(int CategoryId)
         {
             return dbSet
-                .Where(r => r.Active == true && r.CategoryId == CategoryId)
+                .Where(r => r.Active == true && r.CategoryId == CategoryId && r.Statuts != PostStatus.Hidden && r.Statuts != PostStatus.Done)
                     .OrderByDescending(r => r.CreatedDate);
         }
 
-        public IQueryable GetPostByUserId(int id)
+        public IQueryable GetPostByUserId(int id ,int statusId)
         {
-            return dbSet.Where(d => d.UserId == id);
+            return dbSet.Where(d => d.UserId == id && d.Statuts == statusId);
         }
-        
+
+        public IQueryable GetAllPostByUserId(int id)
+        {
+            return dbSet.Where(d => d.UserId == id );
+        }
+        public IQueryable GetPostByUserProfileId(int id)
+        {
+            return dbSet.Where(d => d.UserProfileId == id && d.Statuts == PostStatus.Approve && d.Active == true && d.Type==2);
+        }
+        public IQueryable GetPostActiveByUserId(int id)
+        {
+            return dbSet.Where(r => r.UserId == id && r.Statuts != PostStatus.Hidden && r.Statuts != PostStatus.Done);
+        }
+        public IQueryable SearchPostsActive(string searchTitle)
+        {
+            return dbSet
+                .Where(r => r.Active == true && r.Statuts != PostStatus.Hidden && r.Statuts != PostStatus.Done && r.Title.Contains(searchTitle))
+                .OrderByDescending(r => r.CreatedDate);
+        }
     }
 }

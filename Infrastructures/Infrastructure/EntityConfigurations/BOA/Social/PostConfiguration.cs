@@ -1,10 +1,7 @@
 ﻿using ApplicationDomain.BOA.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Infrastructure.EntityConfigurations.BOA
+namespace Infrastructure.EntityConfigurations.BOA.Social
 {
     public class PostConfiguration : EntityConfigurationBase<Post, int>
     {
@@ -12,6 +9,7 @@ namespace Infrastructure.EntityConfigurations.BOA
         {
             builder.HasOne(p => p.User).WithMany().HasForeignKey(p => p.UserId).OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
             builder.HasOne(p => p.Category).WithMany().HasForeignKey(p => p.CategoryId).OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
+            builder.HasOne(p => p.UserProfile).WithMany().HasForeignKey(p => p.UserProfileId).OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Restrict);
         }
     }
 }

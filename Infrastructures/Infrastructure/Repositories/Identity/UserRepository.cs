@@ -54,12 +54,12 @@ namespace Infrastructure.Repositories.Identity
             return entity ;
         }
 
-        public IQueryable<User> GetManagerUsers()
+        public IQueryable<User> GetSYSADMINUsers()
         {
             var managers = from uRole in _dbContext.UserRoles
                 from user in _userManager.Users
                 from role in _dbContext.Roles
-                where role.Name == ROLE_CONSTANT.MANAGER && uRole.RoleId == role.Id && uRole.UserId == user.Id
+                where role.Name == ROLE_CONSTANT.SYSADMIN && uRole.RoleId == role.Id && uRole.UserId == user.Id
                 select new User()
                 {
                     Id = user.Id,
@@ -68,31 +68,43 @@ namespace Infrastructure.Repositories.Identity
                 };
             return managers;
         } 
-        public IQueryable<User> GetDirectorUsers()
+        public IQueryable GetUsersNormal()
         {
             var directors = from uRole in _dbContext.UserRoles
                 from user in _userManager.Users
                 from role in _dbContext.Roles
-                where role.Name == ROLE_CONSTANT.DIRECTOR && uRole.RoleId == role.Id && uRole.UserId == user.Id
-                select new User()
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    UserName = user.UserName
-                };
+                where role.Name == ROLE_CONSTANT.NORMAL_USER && uRole.RoleId == role.Id && uRole.UserId == user.Id
+               select new UserModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Status = user.Status,
+                UserName = user.UserName,
+                CreatedByUserName = user.CreatedByUserName,
+                CreatedDate = user.CreatedDate,
+                UpdatedByUserName = user.UpdatedByUserName,
+                UpdatedDate = user.UpdatedDate,
+            };
             return directors;
         }
-        public IQueryable<User> GetEmployeeUsers()
+        public IQueryable GetManagerUsers()
         {
             var employee = from uRole in _dbContext.UserRoles
                 from user in _userManager.Users
                 from role in _dbContext.Roles
-                where role.Name == ROLE_CONSTANT.EMPLOYEE && uRole.RoleId == role.Id && uRole.UserId == user.Id
-                select new User()
+                where role.Name == ROLE_CONSTANT.MANAGER && uRole.RoleId == role.Id && uRole.UserId == user.Id
+                select new UserModel
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    UserName = user.UserName
+                    PhoneNumber = user.PhoneNumber,
+                    Status = user.Status,
+                    UserName = user.UserName,
+                    CreatedByUserName = user.CreatedByUserName,
+                    CreatedDate = user.CreatedDate,
+                    UpdatedByUserName = user.UpdatedByUserName,
+                    UpdatedDate = user.UpdatedDate,
                 };
             return employee;
         }

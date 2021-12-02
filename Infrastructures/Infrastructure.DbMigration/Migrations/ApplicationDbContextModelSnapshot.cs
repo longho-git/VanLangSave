@@ -269,6 +269,76 @@ namespace Infrastructure.DbMigration.Migrations
                     b.ToTable("ImagePost");
                 });
 
+            modelBuilder.Entity("ApplicationDomain.BOA.Entities.Notifi.UserNotification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CreatedByUserId");
+
+                    b.Property<string>("CreatedByUserName");
+
+                    b.Property<DateTimeOffset>("CreatedDate");
+
+                    b.Property<bool>("IsRead");
+
+                    b.Property<int>("NotificationId");
+
+                    b.Property<int>("RecipientId");
+
+                    b.Property<byte[]>("RowVersion");
+
+                    b.Property<int>("UpdatedByUserId");
+
+                    b.Property<string>("UpdatedByUserName");
+
+                    b.Property<DateTimeOffset>("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotificationId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.ToTable("UserNotification");
+                });
+
+            modelBuilder.Entity("ApplicationDomain.BOA.Entities.Notification.NotificationClient", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ActorId");
+
+                    b.Property<int>("CreatedByUserId");
+
+                    b.Property<string>("CreatedByUserName");
+
+                    b.Property<DateTimeOffset>("CreatedDate");
+
+                    b.Property<int>("EntityId");
+
+                    b.Property<string>("MainURL");
+
+                    b.Property<string>("Message");
+
+                    b.Property<byte[]>("RowVersion");
+
+                    b.Property<int>("UpdatedByUserId");
+
+                    b.Property<string>("UpdatedByUserName");
+
+                    b.Property<DateTimeOffset>("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.ToTable("NotificationClient");
+                });
+
             modelBuilder.Entity("ApplicationDomain.BOA.Entities.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -307,11 +377,15 @@ namespace Infrastructure.DbMigration.Migrations
 
                     b.Property<int>("UserId");
 
+                    b.Property<int?>("UserProfileId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Post");
                 });
@@ -390,6 +464,92 @@ namespace Infrastructure.DbMigration.Migrations
                     b.ToTable("Province");
                 });
 
+            modelBuilder.Entity("ApplicationDomain.BOA.Entities.RegisterPostGive", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CreatedByUserId");
+
+                    b.Property<string>("CreatedByUserName");
+
+                    b.Property<DateTimeOffset>("CreatedDate");
+
+                    b.Property<int>("PostId");
+
+                    b.Property<string>("Remark");
+
+                    b.Property<byte[]>("RowVersion");
+
+                    b.Property<int>("StatusId");
+
+                    b.Property<int>("UpdatedByUserId");
+
+                    b.Property<string>("UpdatedByUserName");
+
+                    b.Property<DateTimeOffset>("UpdatedDate");
+
+                    b.Property<int>("UserRegisterId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserRegisterId");
+
+                    b.ToTable("RegisterPostGive");
+                });
+
+            modelBuilder.Entity("ApplicationDomain.BOA.Entities.Social.RegisterPostExchange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CreatedByUserId");
+
+                    b.Property<string>("CreatedByUserName");
+
+                    b.Property<DateTimeOffset>("CreatedDate");
+
+                    b.Property<int?>("PostExchangeId");
+
+                    b.Property<int>("PostId");
+
+                    b.Property<int?>("PostOwnerStatusId");
+
+                    b.Property<string>("Remark");
+
+                    b.Property<string>("RemarkPostOwnerReject");
+
+                    b.Property<string>("RemarkUserRegisterReject");
+
+                    b.Property<byte[]>("RowVersion");
+
+                    b.Property<int>("StatusId");
+
+                    b.Property<int>("UpdatedByUserId");
+
+                    b.Property<string>("UpdatedByUserName");
+
+                    b.Property<DateTimeOffset>("UpdatedDate");
+
+                    b.Property<int>("UserRegisterId");
+
+                    b.Property<int?>("UserRegisterStatusId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostExchangeId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserRegisterId");
+
+                    b.ToTable("RegisterPostExchange");
+                });
+
             modelBuilder.Entity("ApplicationDomain.BOA.Entities.UserProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -419,6 +579,8 @@ namespace Infrastructure.DbMigration.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<byte[]>("RowVersion");
+
+                    b.Property<int>("Sex");
 
                     b.Property<string>("StudentId");
 
@@ -494,7 +656,7 @@ namespace Infrastructure.DbMigration.Migrations
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 9, 17, 8, 34, 28, 517, DateTimeKind.Unspecified).AddTicks(1078), new TimeSpan(0, 7, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 11, 12, 1, 8, 21, 776, DateTimeKind.Unspecified).AddTicks(3884), new TimeSpan(0, 7, 0, 0, 0)));
 
                     b.Property<bool>("CustomerLibraryMenu");
 
@@ -542,7 +704,7 @@ namespace Infrastructure.DbMigration.Migrations
 
                     b.Property<DateTimeOffset>("UpdatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 9, 17, 8, 34, 28, 520, DateTimeKind.Unspecified).AddTicks(4338), new TimeSpan(0, 7, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 11, 12, 1, 8, 21, 782, DateTimeKind.Unspecified).AddTicks(3882), new TimeSpan(0, 7, 0, 0, 0)));
 
                     b.Property<bool>("UserMenu");
 
@@ -565,7 +727,7 @@ namespace Infrastructure.DbMigration.Migrations
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 9, 17, 8, 34, 28, 523, DateTimeKind.Unspecified).AddTicks(5014), new TimeSpan(0, 7, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 11, 12, 1, 8, 21, 786, DateTimeKind.Unspecified).AddTicks(108), new TimeSpan(0, 7, 0, 0, 0)));
 
                     b.Property<string>("Description");
 
@@ -579,7 +741,7 @@ namespace Infrastructure.DbMigration.Migrations
 
                     b.Property<DateTimeOffset>("UpdatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 9, 17, 8, 34, 28, 523, DateTimeKind.Unspecified).AddTicks(5375), new TimeSpan(0, 7, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 11, 12, 1, 8, 21, 786, DateTimeKind.Unspecified).AddTicks(965), new TimeSpan(0, 7, 0, 0, 0)));
 
                     b.HasKey("Id");
 
@@ -598,7 +760,7 @@ namespace Infrastructure.DbMigration.Migrations
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 9, 17, 8, 34, 28, 526, DateTimeKind.Unspecified).AddTicks(7130), new TimeSpan(0, 7, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 11, 12, 1, 8, 21, 790, DateTimeKind.Unspecified).AddTicks(6496), new TimeSpan(0, 7, 0, 0, 0)));
 
                     b.Property<int>("PermissionGroupId");
 
@@ -610,7 +772,7 @@ namespace Infrastructure.DbMigration.Migrations
 
                     b.Property<DateTimeOffset>("UpdatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 9, 17, 8, 34, 28, 526, DateTimeKind.Unspecified).AddTicks(7495), new TimeSpan(0, 7, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2021, 11, 12, 1, 8, 21, 790, DateTimeKind.Unspecified).AddTicks(7164), new TimeSpan(0, 7, 0, 0, 0)));
 
                     b.Property<int>("UserId");
 
@@ -716,6 +878,8 @@ namespace Infrastructure.DbMigration.Migrations
                     b.Property<bool>("Status");
 
                     b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UniqueId");
 
                     b.Property<int>("UpdatedByUserId");
 
@@ -860,6 +1024,27 @@ namespace Infrastructure.DbMigration.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("ApplicationDomain.BOA.Entities.Notifi.UserNotification", b =>
+                {
+                    b.HasOne("ApplicationDomain.BOA.Entities.Notification.NotificationClient", "Notification")
+                        .WithMany()
+                        .HasForeignKey("NotificationId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ApplicationDomain.BOA.Entities.UserProfile", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ApplicationDomain.BOA.Entities.Notification.NotificationClient", b =>
+                {
+                    b.HasOne("ApplicationDomain.BOA.Entities.UserProfile", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ApplicationDomain.BOA.Entities.Post", b =>
                 {
                     b.HasOne("ApplicationDomain.BOA.Entities.Category", "Category")
@@ -871,6 +1056,11 @@ namespace Infrastructure.DbMigration.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ApplicationDomain.BOA.Entities.UserProfile", "UserProfile")
+                        .WithMany()
+                        .HasForeignKey("UserProfileId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ApplicationDomain.BOA.Entities.ProductNeed", b =>
@@ -878,6 +1068,37 @@ namespace Infrastructure.DbMigration.Migrations
                     b.HasOne("ApplicationDomain.BOA.Entities.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ApplicationDomain.BOA.Entities.RegisterPostGive", b =>
+                {
+                    b.HasOne("ApplicationDomain.BOA.Entities.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ApplicationDomain.BOA.Entities.UserProfile", "UserRegister")
+                        .WithMany()
+                        .HasForeignKey("UserRegisterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ApplicationDomain.BOA.Entities.Social.RegisterPostExchange", b =>
+                {
+                    b.HasOne("ApplicationDomain.BOA.Entities.Post", "PostExchange")
+                        .WithMany()
+                        .HasForeignKey("PostExchangeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ApplicationDomain.BOA.Entities.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ApplicationDomain.BOA.Entities.UserProfile", "UserRegister")
+                        .WithMany()
+                        .HasForeignKey("UserRegisterId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

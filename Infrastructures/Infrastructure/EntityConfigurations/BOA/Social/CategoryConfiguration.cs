@@ -1,10 +1,7 @@
 ﻿using ApplicationDomain.BOA.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Infrastructure.EntityConfigurations.BOA
+namespace Infrastructure.EntityConfigurations.BOA.Social
 {
     public class CategoryConfiguration : EntityConfigurationBase<Category, int>
     {

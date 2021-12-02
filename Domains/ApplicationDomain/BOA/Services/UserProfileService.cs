@@ -22,27 +22,24 @@ namespace ApplicationDomain.BOA.Services
 {
     public class UserProfileService : ServiceBase, IUserProfileService
     {
-        private readonly IUserProfileRepository _UserProfileRepository;
-        private readonly IProvinceRepository _provinceRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
         public UserProfileService(
-            IUserProfileRepository UserProfileRepository,
-            IProvinceRepository provinceRepository,
+            IUserProfileRepository userProfileRepository,
             IMapper mapper,
             IUnitOfWork uow
             ) : base(mapper, uow)
         {
-            _UserProfileRepository = UserProfileRepository;
-            _provinceRepository = provinceRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         public async Task<IEnumerable<UserProfileModel>> GetUserProfilesAsync()
         {
-            return await _UserProfileRepository.GetUserProfiles().MapQueryTo<UserProfileModel>(_mapper).ToListAsync();
+            return await _userProfileRepository.GetUserProfiles().MapQueryTo<UserProfileModel>(_mapper).ToListAsync();
         }
 
         public async Task<UserProfileModel> GetUserProfileByIdAsync(int id)
         {
-            return await _UserProfileRepository.GetUserProfileById(id).MapQueryTo<UserProfileModel>(_mapper).FirstOrDefaultAsync();
+            return await _userProfileRepository.GetUserProfileById(id).MapQueryTo<UserProfileModel>(_mapper).FirstOrDefaultAsync();
         }
 
         public async Task<int> CreateUserProfileAsync(UserProfileModelRq model, UserIdentity<int> issuer)
@@ -51,12 +48,8 @@ namespace ApplicationDomain.BOA.Services
             {
                 var UserProfile = _mapper.Map<UserProfile>(model);
                 UserProfile.CreateBy(issuer).UpdateBy(issuer);
-                _UserProfileRepository.Create(UserProfile);
-                if (await _uow.SaveChangesAsync() == 1)
-                {
-                    return UserProfile.Id;
-                }
-                return 0;
+                _userProfileRepository.Create(UserProfile);
+                return await _uow.SaveChangesAsync() == 1 ? UserProfile.Id : 0;
             }
             catch (Exception e)
             {
@@ -65,31 +58,23 @@ namespace ApplicationDomain.BOA.Services
         }
        public async Task<UserProfileModel> GetDistricByUserIdAsync(int id)
         {
-            var result = await _UserProfileRepository.GetDistricByUserId(id).MapQueryTo<UserProfileModel>(_mapper).ToListAsync();
-            if (result == null)
-            {
-                return null;
-            }
-            return result[0];
+            var result = await _userProfileRepository.GetDistricByUserId(id).MapQueryTo<UserProfileModel>(_mapper).ToListAsync();
+            return result?[0];
         }
 
         public async Task<int> UpdateUserProfileAsync(int id, UserProfileModelRq model, UserIdentity<int> issuer)
         {
             try
             {
-                var UserProfile = await _UserProfileRepository.GetEntityByIdAsync(id);
-                if (UserProfile == null)
+                var userProfile = await _userProfileRepository.GetEntityByIdAsync(id);
+                if (userProfile == null)
                 {
                     return 0;
                 }
-                _mapper.Map( model, UserProfile);
-                UserProfile.UpdateBy(issuer);
-                _UserProfileRepository.Update(UserProfile);
-                if (await _uow.SaveChangesAsync() == 1)
-                {
-                    return id;
-                }
-                return 0;
+                _mapper.Map( model, userProfile);
+                userProfile.UpdateBy(issuer);
+                _userProfileRepository.Update(userProfile);
+                return await _uow.SaveChangesAsync() == 1 ? id : 0;
             }
             catch (Exception e)
             {
@@ -101,19 +86,15 @@ namespace ApplicationDomain.BOA.Services
         {
             try
             {
-                var UserProfile = await _UserProfileRepository.GetEntityByIdAsync(id);
-                if (UserProfile == null)
+                var userProfile = await _userProfileRepository.GetEntityByIdAsync(id);
+                if (userProfile == null)
                 {
                     return 0;
                 }
-                UserProfile.AvatarURL = avatarURL;
-                UserProfile.UpdateBy(issuer);
-                _UserProfileRepository.Update(UserProfile);
-                if (await _uow.SaveChangesAsync() == 1)
-                {
-                    return id;
-                }
-                return 0;
+                userProfile.AvatarURL = avatarURL;
+                userProfile.UpdateBy(issuer);
+                _userProfileRepository.Update(userProfile);
+                return await _uow.SaveChangesAsync() == 1 ? id : 0;
             }
             catch (Exception e)
             {
@@ -125,13 +106,9 @@ namespace ApplicationDomain.BOA.Services
         {
             try
             {
-                var UserProfile = await _UserProfileRepository.GetEntityByIdAsync(id);
-                _UserProfileRepository.Delete(UserProfile);
-                if (await _uow.SaveChangesAsync() == 1)
-                {
-                    return true;
-                }
-                return false;
+                var UserProfile = await _userProfileRepository.GetEntityByIdAsync(id);
+                _userProfileRepository.Delete(UserProfile);
+                return await _uow.SaveChangesAsync() == 1;
             }
             catch (Exception e)
             {
@@ -145,7 +122,7 @@ namespace ApplicationDomain.BOA.Services
 
         public async Task<bool> CheckCodeExistsAsync(string code)
         {
-            return await _UserProfileRepository.CheckCodeExistsAsync(code);
+            return await _userProfileRepository.CheckCodeExistsAsync(code);
         }
 
         public async Task<string> AutoGenerateCodeAsync(string code = "")
