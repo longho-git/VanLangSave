@@ -87,21 +87,6 @@
       opacity: 0;
       pointer-events: none;
       margin: 0;
-
-      &:before {
-        background: $dropdown-bg;
-        box-shadow: none;
-        content: '';
-        display: block;
-        height: 16px;
-        width: 16px;
-        left: 5px;
-        position: absolute;
-        bottom: 100%;
-        transform: rotate(-45deg) translateY(1rem);
-        z-index: -5;
-        border-radius: $border-radius-sm;
-      }
     }
 
     .dropdown-menu-right {

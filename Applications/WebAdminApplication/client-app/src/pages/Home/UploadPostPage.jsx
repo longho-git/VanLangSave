@@ -10,38 +10,53 @@ import {
   Row,
   Col,
   CardHeader,
-  ListGroup,
-  ListGroupItem,
   Container,
+  Spinner,
 } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import postService from 'services/post.service';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { FormCustom } from 'layouts/component/SmartFormHook/FormCustom/FormCustom';
 import { SelectCustom } from 'layouts/component/SmartFormHook/SelectCustom/SelectCustom';
 import InputCustom from 'layouts/component/SmartFormHook/InputCustom/InputCustom';
 import categoryService from 'services/category.service';
-const API_URL = process.env.REACT_APP_API_ENDPOINT;
+import BackgroudUpload from 'pages/components/Upload/BackgroudUpload';
+import ReactNotificationAlert from 'react-notification-alert';
 // core components
-Dropzone.autoDiscover = false;
 
 function UploadPostPage() {
   const userProfile = useSelector((state) => state.login.userProfile);
   const history = useHistory();
+  const location = useLocation().search;
   const [imagePost, setImagePosts] = useState([]);
   const [defaultValues, setDefaultValues] = useState({});
   const [categories, setCategories] = useState([]);
-  const onSubmit = (data) => {
-    postService.createPost(data, imagePost).then((req) => {
-      if (req.status === 400) {
-        return;
-      }
-      history.push('/userpost');
-    });
+  const [submit, setSubmit] = useState(false);
+  const form = new URLSearchParams(location).get('form');
+  const id = new URLSearchParams(location).get('id');
+  const notificationAlertRef = React.useRef(null);
+  const notify = (type, message) => {
+    let options = {
+      place: 'tc',
+      message: (
+        <div className="alert-text">
+          <span className="alert-title" data-notify="title">
+            {' '}
+            {type}
+          </span>
+          <span data-notify="message">{message}</span>
+        </div>
+      ),
+      type: type,
+      icon: 'ni ni-bell-55',
+      autoDismiss: 7,
+    };
+    notificationAlertRef.current.notificationAlert(options);
   };
   useEffect(() => {
     getCategories();
-  }, []);
+    form === 'edit' && getPost(id);
+  }, [form, id]);
   const getCategories = () => {
     categoryService.getCategories().then((data) => {
       if (data.status === 400) {
@@ -50,56 +65,97 @@ function UploadPostPage() {
       setCategories(data);
     });
   };
-
-  useEffect(() => {
-    // it is just to make the HTML DOM a bit better, and keep it light
-    let currentMultipleFile = undefined;
-    // multiple dropzone file - accepts any type of file
-    new Dropzone(document.getElementById('dropzone-multiple'), {
-      url: `${API_URL}FileManager/uploadFileDefault`,
-      success: function (file, response) {
-        response &&
-          categories.length < 3 &&
-          setImagePosts((oldArray) => [
-            ...oldArray,
-            {
-              src: response.value,
-              mainPost: currentMultipleFile ? false : true,
-            },
-          ]);
-        if (currentMultipleFile) {
-        }
-        currentMultipleFile = file;
-      },
-      paramName: 'formFile',
-      thumbnailWidth: null,
-      thumbnailHeight: null,
-      previewsContainer: document.getElementsByClassName(
-        'dz-preview-multiple',
-      )[0],
-      dictDefaultMessage: 'Thêm ảnh',
-      previewTemplate: document.getElementsByClassName('dz-preview-multiple')[0]
-        .innerHTML,
-      maxFiles: 3,
-      acceptedFiles: 'image/*',
-      init: function () {
-        this.on('maxfilesexceeded', function (file) {
-          alert('Đã đủ ảnh vui lòng xoá bớt ảnh');
-          this.removeFile(file);
-        });
-      },
+  function getPost(postId) {
+    postService.getPostById(postId).then((data) => {
+      setDefaultValues(data);
+      var images = Array.from(data.imagePostModelRqList);
+      setImagePosts(images);
     });
-    document.getElementsByClassName('dz-preview-multiple')[0].innerHTML = '';
-  }, []);
+  }
+  const onSubmit = (data) => {
+    if (imagePost.length === 0) {
+      notify('danger', 'Vui lòng thêm ảnh');
+      return;
+    }
+    setSubmit(true);
+    if (form === 'edit') {
+      imagePost.length > 0 &&
+        postService.uploadPost(data, imagePost).then((req) => {
+          if (req.status === 400) {
+            return;
+          }
+          setSubmit(false);
+          history.push('/userpost');
+        });
+    } else {
+      imagePost.length > 0 &&
+        postService.createPost(data, imagePost).then((req) => {
+          if (req.status === 400) {
+            return;
+          }
+          setSubmit(false);
+          history.push('/userpost');
+        });
+    }
+  };
+  const updateFieldChanged = (index, src) => {
+    let newArr = [...imagePost]; // copying the old datas array
+    if (src) {
+      newArr[index].src = src; // replace e.target.value with whatever you want to change it to
+      setImagePosts(newArr); // ??
+    }
+  };
+  const updateMainPost = (index, value) => {
+    let newArr = [...imagePost]; // copying the old datas array
+    newArr[index].mainPost = value; // replace e.target.value with whatever you want to change it to
+    setImagePosts(newArr); // ??
+  };
+  const removeImage = (index) => {
+    let newArr = [...imagePost];
+    const lastIndex = newArr.length - 1;
+    if (newArr[lastIndex].src !== '') {
+      newArr.splice(index, 1); // make a separate copy of the array
+      setImagePosts(newArr);
+      return;
+    }
+  };
+
+  const addImage = () => {
+    let newArr = [...imagePost];
+
+    const lastIndex = newArr.length - 1;
+    if (newArr.length === 0) {
+      setImagePosts((oldArray) => [
+        ...oldArray,
+        {
+          src: '',
+          mainPost: true,
+        },
+      ]);
+      return;
+    } else if (newArr[lastIndex].src !== '') {
+      setImagePosts((oldArray) => [
+        ...oldArray,
+        {
+          src: '',
+          mainPost: false,
+        },
+      ]);
+      return;
+    }
+  };
   return (
     <div className="section section-hero section-shaped">
+      <div className="rna-wrapper">
+        <ReactNotificationAlert ref={notificationAlertRef} />
+      </div>
       <Container className="mt-5">
         <Card className="bg-secondary border-0">
           <CardHeader>
             <Row className="align-items-center">
               <Col xs="12">
                 <h5 className="h3 mb-0 text-center font-weight-700">
-                  Tạo bài viết
+                  {form === 'edit' ? 'Chỉnh sửa bài viết' : ' Tạo bài viết'}
                 </h5>
               </Col>
             </Row>
@@ -135,12 +191,13 @@ function UploadPostPage() {
                 name="title"
                 placeholder="Tiêu đề."
                 label="Tiêu đề"
+                required
                 rules={{
-                  required: 'Vui lòng không bỏ trống',
+                  required: '*Vui lòng không bỏ trống',
                 }}
               />
               <SelectCustom
-                label="Loại"
+                label="Hình thức"
                 name="type"
                 options={[
                   {
@@ -178,76 +235,65 @@ function UploadPostPage() {
                 label="Mô tả"
                 rows="5"
                 textarea
+                required
                 rules={{
-                  required: 'Vui lòng không bỏ trống',
+                  required: '*Vui lòng không bỏ trống',
                 }}
               />
               <InputCustom
                 name="quantity"
                 placeholder="Số lượng"
                 label="Số lượng"
+                type="number"
+                required
                 rules={{
-                  required: 'Vui lòng không bỏ trống',
+                  required: '*Vui lòng không bỏ trống',
                 }}
               />
               <Col sm="12">
-                <div
-                  className="dropzone dropzone-multiple py-5"
-                  id="dropzone-multiple"
-                >
-                  <div className="fallback">
-                    <div className="custom-file">
-                      <input
-                        className="custom-file-input"
-                        id="customFileUploadMultiple"
-                        multiple="multiple"
-                        type="file"
+                {imagePost.length < 3 && (
+                  <Button color="info" onClick={() => addImage()}>
+                    <i className="fa fa-plus" /> Thêm ảnh
+                  </Button>
+                )}
+                {imagePost.length > 0 && (
+                  <Button color="danger" onClick={() => removeImage()}>
+                    <i className="fa fa-times" /> Xoá ảnh
+                  </Button>
+                )}
+                <Row className="mt-3">
+                  {imagePost.map((item, i) => (
+                    <Col md={4}>
+                      <BackgroudUpload
+                        key={i}
+                        onChange={(src) => updateFieldChanged(i, src)}
+                        imageInit={item.src}
+                        mainPost={item.mainPost}
+                        updateMainPost={(value) => updateMainPost(i, value)}
+                        checkBox={i}
                       />
-                      <label
-                        className="custom-file-label"
-                        htmlFor="customFileUploadMultiple"
-                      >
-                        Choose file
-                      </label>
-                    </div>
-                  </div>
-                  <p className="text-primary">Ảnh đầu tiên sẽ là ảnh chính</p>
-                  <p className="text-warning mb-0">Upload tối đa 3 ảnh</p>
-                  <ListGroup
-                    className=" dz-preview dz-preview-multiple list-group-lg"
-                    flush
-                  >
-                    <ListGroupItem className=" px-0">
-                      <Col className=" col-auto">
-                        <div className=" avatar">
-                          <img
-                            alt="..."
-                            className=" avatar-img rounded"
-                            data-dz-thumbnail
-                            src="..."
-                          />
-                        </div>
-                      </Col>
-                      <div className=" col ml--3">
-                        <h4 className=" mb-1" data-dz-name>
-                          ...
-                        </h4>
-                        <p className=" small text-muted mb-0" data-dz-size>
-                          ...
-                        </p>
-                      </div>
-
-                      <Button size="sm" color="danger" data-dz-remove>
-                        <i className="fas fa-trash" />
-                      </Button>
-                    </ListGroupItem>
-                  </ListGroup>
-                </div>
+                    </Col>
+                  ))}
+                </Row>
               </Col>
               <Col>
-                <Button block color="primary" size="lg">
-                  Đăng bài
-                </Button>
+                {submit ? (
+                  <Button
+                    className="mb-2"
+                    color="primary"
+                    disabled
+                    size="lg"
+                    block
+                    type="button"
+                  >
+                    <Spinner color="" type={'border'} size="sm"></Spinner>{' '}
+                    Loading...
+                  </Button>
+                ) : (
+                  <Button block color="primary">
+                    {form === 'edit' ? 'Lưu' : '  Đăng bài'}
+                  </Button>
+                )}
               </Col>
             </FormCustom>
           </CardBody>

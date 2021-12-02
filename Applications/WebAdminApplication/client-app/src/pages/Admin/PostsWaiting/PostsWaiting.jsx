@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
-// react plugin that prints a given react component
-// react component for creating dynamic tables
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-// react component used to create sweet alerts
 // reactstrap components
 import {
   Button,
   Card,
+  CardFooter,
   CardHeader,
   Container,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Modal,
   Row,
   Table,
+  UncontrolledDropdown,
   UncontrolledTooltip,
 } from 'reactstrap';
 // core components
@@ -20,41 +21,72 @@ import {
 import ReactBSAlert from 'react-bootstrap-sweetalert';
 import AdminHeader from 'layouts/component/Header/AdminHeader';
 import postService from 'services/post.service';
-
-const pagination = paginationFactory({
-  page: 1,
-  alwaysShowAllBtns: true,
-  showTotal: true,
-  withFirstAndLast: false,
-  sizePerPageRenderer: ({ options, currSizePerPage, onSizePerPageChange }) => (
-    <div className="dataTables_length" id="datatable-basic_length">
-      <label>
-        Show{' '}
-        {
-          <select
-            name="datatable-basic_length"
-            aria-controls="datatable-basic"
-            className="form-control form-control-sm"
-            onChange={(e) => onSizePerPageChange(e.target.value)}
-          >
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-        }{' '}
-        entries.
-      </label>
-    </div>
-  ),
-});
-
-const { SearchBar } = Search;
+import { formatTime } from 'utils/fortmatTime';
+import PostDialog from 'pages/components/PostDialog/PostDialog';
+import SearchTable from 'layouts/component/Table/SearchTable';
+import HeaderTable from 'layouts/component/Table/HeaderTable';
+import PaginationTable from 'layouts/component/Table/PaginationTable';
 
 function PostsWaiting() {
   const [posts, setPosts] = useState([]);
   const [countValue, setCountValue] = useState(null);
   const [alert, setAlert] = useState(null);
+  const [post, setPost] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [show, setShow] = useState(false);
+  const [totalItems, setTotalItems] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sorting, setSorting] = useState({ field: '', order: '' });
+  const [search, setSearch] = useState('');
+  const ITEMS_PER_PAGE = 50;
+  const headers = [
+    {
+      field: 'owner',
+      name: 'Người đăng',
+      sortable: true,
+    },
+    {
+      field: 'title',
+      name: 'Tiêu đề',
+      sortable: true,
+    },
+    {
+      field: 'content',
+      name: 'Nội dung',
+      sortable: true,
+    },
+    {
+      field: 'createdDate',
+      name: 'Ngày đăng',
+      sortable: true,
+    },
+    {
+      field: 'typeName',
+      name: 'Hình thức',
+      sortable: true,
+    },
+    {
+      field: 'statusName',
+      name: 'Trạng thái bài viết',
+      sortable: true,
+    },
+    {
+      field: '',
+      name: '',
+      sortable: false,
+    },
+    {
+      field: '',
+      name: '',
+      sortable: false,
+    },
+  ];
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const toggleTrueFalse = () => {
+    setModalOpen(handleShow);
+  };
+
   const confirmAlert = (id) => {
     setAlert(
       <ReactBSAlert
@@ -91,6 +123,7 @@ function PostsWaiting() {
       </ReactBSAlert>,
     );
   };
+
   const deletePost = (id) => {
     postService.deletePost(id).then((req) => {
       if (req) {
@@ -101,18 +134,39 @@ function PostsWaiting() {
       }
     });
   };
-  const activePost = (req, id) => {
-    let active;
-    if (req) {
-      active = 2;
-    } else if (!req) {
-      active = 1;
-    }
-    postService.activePost(id, active).then((req) => {
+  const rejectedPost = (id) => {
+    postService.rejectedPost(id).then((req) => {
       if (req) {
         confirmedAlert();
+        setCountValue(countValue - 1);
       }
     });
+  };
+
+  const activePost = (id) => {
+    postService.activePost(id).then((req) => {
+      if (req) {
+        confirmedAlert();
+        setCountValue(countValue - 1);
+      }
+    });
+  };
+  const rowEvent = (item) => {
+    setPost(item);
+    toggleTrueFalse();
+  };
+  const ModalContent = () => {
+    return (
+      <Modal
+        className="modal-lg"
+        modalClassName=" bd-example-modal-lg"
+        onClosed={handleClose}
+        toggle={() => handleClose()}
+        isOpen={show}
+      >
+        <PostDialog post={post} />
+      </Modal>
+    );
   };
   useEffect(() => {
     postService.getPostsWaitingAdmin().then((req) => {
@@ -120,163 +174,37 @@ function PostsWaiting() {
       setCountValue(req.lenght);
     });
   }, [countValue]);
-  const tableRender = useMemo(() => {
-    return (
-      <ToolkitProvider
-        data={posts}
-        keyField="title"
-        columns={[
-          {
-            dataField: 'owner',
-            text: 'Người đăng',
-            sort: true,
-          },
-          {
-            dataField: 'title',
-            text: 'Tiêu đề',
-            sort: true,
-          },
-          {
-            dataField: 'content',
-            text: 'Nội dung',
-            sort: true,
-          },
-          {
-            dataField: 'typeName',
-            text: 'Loại bài viết',
-            sort: true,
-          },
-          {
-            dataField: 'statusName',
-            text: 'Trạng thái bài viết',
-            sort: true,
-          },
-          {
-            dataField: 'active',
-            text: 'Duyệt bài',
-            sort: true,
-          },
-          {
-            dataField: 'action',
-            text: '',
-            sort: true,
-          },
-        ]}
-        search
-      >
-        {(props) => {
-          return (
-            <div className="py-4 table-responsive">
-              <div
-                id="datatable-basic_filter"
-                className="dataTables_filter px-4 pb-1"
-              >
-                <label>
-                  Tìm kiếm:
-                  <SearchBar
-                    className="form-control-sm"
-                    placeholder=""
-                    {...props.searchProps}
-                  />
-                </label>
-              </div>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    {props.baseProps.columns.map((item) => (
-                      <th>{item.text}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {props.baseProps.data.map((item) => {
-                    return (
-                      <tr>
-                        <td className="table-user">
-                          <img
-                            alt="..."
-                            className="avatar rounded-circle mr-3"
-                            src={item.ownerAvatarImage}
-                          />
-                          <b>{item.ownerName}</b>
-                        </td>
-                        <td>
-                          <a
-                            className="font-weight-bold"
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            {item.title}
-                          </a>
-                        </td>
-                        <td>
-                          <a
-                            className="font-weight-bold"
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            {item.content}
-                          </a>
-                        </td>
-                        <td>
-                          <a
-                            className="font-weight-bold"
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            {item.typeName}
-                          </a>
-                        </td>
-                        <td>
-                          <a
-                            className="font-weight-bold"
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            {item.statusName}
-                          </a>
-                        </td>
-                        <td>
-                          <label className="custom-toggle">
-                            <input
-                              defaultChecked={item.active}
-                              type="checkbox"
-                              onChange={(e) => activePost(item.active, item.id)}
-                            />
-                            <span
-                              className="custom-toggle-slider rounded-circle"
-                              data-label-off="No"
-                              data-label-on="Yes"
-                            />
-                          </label>
-                        </td>
-                        <td className="table-actions">
-                          <Button
-                            className=" btn-icon-only rounded-circle table-action table-action-delete"
-                            id="tooltip601065234"
-                            onClick={(e) => confirmAlert(item.id)}
-                          >
-                            <i className="fas fa-trash" />
-                          </Button>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip601065234"
-                          >
-                            Xoá bài viết
-                          </UncontrolledTooltip>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </div>
-          );
-        }}
-      </ToolkitProvider>
+  const postsData = useMemo(() => {
+    let computedPosts = posts;
+
+    if (search) {
+      computedPosts = computedPosts.filter(
+        (comment) =>
+          comment.title.toLowerCase().includes(search.toLowerCase()) ||
+          comment.typeName.toLowerCase().includes(search.toLowerCase()),
+      );
+    }
+
+    setTotalItems(computedPosts.length);
+
+    //Sorting posts
+    if (sorting.field) {
+      const reversed = sorting.order === 'asc' ? 1 : -1;
+      computedPosts = computedPosts.sort(
+        (a, b) => reversed * a[sorting.field].localeCompare(b[sorting.field]),
+      );
+    }
+    console.log(
+      '🚀 ~ file: PostsWaiting.jsx ~ line 203 ~ postsData ~ computedPosts',
+      computedPosts,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts]);
+    //Current Page slice
+    return computedPosts.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE,
+    );
+  }, [posts, currentPage, search, sorting]);
+
   return (
     <>
       {alert}
@@ -288,10 +216,162 @@ function PostsWaiting() {
               <CardHeader>
                 <h3 className="mb-0">Bài đăng</h3>
               </CardHeader>
-              {tableRender}
+              <SearchTable
+                onSearch={(value) => {
+                  setSearch(value);
+                  setCurrentPage(1);
+                }}
+                placeholder={'Nhập tiêu đề, hình thức bài viết'}
+              />
+              <Table className="align-items-center table-flush" responsive>
+                <HeaderTable
+                  headers={headers}
+                  onSorting={(field, order) => setSorting({ field, order })}
+                />
+                {postsData.length > 0 ? (
+                  <tbody>
+                    {postsData.map((item) => {
+                      return (
+                        <tr>
+                          <td className="table-user">
+                            <img
+                              alt="..."
+                              className="avatar rounded-circle mr-3"
+                              src={item.ownerAvatarImage}
+                            />
+                            <b>{item.ownerName}</b>
+                          </td>
+                          <td>
+                            <a
+                              className="font-weight-bold text-truncate mw-25"
+                              style={{ maxWidth: 100 }}
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              {item.title}
+                            </a>
+                          </td>
+                          <td>
+                            <div
+                              className="font-weight-bold text-truncate mw-25"
+                              style={{ maxWidth: 200 }}
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              {item.content}
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              className="font-weight-bold"
+                              style={{ maxWidth: 200 }}
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              {formatTime(item.createdDate)}
+                            </div>
+                          </td>
+                          <td>
+                            <a
+                              className="font-weight-bold"
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              {item.typeName}
+                            </a>
+                          </td>
+                          <td>
+                            <a
+                              className="font-weight-bold"
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              {item.statusName}
+                            </a>
+                          </td>
+
+                          <td className="table-actions text-right">
+                            <Button
+                              className=" btn-icon"
+                              color="success"
+                              size="sm"
+                              type="button"
+                              id="tooltipView"
+                              onClick={() => rowEvent(item)}
+                            >
+                              <i className=" ni ni-zoom-split-in pt-1"></i>
+                            </Button>
+                            <UncontrolledTooltip delay={0} target="tooltipView">
+                              Xem bài viết
+                            </UncontrolledTooltip>
+                            <Button
+                              className=" btn-icon"
+                              color="danger"
+                              size="sm"
+                              type="button"
+                              id="tooltip601065234"
+                              onClick={(e) => confirmAlert(item.id)}
+                            >
+                              <i className=" ni ni-fat-remove pt-1"></i>
+                            </Button>
+                            <UncontrolledTooltip
+                              delay={0}
+                              target="tooltip601065234"
+                            >
+                              Xoá bài viết
+                            </UncontrolledTooltip>
+                          </td>
+                          <td className="text-right">
+                            <UncontrolledDropdown>
+                              <DropdownToggle
+                                className="btn-icon-only text-light"
+                                href="#pablo"
+                                role="button"
+                                size="sm"
+                                color=""
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                <i className="fas fa-ellipsis-v" />
+                              </DropdownToggle>
+                              <DropdownMenu
+                                className="dropdown-menu-arrow"
+                                right
+                              >
+                                <DropdownItem
+                                  onClick={(e) => activePost(item.id)}
+                                >
+                                  Duyệt bài
+                                </DropdownItem>
+                                <DropdownItem
+                                  onClick={(e) => rejectedPost(item.id)}
+                                >
+                                  Không duyệt
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </UncontrolledDropdown>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                ) : (
+                  <h1 className="text-center">Không có bài viết </h1>
+                )}
+              </Table>
+              <CardFooter className="py-4">
+                <nav aria-label="...">
+                  <PaginationTable
+                    total={totalItems}
+                    itemsPerPage={ITEMS_PER_PAGE}
+                    currentPage={currentPage}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </nav>
+              </CardFooter>
             </Card>
           </div>
         </Row>
+        {show ? <ModalContent /> : null}
       </Container>
     </>
   );

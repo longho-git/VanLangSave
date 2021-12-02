@@ -1,4 +1,4 @@
-.btn{
+.btn {
   // social buttons
   &.btn-facebook {
     @include social-buttons-color($facebook, $facebook-states);
@@ -41,48 +41,82 @@
   }
 }
 
-
-
 // Social Gradient Button
 
 .btn-gradient-facebook {
-  background: linear-gradient(35deg, $facebook 0, lighten($facebook, 10%) 100%) !important;
+  background: linear-gradient(
+    35deg,
+    $facebook 0,
+    lighten($facebook, 10%) 100%
+  ) !important;
   color: $white;
 }
 .btn-gradient-twitter {
-  background: linear-gradient(35deg, $twitter 0, lighten($twitter, 10%) 100%) !important;
+  background: linear-gradient(
+    35deg,
+    $twitter 0,
+    lighten($twitter, 10%) 100%
+  ) !important;
   color: $white;
 }
 .btn-gradient-instagram {
-  background: linear-gradient(35deg, $instagram 0, lighten($instagram, 10%) 100%) !important;
+  background: linear-gradient(
+    35deg,
+    $instagram 0,
+    lighten($instagram, 10%) 100%
+  ) !important;
   color: $white;
 }
 .btn-gradient-linkedin {
-  background: linear-gradient(35deg, $linkedin 0, lighten($linkedin, 10%) 100%) !important;
+  background: linear-gradient(
+    35deg,
+    $linkedin 0,
+    lighten($linkedin, 10%) 100%
+  ) !important;
   color: $white;
 }
 .btn-gradient-pinterest {
-  background: linear-gradient(35deg, $pinterest 0, lighten($pinterest, 10%) 100%) !important;
+  background: linear-gradient(
+    35deg,
+    $pinterest 0,
+    lighten($pinterest, 10%) 100%
+  ) !important;
   color: $white;
 }
 .btn-gradient-slack {
-  background: linear-gradient(35deg, $slack 0, lighten($slack, 10%) 100%) !important;
+  background: linear-gradient(
+    35deg,
+    $slack 0,
+    lighten($slack, 10%) 100%
+  ) !important;
   color: $white;
 }
 .btn-gradient-youtube {
-  background: linear-gradient(35deg, $youtube 0, lighten($youtube, 10%) 100%) !important;
+  background: linear-gradient(
+    35deg,
+    $youtube 0,
+    lighten($youtube, 10%) 100%
+  ) !important;
   color: $white;
 }
 .btn-gradient-dribbble {
-  background: linear-gradient(35deg, $dribbble 0, lighten($dribbble, 10%) 100%) !important;
+  background: linear-gradient(
+    35deg,
+    $dribbble 0,
+    lighten($dribbble, 10%) 100%
+  ) !important;
   color: $white;
 }
 .btn-gradient-vimeo {
-  background: linear-gradient(35deg, $vimeo 0, lighten($vimeo, 10%) 100%) !important;
+  background: linear-gradient(
+    35deg,
+    $vimeo 0,
+    lighten($vimeo, 10%) 100%
+  ) !important;
   color: $white;
 }
 
-.btn[class*="btn-gradient-"] {
+.btn[class*='btn-gradient-'] {
   &.btn-icon-only {
     padding: 1.29rem;
 

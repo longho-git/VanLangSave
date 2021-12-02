@@ -1,26 +1,8 @@
 import React from 'react';
 // reactstrap components
-import {
-  Button,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  NavItem,
-  Container,
-  Row,
-  Col,
-  UncontrolledTooltip,
-} from 'reactstrap';
+import { NavItem, Container, Row, Col } from 'reactstrap';
 
 function HomeFooter(props) {
-  const [searchFocus, setSearchFocus] = React.useState('');
   return (
     <>
       <div className="section-shaped no-tilt">

@@ -1,27 +1,25 @@
 .contactus-1 {
-  .info{
+  .info {
     padding: 0;
     margin: 0;
 
     &:first-child {
-        margin-top: 30px;
+      margin-top: 30px;
     }
 
     .info-title {
-        margin-top: 20px;
+      margin-top: 20px;
     }
 
     .icon {
-        margin-top: 19px;
+      margin-top: 19px;
     }
   }
 
-  .card-contact{
+  .card-contact {
     margin-top: 30px;
   }
-
 }
-
 
 .contactus-2 {
   padding: 0;
@@ -70,9 +68,9 @@
     }
   }
 
-[class*="col-"]{
+  [class*='col-'] {
     border-right: 1px solid rgba(25, 205, 239, 0.25);
-    &:last-child{
+    &:last-child {
       border: none;
     }
   }
@@ -84,11 +82,15 @@
     width: 100%;
     height: 700px;
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       height: 100%;
       width: 100%;
-      background: radial-gradient(400px circle at 70% 50%,transparent 0%, $info 100%);
+      background: radial-gradient(
+        400px circle at 70% 50%,
+        transparent 0%,
+        $info 100%
+      );
       background-position: 23% 10%;
       left: 0;
       top: 0;
@@ -116,8 +118,7 @@
 }
 
 @include media-breakpoint-down(md) {
-
-  .contactus-3 [class*=col-]{
+  .contactus-3 [class*='col-'] {
     border: none;
   }
   .contactus-4 .info .info {
@@ -126,7 +127,6 @@
 }
 
 @include media-breakpoint-down(sm) {
-
   .contactus-4 {
     .info {
       border-top-left-radius: 3px;
@@ -137,7 +137,6 @@
       }
     }
   }
-
 
   .contactus-2 .card-contact {
     margin: 0 !important;

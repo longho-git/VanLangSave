@@ -53,11 +53,11 @@ function CategoryPostsPage() {
           </Row>
 
           {posts.length > 0 ? (
-            posts.map((item, i) => (
-              <Row className="align-items-center">
-                <CardPost post={item} />{' '}
-              </Row>
-            ))
+            <Row className="align-items-center">
+              {posts.map((item, i) => (
+                <CardPost post={item} />
+              ))}
+            </Row>
           ) : (
             <Row className="align-items-center justify-content-center">
               <Col className="text-center " md="6">

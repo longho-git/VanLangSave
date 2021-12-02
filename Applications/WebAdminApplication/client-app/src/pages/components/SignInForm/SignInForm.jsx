@@ -1,68 +1,78 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Button,
-  Col,
-  Form,
-  FormGroup,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Row,
-} from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { FormCustom } from 'layouts/component/SmartFormHook/FormCustom/FormCustom';
 import authService from 'services/auth.service';
-import userService from 'services/user.service';
 import jwt_decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { storeUserProfile } from 'redux/Login/Login.actions';
 import { login } from 'redux/Login/Login.actions';
 import { useHistory } from 'react-router';
 import InputCustom from 'layouts/component/SmartFormHook/InputCustom/InputCustom';
+import { useMsal } from '@azure/msal-react';
+import { loginRequest } from 'utils/authConfig';
 
 function SignInForm(props) {
-  const [defaultValues, setDefaultValues] = useState({
-    username: '',
-    password: '',
-  });
+  const { instance } = useMsal();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
   const onSubmit = async (data) => {
     setLoading(true);
-    authService.login(data.username, data.password).then((data) => {
+    authService.loginMSA(data).then((data) => {
       if (data.status === 400) {
         setError(data.data.message);
         setLoading(false);
         return;
       }
-      const user = jwt_decode(data.token.access_token);
-      localStorage.setItem('token', JSON.stringify(data.token.access_token));
-      dispatch(login(data));
-      setLoading(false);
-      if (
-        user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ===
-        'NormalUser'
-      ) {
-        history.push('/');
-        return;
-      }
-      history.push('/admin/categories');
+      loginDispatch(data);
     });
   };
+  const loginDispatch = ({ data }) => {
+    const user = jwt_decode(data.token.access_token);
+    localStorage.setItem('token', JSON.stringify(data.token.access_token));
+    dispatch(login(data));
+    setLoading(false);
+    if (
+      user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ===
+      'NormalUser'
+    ) {
+      history.push('/');
+      return;
+    } else if (
+      user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ===
+      'Manager'
+    ) {
+      history.push('/admin/postwaiting');
+      return;
+    }
+    history.push('/admin/categories');
+  };
+  const handleLogin = () => {
+    instance
+      .loginPopup(loginRequest)
+      .then((req) => {
+        onSubmit({
+          firstName: req.idTokenClaims.family_name,
+          lastName: req.idTokenClaims.given_name,
+          email: req.account.username,
+          uniqueId: req.uniqueId,
+        });
+      })
+      .catch((e) => {
+        setError('Vui lòng sử dụng email của hệ thống giáo dục Văn Lang!');
+      });
+  };
+
   return (
     <>
-      <FormCustom onSubmit={onSubmit} defaultValues={defaultValues}>
+      <form>
         <Row className="align-items-center justify-content-center">
-          <Col className="text-center " md="9">
+          <Col className="text-center " md="12">
             <h2>Đăng nhập</h2>
             <Button
               className="btn-neutral btn-icon"
               color="default"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
+              onClick={() => handleLogin()}
             >
               <span className="btn-inner--icon mr-1">
                 <img
@@ -72,33 +82,12 @@ function SignInForm(props) {
               </span>
               <span className="btn-inner--text">Email Văn Lang</span>
             </Button>
-            <span className="text-default mb-4">
-              hoặc sử dụng tài khoản của bạn
-            </span>
+          </Col>
+          <Col className="text-center " md="12">
+            {error && <p class="mb-0 text-danger">{error}</p>}
           </Col>
         </Row>
-        <InputCustom
-          name="username"
-          label="Email hoặc Username"
-          rules={{
-            required: 'Vui lòng không bỏ trống',
-          }}
-        />
-        <InputCustom
-          name="password"
-          label="Mật khẩu"
-          type="password"
-          rules={{
-            required: 'Vui lòng không bỏ trống',
-          }}
-        />
-        <a href="#pablo" onClick={(e) => e.preventDefault()}>
-          Quên mật khẩu?
-        </a>
-        <Button className="mt-3" color="primary">
-          Đăng nhập
-        </Button>
-      </FormCustom>
+      </form>
     </>
   );
 }

@@ -25,7 +25,7 @@ function HomeCategory() {
       <Container>
         <Row className="mt-2">
           <Col md="8">
-            <h5 className="display-3">Khám phá danh mục</h5>
+            <h5 className="display-3 ">Khám phá danh mục</h5>
           </Col>
         </Row>
         <Row className="align-items-center">

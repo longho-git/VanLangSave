@@ -3,6 +3,30 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_ENDPOINT;
 
 class CategoryService {
+  updateCategory(data, image) {
+    const { name, col } = data;
+    const token = localStorage.getItem('token');
+    const accessToken = JSON.parse(token);
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+    return axios
+      .put(
+        API_URL + `Category/${data.id}`,
+        {
+          name,
+          col,
+          imageURL: image,
+        },
+        config,
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  }
   getCategoryById(id) {
     const token = localStorage.getItem('token');
     const accessToken = JSON.parse(token);

@@ -2,7 +2,7 @@
 .carousel-testimonials {
   margin-top: 100px;
 
-  [class*="col-md-"]{
+  [class*='col-md-'] {
     padding: 0;
   }
 
@@ -34,7 +34,7 @@
         line-height: 28px;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: .025em;
+        letter-spacing: 0.025em;
       }
 
       .lead {
@@ -62,7 +62,6 @@
 
   .carousel-control-next {
     left: 87%;
-
   }
 }
 
@@ -75,7 +74,7 @@
       position: absolute;
       margin: 10px 0 0;
     }
-    h6{
+    h6 {
       margin-top: 5px;
     }
   }
@@ -86,20 +85,19 @@
   }
 }
 
-
 .team-3 {
   .card.card-profile {
     .card-image a > img {
-        border-radius: 0;
-        border-bottom-left-radius: $border-radius-sm;
-        border-top-left-radius: $border-radius-sm;
+      border-radius: 0;
+      border-bottom-left-radius: $border-radius-sm;
+      border-top-left-radius: $border-radius-sm;
     }
 
     .card-title {
-        margin-top: 15px;
+      margin-top: 15px;
     }
 
-    &[data-background="full"] {
+    &[data-background='full'] {
       .card-body {
         z-index: 1;
       }
@@ -118,7 +116,7 @@
     }
 
     .footer {
-        margin-top: 0;
+      margin-top: 0;
     }
   }
 }
@@ -128,22 +126,21 @@
     margin-bottom: 100px;
   }
 
-  [class*="col-md-"] {
-      margin-top: 50px;
+  [class*='col-md-'] {
+    margin-top: 50px;
 
-      &:nth-child(2) {
-        margin-top: 95px;
-      }
+    &:nth-child(2) {
+      margin-top: 95px;
+    }
   }
 
   .card.card-profile {
-      .card-title + .category {
-        margin-bottom: .625rem;
-      }
+    .card-title + .category {
+      margin-bottom: 0.625rem;
+    }
   }
 
   .card-footer {
     border-top: none;
   }
-
 }

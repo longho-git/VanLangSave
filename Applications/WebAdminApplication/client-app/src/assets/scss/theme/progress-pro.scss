@@ -1,35 +1,35 @@
 .progress-container {
-  &.progress-default{
-    .progress-bar{
+  &.progress-default {
+    .progress-bar {
       background-color: $default;
     }
   }
-  &.progress-primary{
-    .progress-bar{
+  &.progress-primary {
+    .progress-bar {
       background-color: $primary;
     }
   }
 
-  &.progress-info{
-    .progress-bar{
+  &.progress-info {
+    .progress-bar {
       background-color: $info;
     }
   }
 
-  &.progress-success{
-    .progress-bar{
+  &.progress-success {
+    .progress-bar {
       background-color: $success;
     }
   }
 
-  &.progress-warning{
-    .progress-bar{
+  &.progress-warning {
+    .progress-bar {
       background-color: $warning;
     }
   }
 
-  &.progress-danger{
-    .progress-bar{
+  &.progress-danger {
+    .progress-bar {
       background-color: $danger;
     }
   }

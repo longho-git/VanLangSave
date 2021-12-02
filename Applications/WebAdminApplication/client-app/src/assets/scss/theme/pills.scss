@@ -1,5 +1,4 @@
 .nav-pills {
-
   &.nav-pills-icons {
     .nav-link {
       text-align: center;
@@ -29,119 +28,118 @@
     width: 80px;
   }
 
+  .nav-item {
+    .nav-link {
+      &.disabled,
+      &:disabled,
+      &[disabled] {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &.nav-pills-primary {
     .nav-item {
-        .nav-link{
-            &.disabled,
-            &:disabled,
-            &[disabled]{
-                opacity: .5;
-            }
+      .nav-link {
+        color: $primary;
+
+        &.active {
+          &,
+          &:focus,
+          &:hover {
+            background-color: $primary;
+            color: $white;
+          }
         }
+      }
     }
+  }
 
-    &.nav-pills-primary{
-        .nav-item {
-            .nav-link {
-              color: $primary;
+  &.nav-pills-info {
+    .nav-item {
+      .nav-link {
+        color: $info;
 
-              &.active{
-                  &,
-                  &:focus,
-                  &:hover{
-                    background-color: $primary;
-                    color: $white;
-                  }
-              }
-            }
-
+        &.active {
+          &,
+          &:focus,
+          &:hover {
+            background-color: $info;
+            color: $white;
+          }
         }
+      }
     }
+  }
 
-    &.nav-pills-info{
-        .nav-item {
-            .nav-link {
-              color: $info;
+  &.nav-pills-success {
+    .nav-item {
+      .nav-link {
+        color: $success;
 
-              &.active{
-                  &,
-                  &:focus,
-                  &:hover{
-                    background-color: $info;
-                    color: $white;
-                  }
-              }
-            }
+        &.active {
+          &,
+          &:focus,
+          &:hover {
+            background-color: $success;
+            color: $white;
+          }
         }
+      }
     }
+  }
 
-    &.nav-pills-success{
-        .nav-item {
-            .nav-link {
-              color: $success;
+  &.nav-pills-warning {
+    .nav-item {
+      .nav-link {
+        color: $warning;
 
-              &.active{
-                  &,
-                  &:focus,
-                  &:hover{
-                    background-color: $success;
-                    color: $white;
-                  }
-              }
-            }
+        &.active {
+          &,
+          &:focus,
+          &:hover {
+            background-color: $warning;
+            color: $white;
+          }
         }
+      }
     }
+  }
 
-    &.nav-pills-warning{
-        .nav-item {
-            .nav-link {
-              color: $warning;
+  &.nav-pills-danger {
+    .nav-item {
+      .nav-link {
+        color: $danger;
 
-              &.active{
-                  &,
-                  &:focus,
-                  &:hover{
-                    background-color: $warning;
-                    color: $white;
-                  }
-              }
-            }
+        &.active {
+          &,
+          &:focus,
+          &:hover {
+            background-color: $danger;
+            color: $white;
+          }
         }
+      }
     }
-
-    &.nav-pills-danger{
-        .nav-item {
-            .nav-link{
-              color: $danger;
-
-              &.active{
-                  &,
-                  &:focus,
-                  &:hover{
-                    background-color: $danger;
-                    color: $white;
-                  }
-              }
-            }
-        }
-    }
+  }
 }
-.tab-space{
-    padding: 20px 0 50px 0px;
+.tab-space {
+  padding: 20px 0 50px 0px;
 }
 
-.tab-content{
-    &.tab-subcategories{
-        margin-top: 20px;
-        background-color: transparent;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
+.tab-content {
+  &.tab-subcategories {
+    margin-top: 20px;
+    background-color: transparent;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
 
-.nav-align-center{
-    text-align: center;
+.nav-align-center {
+  text-align: center;
 
-    .nav-pills{
-        display: inline-flex;
-    }
+  .nav-pills {
+    display: inline-flex;
+  }
 }

@@ -17,17 +17,33 @@ class AuthService {
   logout() {
     localStorage.removeItem('token');
   }
-  register(data) {
-    const { firstName, lastName, phoneNumber, birthDay, email, password } =
-      data;
+  loginMSA(data) {
+    const { firstName, lastName, email, uniqueId } = data;
     return axios.post(API_URL + 'user', {
       firstName,
       lastName,
-      phoneNumber,
-      birthDay,
       email,
-      password,
+      uniqueId,
     });
+  }
+
+  createManagerUser(data) {
+    const { firstName, lastName, phoneNumber, birthDay, email } = data;
+    return axios
+      .post(API_URL + 'user/manager/create', {
+        firstName,
+        lastName,
+        phoneNumber,
+        birthDay,
+        email,
+      })
+      .then((response) => {
+        // if (response.data.accessToken) {
+        return response;
+      })
+      .catch((error) => {
+        return error;
+      });
   }
 }
 

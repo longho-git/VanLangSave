@@ -24,11 +24,10 @@
   padding-left: 1rem;
   padding-right: 1rem;
   color: $gray-100;
-  font-size: .625rem;
+  font-size: 0.625rem;
   text-transform: uppercase;
   font-weight: 700;
 }
-
 
 // Dropdown elements
 
@@ -38,32 +37,33 @@
       &:first-child {
         line-height: 1;
       }
-      }
+    }
 
     p {
       color: $gray-600;
     }
     &:hover {
-      .heading, p {
-        color: theme-color("default") !important;
+      .heading,
+      p {
+        color: theme-color('default') !important;
       }
     }
   }
 }
 
-// Dropown: Sizes
+// // Dropown: Sizes
 
 .dropdown-menu-sm {
-    min-width: 100px;
-    border: $border-radius-lg;
+  min-width: 100px;
+  border: $border-radius-lg;
 }
 
 .dropdown-menu-lg {
-    min-width: 260px;
-    border-radius: $border-radius-lg;
+  min-width: 260px;
+  border-radius: $border-radius-lg;
 }
 
 .dropdown-menu-xl {
-    min-width: 450px;
-    border-radius: $border-radius-lg;
+  min-width: 450px;
+  border-radius: $border-radius-lg;
 }

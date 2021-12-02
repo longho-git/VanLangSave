@@ -6,7 +6,7 @@ import { useLocation, Route, useHistory } from 'react-router-dom';
 
 import routes from 'routes.js';
 import AdminNavbar from './component/Navbar/AdminNavbar';
-import Sidebar from './component/Sidebar/AdminSidebar';
+import AdminSidebar from './component/Sidebar/AdminSidebar';
 
 function AdminLayout(props) {
   const [sidenavOpen, setSidenavOpen] = React.useState(true);
@@ -17,7 +17,9 @@ function AdminLayout(props) {
     if (
       !(
         user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ===
-        'SysAdmin'
+          'SysAdmin' ||
+        user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ===
+          'Manager'
       )
     ) {
       history.push('/');
@@ -25,6 +27,7 @@ function AdminLayout(props) {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     mainContentRef.current.scrollTop = 0;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const getBrandText = (path) => {
@@ -60,7 +63,7 @@ function AdminLayout(props) {
         {...props.exact}
         render={(propsComponent) => (
           <Fragment>
-            <Sidebar
+            <AdminSidebar
               routes={routes}
               toggleSidenav={toggleSidenav}
               sidenavOpen={sidenavOpen}

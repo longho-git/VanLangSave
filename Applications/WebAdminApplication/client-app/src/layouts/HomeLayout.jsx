@@ -4,9 +4,22 @@ import HomeFooter from './component/Footer/HomeFooter';
 import { Button } from 'reactstrap';
 import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 
 function HomeLayout(props) {
+  const user = useSelector((state) => state.login.user);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const token = JSON.parse(localStorage.getItem('token'));
+  const history = useHistory();
   React.useEffect(() => {
+    if (
+      isLoggedIn &&
+      user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ===
+        'SysAdmin'
+    ) {
+      history.push('/admin/categories');
+      return;
+    }
     document.body.classList.add('index-page');
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
@@ -23,7 +36,7 @@ function HomeLayout(props) {
       document.body.classList.remove('index-page');
     };
   });
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+
   return (
     <>
       <Route
@@ -45,7 +58,22 @@ function HomeLayout(props) {
               <i className="ni ni-bold-up"></i>
             </Button>
             <div className="wrapper">
-              {<props.component {...propsComponent} isLoggedIn={isLoggedIn} />}
+              <div className="section section-hero section-shaped">
+                <div className="page-header">
+                  <img
+                    alt="..."
+                    className="bg-image"
+                    src={require('assets/img/ill/index_bg.svg').default}
+                  ></img>
+                </div>
+                {
+                  <props.component
+                    {...propsComponent}
+                    isLoggedIn={isLoggedIn}
+                    token={token}
+                  />
+                }
+              </div>
               <HomeFooter />
             </div>
           </Fragment>

@@ -3,7 +3,6 @@
 //
 
 .card-pricing {
-
   .card-header {
     padding-top: 0;
     padding-bottom: 0;
@@ -13,16 +12,16 @@
     }
   }
   .list-unstyled li {
-    padding: .5rem 0;
+    padding: 0.5rem 0;
     color: $gray-600;
   }
 
   &.popular {
     z-index: 1;
-    border: 3px solid theme-color("primary") !important;
+    border: 3px solid theme-color('primary') !important;
   }
 
-  &[data-icon="big-icon"] {
+  &[data-icon='big-icon'] {
     .card-header {
       border-bottom: none;
       padding-bottom: 0;
@@ -60,7 +59,6 @@
           margin-left: 25px;
         }
         .frequency {
-
         }
       }
 
@@ -77,7 +75,7 @@
     }
   }
 
-  &:not([data-icon="big-icon"]) {
+  &:not([data-icon='big-icon']) {
     .icon i:before {
       font-size: 12px;
     }
@@ -101,10 +99,10 @@
 
         li {
           color: $default;
-          border-color: hsla(0,0%,100%,.3);
+          border-color: hsla(0, 0%, 100%, 0.3);
           text-align: center;
           padding: 12px 0;
-          border-bottom: 1px solid hsla(0,0%,60%,.3);
+          border-bottom: 1px solid hsla(0, 0%, 60%, 0.3);
 
           &:last-child {
             border: 0;
@@ -113,7 +111,7 @@
       }
     }
 
-    &[data-background="image"] {
+    &[data-background='image'] {
       background-size: contain;
       background-repeat: no-repeat;
       background-position-y: top;
@@ -171,7 +169,7 @@
       .list-group-item {
         background-color: transparent;
         border: none;
-        padding: .4rem 1rem;
+        padding: 0.4rem 1rem;
       }
     }
 
@@ -181,8 +179,6 @@
     }
   }
 }
-
-
 
 @include media-breakpoint-up(md) {
   .card-pricing.zoom-in {

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   DropdownToggle,
   UncontrolledDropdown,
@@ -27,10 +26,11 @@ function AccountMenu(props) {
         <DropdownToggle
           tag={NavLink}
           data-toggle="dropdown"
+          className="nav-link-icon"
           href="#pablo"
           onClick={(e) => e.preventDefault()}
+          id="navbar-success_dropdown_1"
           role="button"
-          className="py-1"
         >
           <Media className="align-items-center">
             <span className="avatar avatar-sx rounded-circle">
@@ -44,13 +44,16 @@ function AccountMenu(props) {
               />
             </span>
             <Media className="ml-2 d-none d-lg-block">
-              <span className="mb-0 text-sm font-weight-bold">
+              <span
+                className="mb-0 text-sm font-weight-bold"
+                style={{ fontSize: 14 }}
+              >
                 {userProfile.lastName + ' ' + userProfile.firstName}
               </span>
             </Media>
           </Media>
         </DropdownToggle>
-        <DropdownMenu aria-labelledby="navbarDropdownMenuLink">
+        <DropdownMenu aria-labelledby="navbar-success_dropdown_1" left>
           <DropdownItem to="/profile" tag={Link}>
             <i className="ni ni-single-02 "></i>
             Thông tin tài khoản

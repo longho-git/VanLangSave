@@ -11,7 +11,6 @@ export function login(data) {
 }
 export function storeUserProfile(data) {
   const userProfile = data;
-
   return {
     type: CHANGE_USEPROFILE,
     payload: { userProfile: userProfile },

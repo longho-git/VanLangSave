@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ApplicationDomain.BOA.IServices;
-using ApplicationDomain.BOA.Models;
 using ApplicationDomain.BOA.Models.Posts;
-using ApplicationDomain.BOA.Models.UserProfiles;
 using AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAdminApplication.Controllers
+namespace WebAdminApplication.Controllers.Social
 {
     public class PostController : BaseController
     {
@@ -34,6 +29,20 @@ namespace WebAdminApplication.Controllers
             }
             
         }
+        [Route("admin/active")]
+        [HttpGet]
+        public async Task<IActionResult> GetPostsActiveAdminAsync()
+        {
+            try
+            {
+                return Ok(await _postService.GetPostsActiveAdminAsync());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
 
         [Route("category/{categoryId}")]
         [HttpGet]
@@ -50,16 +59,16 @@ namespace WebAdminApplication.Controllers
 
         }
 
-        [Route("")]
+        [Route("waiting")]
         [HttpGet]
-        public async Task<IActionResult> GetPostsAsync()
+        public async Task<IActionResult> GetPostsWaitingAsync()
         {
             var issuer = GetCurrentUserIdentity<int>();
             if (issuer == null)
             {
                 return BadRequest("Vui lòng đăng nhập !!!");
             }
-            return Ok(await _postService.GetPostsAsync());
+            return Ok(await _postService.GetPostsWaitingAsync());
         }
 
 
@@ -69,20 +78,79 @@ namespace WebAdminApplication.Controllers
         {
             return Ok(await _postService.GetPostByIdAsync(id));
         }
-        [Route("userId")]
+        [Route("userId/{statusId}")]
         [HttpGet]
-        public async Task<IActionResult> GetPostByUserIdAsync()
+        public async Task<IActionResult> GetPostByUserIdStatusAsync(int statusId)
         {
             var issuer = GetCurrentUserIdentity<int>();
             try
             {
-                return Ok(await _postService.GetPostOfUserIdAsync(issuer.Id));
+                return Ok(await _postService.GetPostOfUserIdAsync(issuer.Id, statusId));
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
             
+        }
+
+        [Route("userId")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllPostByUserIdAsync()
+        {
+            var issuer = GetCurrentUserIdentity<int>();
+            try
+            {
+                return Ok(await _postService.GetAllPostOfUserIdAsync(issuer.Id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+        [Route("active/userProfileId/{id:int}")]
+        [HttpGet]
+        public async Task<IActionResult> GetPostByUserIdAsync(int id)
+        {
+            try
+            {
+                return Ok(await _postService.GetPostByUserProfileIdAsync(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+        [Route("search/{searchTitle}")]
+        [HttpGet]
+        public async Task<IActionResult> SearchPostByUserIdAsync(string searchTitle)
+        {
+            try
+            {
+                return Ok(await _postService.SearchPostsActiveAsync(searchTitle));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+        [Route("active/userId")]
+        [HttpGet]
+        public async Task<IActionResult> GetPostActiveByUserIdAsync()
+        {
+            var issuer = GetCurrentUserIdentity<int>();
+            try
+            {
+                return Ok(await _postService.GetPostActiveOfUserIdAsync(issuer.Id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
 
         [Route("")]
@@ -119,14 +187,44 @@ namespace WebAdminApplication.Controllers
             }
         }
 
-        [Route("active/{id}/{active}")]
+        [Route("active/{id}")]
         [HttpPut]
-        public async Task<IActionResult> ActivePostAsync(int id, int active)
+        public async Task<IActionResult> ActivePostAsync(int id)
         {
             var issuer = GetCurrentUserIdentity<int>();
             try
             {
-                return Ok(await _postService.ActivePostAsync(id, active, issuer));
+                return Ok(await _postService.ApprovePostAsync(id, issuer));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("rejected/{id}")]
+        [HttpPut]
+        public async Task<IActionResult> RejectedPostAsync(int id)
+        {
+            var issuer = GetCurrentUserIdentity<int>();
+            try
+            {
+                return Ok(await _postService.RejectedPostAsync(id, issuer));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("hidden/{id}")]
+        [HttpPut]
+        public async Task<IActionResult> HiddenPostAsync(int id)
+        {
+            var issuer = GetCurrentUserIdentity<int>();
+            try
+            {
+                return Ok(await _postService.HiddenPostAsync(id, issuer));
             }
             catch (Exception e)
             {

@@ -3,14 +3,14 @@ import { UncontrolledCarousel, Row, Col, Container } from 'reactstrap';
 
 const items = [
   {
-    src: 'https://cdn.chotot.com/admincentre/-WzMX7rGqx5tnDsLnM0t6qWfoIJMJLR2_cEcQ21qDe4/preset:raw/plain/605d4f8d46909c3e597a128ec30b7e54-2736364669635181163.jpg',
+    src: 'https://www.vanlanguni.edu.vn/images/2020/banner/hd-08.jpg',
     altText: 'Slide 1',
     caption: '',
     header: '',
     key: '1',
   },
   {
-    src: 'https://cdn.chotot.com/admincentre/kBp5caJKCXTwCGeAXUkabPbwdcJA6R56JjLGCmI61B0/preset:raw/plain/20bef60d38cba6def762b822afc38a87-2734629818208685567.jpg',
+    src: 'https://www.vanlanguni.edu.vn/images/2020/banner/cs3-01.jpg',
     altText: 'Slide 3',
     caption: '',
     header: '',

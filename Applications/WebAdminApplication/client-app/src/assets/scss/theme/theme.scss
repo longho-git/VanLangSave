@@ -1,4 +1,3 @@
-
 /*!
 
 =========================================================
@@ -19,40 +18,40 @@
 
 // {{ site.product.name }} components
 
-@import "functions";
-@import "mixins";
+@import 'functions';
+@import 'mixins';
 
-@import "reboot";
-@import "global";
-@import "utilities";
+@import 'reboot';
+@import 'global';
+@import 'utilities';
 
-@import "accordion";
-@import "alert";
-@import "avatar";
-@import "badge";
-@import "buttons";
-@import "card";
-@import "carousel";
-@import "close";
-@import "content";
-@import "custom-forms";
-@import "dropdown";
-@import "footer";
-@import "forms";
-@import "grid";
-@import "icons";
-@import "input-group";
-@import "list-group";
-@import "modal";
-@import "nav";
-@import "navbar";
-@import "pagination";
-@import "popover";
-@import "progress";
-@import "section";
-@import "separator";
-@import "type";
+@import 'accordion';
+@import 'alert';
+@import 'avatar';
+@import 'badge';
+@import 'buttons';
+@import 'card';
+@import 'carousel';
+@import 'close';
+@import 'content';
+@import 'custom-forms';
+@import 'dropdown';
+@import 'footer';
+@import 'forms';
+@import 'grid';
+@import 'icons';
+@import 'input-group';
+@import 'list-group';
+@import 'modal';
+@import 'nav';
+@import 'navbar';
+@import 'pagination';
+@import 'popover';
+@import 'progress';
+@import 'section';
+@import 'separator';
+@import 'type';
 
 // Vendor
 
-@import "vendors";
+@import 'vendors';

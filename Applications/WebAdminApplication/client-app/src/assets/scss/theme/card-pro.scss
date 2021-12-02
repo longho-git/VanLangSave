@@ -1,15 +1,13 @@
 // Cards
 
-
-@import "cards/card-register";
-@import "cards/card-blog";
-@import "cards/card-profile";
-@import "cards/card-pricing";
-@import "cards/card-rotate";
-@import "cards/card-background";
-@import "cards/card-project";
-@import "cards/card-product";
-
+@import 'cards/card-register';
+@import 'cards/card-blog';
+@import 'cards/card-profile';
+@import 'cards/card-pricing';
+@import 'cards/card-rotate';
+@import 'cards/card-background';
+@import 'cards/card-project';
+@import 'cards/card-product';
 
 //
 // Card
@@ -24,7 +22,7 @@
   }
 
   .card-title {
-      margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   .card-header,
@@ -46,22 +44,21 @@
       z-index: 1;
       width: 100%;
       display: block;
-      content: "";
-      background: rgba(0,0,0,.5);
-      border-top-left-radius: .25rem!important;
-      border-top-right-radius: .25rem!important;
+      content: '';
+      background: rgba(0, 0, 0, 0.5);
+      border-top-left-radius: 0.25rem !important;
+      border-top-right-radius: 0.25rem !important;
     }
   }
 
-  &[data-header="skew"] {
-
+  &[data-header='skew'] {
     .card-header {
       height: 100%;
       margin-bottom: 0;
       padding: 0;
 
       &::after {
-        content: "";
+        content: '';
         width: 24%;
         overflow: hidden;
         position: absolute;
@@ -80,17 +77,15 @@
     }
   }
 
-  &[data-background="pattern"] {
-
+  &[data-background='pattern'] {
     .pattern {
       position: absolute;
-      opacity: .1;
+      opacity: 0.1;
       bottom: 10%;
     }
   }
 
-  &[data-header="pattern"] {
-
+  &[data-header='pattern'] {
     .pattern {
       position: absolute;
       bottom: 60%;
@@ -103,33 +98,32 @@
 }
 
 .card-translucent {
-    background-color: rgba(18, 91, 152, 0.08);
+  background-color: rgba(18, 91, 152, 0.08);
 }
 
 .card-img-top {
-    @if ($enable-shadows == false) {
-        width: calc(100% + 2px);
-        margin-left: -1px;
-        margin-top: -1px;
-    }
+  @if ($enable-shadows == false) {
+    width: calc(100% + 2px);
+    margin-left: -1px;
+    margin-top: -1px;
+  }
 }
 
 .card-img-bottom {
-    @if ($enable-shadows == false) {
-        width: calc(100% + 2px);
-        margin-left: -1px;
-        margin-bottom: -1px;
-    }
+  @if ($enable-shadows == false) {
+    width: calc(100% + 2px);
+    margin-left: -1px;
+    margin-bottom: -1px;
+  }
 }
 
 // Card decks
 
-.card-deck  {
+.card-deck {
   .card {
     margin-bottom: $grid-gutter-width;
   }
 }
-
 
 // Card with shdadow
 
@@ -138,7 +132,6 @@
     border: 0 !important;
   }
 }
-
 
 //
 // Columns

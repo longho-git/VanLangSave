@@ -22,16 +22,25 @@ import configureStore from 'utils/store';
 import { ConnectedRouter } from 'connected-react-router';
 import history from './utils/history';
 import App from './App/App';
+import { MsalProvider } from '@azure/msal-react';
+import { PublicClientApplication } from '@azure/msal-browser';
+import { msalConfig } from 'utils/authConfig';
 
 // Create redux store with history
 const initialState = {};
 const storeConfig = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('root');
-
+/**
+ * Initialize a PublicClientApplication instance which is provided to the MsalProvider component
+ * We recommend initializing this outside of your root component to ensure it is not re-initialized on re-renders
+ */
+const msalInstance = new PublicClientApplication(msalConfig);
 ReactDOM.render(
   <Provider store={storeConfig}>
     <ConnectedRouter history={history}>
-      <App />
+      <MsalProvider instance={msalInstance}>
+        <App />
+      </MsalProvider>
     </ConnectedRouter>
   </Provider>,
   MOUNT_NODE,

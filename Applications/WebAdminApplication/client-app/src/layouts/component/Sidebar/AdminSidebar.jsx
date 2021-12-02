@@ -16,9 +16,11 @@ import {
   NavLink,
   Nav,
 } from 'reactstrap';
+import { useSelector } from 'react-redux';
 
-function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
+function AdminSidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
   const [state, setState] = React.useState({});
+  const user = useSelector((state) => state.login.user);
   const location = useLocation();
   React.useEffect(() => {
     setState(getCollapseStates(routes));
@@ -86,62 +88,69 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
         var st = {};
         st[prop['state']] = !state[prop.state];
         return (
-          <NavItem key={key}>
+          user[
+            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+          ] === prop.isView && (
+            <NavItem key={key}>
+              <NavLink
+                href="#pablo"
+                data-toggle="collapse"
+                aria-expanded={state[prop.state]}
+                className={classnames({
+                  active: getCollapseInitialState(prop.views),
+                })}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setState(st);
+                }}
+              >
+                {prop.icon ? (
+                  <>
+                    <i className={prop.icon} />
+                    <span className="nav-link-text">{prop.name}</span>
+                  </>
+                ) : prop.miniName ? (
+                  <>
+                    <span className="sidenav-mini-icon"> {prop.miniName} </span>
+                    <span className="sidenav-normal"> {prop.name} </span>
+                  </>
+                ) : null}
+              </NavLink>
+              <Collapse isOpen={state[prop.state]}>
+                <Nav className="nav-sm flex-column">
+                  {createLinks(prop.views)}
+                </Nav>
+              </Collapse>
+            </NavItem>
+          )
+        );
+      }
+      return (
+        user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ===
+          prop.isView && (
+          <NavItem className={activeRoute(prop.layout + prop.path)} key={key}>
             <NavLink
-              href="#pablo"
-              data-toggle="collapse"
-              aria-expanded={state[prop.state]}
-              className={classnames({
-                active: getCollapseInitialState(prop.views),
-              })}
-              onClick={(e) => {
-                e.preventDefault();
-                setState(st);
-              }}
+              to={prop.layout + prop.path}
+              activeClassName=""
+              onClick={closeSidenav}
+              tag={NavLinkRRD}
             >
-              {prop.icon ? (
+              {prop.icon !== undefined ? (
                 <>
                   <i className={prop.icon} />
                   <span className="nav-link-text">{prop.name}</span>
                 </>
-              ) : prop.miniName ? (
+              ) : prop.miniName !== undefined ? (
                 <>
                   <span className="sidenav-mini-icon"> {prop.miniName} </span>
                   <span className="sidenav-normal"> {prop.name} </span>
                 </>
-              ) : null}
+              ) : (
+                prop.name
+              )}
             </NavLink>
-            <Collapse isOpen={state[prop.state]}>
-              <Nav className="nav-sm flex-column">
-                {createLinks(prop.views)}
-              </Nav>
-            </Collapse>
           </NavItem>
-        );
-      }
-      return (
-        <NavItem className={activeRoute(prop.layout + prop.path)} key={key}>
-          <NavLink
-            to={prop.layout + prop.path}
-            activeClassName=""
-            onClick={closeSidenav}
-            tag={NavLinkRRD}
-          >
-            {prop.icon !== undefined ? (
-              <>
-                <i className={prop.icon} />
-                <span className="nav-link-text">{prop.name}</span>
-              </>
-            ) : prop.miniName !== undefined ? (
-              <>
-                <span className="sidenav-mini-icon"> {prop.miniName} </span>
-                <span className="sidenav-normal"> {prop.name} </span>
-              </>
-            ) : (
-              prop.name
-            )}
-          </NavLink>
-        </NavItem>
+        )
       );
     });
   };
@@ -175,7 +184,7 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
             className={classnames('sidenav-toggler d-none d-xl-block', {
               active: sidenavOpen,
             })}
-            onClick={toggleSidenav}
+            onClick={() => toggleSidenav()}
           >
             <div className="sidenav-toggler-inner">
               <i className="sidenav-toggler-line" />
@@ -210,14 +219,14 @@ function Sidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
   );
 }
 
-Sidebar.defaultProps = {
+AdminSidebar.defaultProps = {
   routes: [{}],
   toggleSidenav: () => {},
   sidenavOpen: false,
   rtlActive: false,
 };
 
-Sidebar.propTypes = {
+AdminSidebar.propTypes = {
   // function used to make sidenav mini or normal
   toggleSidenav: PropTypes.func,
   // prop to know if the sidenav is mini or normal
@@ -241,4 +250,4 @@ Sidebar.propTypes = {
   rtlActive: PropTypes.bool,
 };
 
-export default Sidebar;
+export default AdminSidebar;

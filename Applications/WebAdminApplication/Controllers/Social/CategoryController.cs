@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ApplicationDomain.BOA.IService;
-using ApplicationDomain.BOA.IServices;
-using ApplicationDomain.BOA.Models;
 using ApplicationDomain.BOA.Models.Categories;
 using AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAdminApplication.Controllers
+namespace WebAdminApplication.Controllers.Social
 {
     public class CategoryController : BaseController
     {

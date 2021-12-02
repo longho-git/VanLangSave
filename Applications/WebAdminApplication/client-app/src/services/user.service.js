@@ -49,6 +49,22 @@ class UserService {
         return error.response;
       });
   }
+
+  getUserByRole(role) {
+    const token = localStorage.getItem('token');
+    const accessToken = JSON.parse(token);
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+    return axios
+      .get(API_URL + `user/${role}`, config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  }
   updateUser(userId, data) {
     const token = localStorage.getItem('token');
     const accessToken = JSON.parse(token);
@@ -80,7 +96,8 @@ class UserService {
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
     };
-    const { firstName, lastName, studentId } = data;
+    const { firstName, lastName, studentId, email, phoneNumber, address, sex } =
+      data;
     return axios
       .put(
         API_URL + `UserProfile/${userId}`,
@@ -88,6 +105,10 @@ class UserService {
           firstName,
           lastName,
           studentId,
+          email,
+          phoneNumber,
+          address,
+          sex,
         },
         config,
       )

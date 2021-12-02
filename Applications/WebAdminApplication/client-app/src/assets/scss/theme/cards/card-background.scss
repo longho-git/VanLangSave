@@ -1,3 +1,28 @@
+.card-blog.card-background {
+  &:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1;
+    width: 100%;
+    display: block;
+    content: '';
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+.card-description {
+  display: -webkit-box;
+  overflow: hidden;
+  max-height: 22.4rem;
+  word-break: break-word;
+  /* font-weight: 550; */
+  white-space: normal;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
 .card-background {
   background-position: center center;
   background-size: cover;
@@ -37,7 +62,18 @@
     .full-background {
       height: $card-background-height-lg;
     }
-
+    &:after {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      z-index: 1;
+      width: 100%;
+      display: block;
+      content: '';
+      background: rgba(0, 0, 0, 0.6);
+    }
     @include media-breakpoint-up(lg) {
       .card-body {
         padding: 60px;

@@ -1,7 +1,9 @@
 import AdminLayout from 'layouts/AdminLayout';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Switch } from 'react-router-dom';
 import routes from 'routes';
+import { Route } from 'react-router-dom';
+import LoginPage from 'pages/Admin/LoginPage/LoginPage';
 
 export default function AdminRoutes() {
   const getRoutes = (routes) => {
@@ -23,5 +25,18 @@ export default function AdminRoutes() {
       }
     });
   };
-  return <Switch>{getRoutes(routes)}</Switch>;
+  return (
+    <Switch>
+      {getRoutes(routes)}
+      <Route
+        path="/admin/login"
+        exact
+        render={() => (
+          <Fragment>
+            <LoginPage />
+          </Fragment>
+        )}
+      />
+    </Switch>
+  );
 }

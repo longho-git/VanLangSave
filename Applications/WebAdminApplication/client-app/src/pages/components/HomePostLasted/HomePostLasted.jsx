@@ -4,9 +4,11 @@ import { Button, Col, Container, Row } from 'reactstrap';
 import CardPost from '../CardPost/CardPost';
 import homeService from 'services/home.service';
 import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
 
 function HomePostLasted(props) {
   const [posts, setPosts] = useState([]);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const history = useHistory();
   useEffect(() => {
     getPostActive();
@@ -25,7 +27,9 @@ function HomePostLasted(props) {
       <Container>
         <Row className="mt-2">
           <Col md="8">
-            <h5 className="display-3">Tin đăng dành cho bạn</h5>
+            <h5 className="display-4">
+              {isLoggedIn ? 'Tin đăng dành cho bạn' : 'Tin mới nhất'}
+            </h5>
           </Col>
         </Row>
 

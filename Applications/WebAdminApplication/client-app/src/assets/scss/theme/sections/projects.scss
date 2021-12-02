@@ -11,7 +11,7 @@
     }
   }
   .card-title {
-    margin-top: 10px
+    margin-top: 10px;
   }
 }
 
@@ -31,27 +31,27 @@
   }
 }
 
-@media screen and (max-width:1200px){
+@media screen and (max-width: 1200px) {
   .projects-3 .card-background {
-      padding: 50px 40px;
+    padding: 50px 40px;
   }
 }
 
 @include media-breakpoint-down(md) {
-  .projects-1 .navbar .navbar-translate{
+  .projects-1 .navbar .navbar-translate {
     margin-left: 15px;
   }
-  .projects-1 .navbar-nav{
+  .projects-1 .navbar-nav {
     margin-left: 0 !important;
   }
 
-  .projects-2 .card .card-footer .stats.stats-right{
+  .projects-2 .card .card-footer .stats.stats-right {
     margin-bottom: 10px;
     float: left;
   }
 }
 @include media-breakpoint-down(sm) {
-  .nav-pills.nav-pills:not(.flex-column) .nav-item:not(:last-child) .nav-link{
+  .nav-pills.nav-pills:not(.flex-column) .nav-item:not(:last-child) .nav-link {
     margin-bottom: 15px;
   }
 

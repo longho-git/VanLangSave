@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 // JavaScript plugin that hides or shows a component based on your scroll
 import Headroom from 'headroom.js';
+
 // reactstrap components
 import {
   Collapse,
@@ -16,15 +17,47 @@ import {
   Row,
   Col,
   Button,
-  UncontrolledTooltip,
+  Form,
+  FormGroup,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Input,
 } from 'reactstrap';
 import AccountMenu from './AccountMenu';
 import { useSelector } from 'react-redux';
+import Notification from './Notification';
+import HomeMenu from './HomeMenu';
 
 function HomeNavbar(props) {
   const [collapseOpen, toggleCollapse] = React.useState(false);
   const history = useHistory();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const location = useLocation().search;
+  const textSearch = new URLSearchParams(location).get('value');
+
+  const [input, setInput] = useState(textSearch || '');
+  const [searchFocus, setSearchFocus] = useState('');
+  const handleInput = (e) => {
+    setInput(e.target.value);
+  };
+
+  const routeChange = (input) => {
+    let path = `/search?value=${input}`;
+    history.push(path);
+  };
+
+  //trigger handleSubmit only when enter button is pressed within search input field or search icon is clicked
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' || e.currentTarget.title === 'search') {
+      e.preventDefault();
+      input ? handleSubmit() : alert('Please enter search term to get results');
+    }
+  };
+
+  const handleSubmit = () => {
+    routeChange(input);
+  };
   const toUrl = (url) => {
     if (!isLoggedIn) {
       history.push('/login');
@@ -76,6 +109,7 @@ function HomeNavbar(props) {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+
           <Collapse
             id="navbar_global"
             navbar
@@ -103,32 +137,48 @@ function HomeNavbar(props) {
                 </Col>
               </Row>
             </div>
+            <Form className="navbar-search form-inline mr-sm-3 navbar-search-light">
+              <FormGroup className={'mb-0' + searchFocus}>
+                <InputGroup className="input-group-alternative input-group-merge">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText
+                      title={'search'}
+                      onClick={(e) => handleKeyPress(e)}
+                    >
+                      <i className="fas fa-search" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    placeholder="Tìm kiếm"
+                    type="text"
+                    value={input || ''}
+                    onChange={(e) => handleInput(e)}
+                    onKeyPress={(e) => handleKeyPress(e)}
+                    onFocus={() => setSearchFocus('focused')}
+                    onBlur={() => setSearchFocus('')}
+                  />
+
+                  <InputGroupAddon addonType="append">
+                    <InputGroupText onClick={() => input && setInput(null)}>
+                      {input && <i className=" ni ni-fat-remove" />}
+                    </InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
+              </FormGroup>
+              <button aria-label="Close" className="close" type="button">
+                <span aria-hidden={true}>×</span>
+              </button>
+            </Form>
             <Nav
               className="navbar-nav-hover align-items-lg-center ml-lg-auto"
               navbar
             >
-              <NavLink
-                tag={NavLink}
-                style={{ cursor: 'pointer' }}
-                onClick={() => toUrl('/userpost')}
-                role="button"
-              >
-                <i className="ni ni-trophy"></i> Quản lý bài đăng
-              </NavLink>
-              <NavLink
-                data-toggle="dropdown"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-                id="tooltip521847749"
-                role="button"
-              >
-                <i className="ni ni-notification-70"></i> Thông báo
-              </NavLink>
-              <UncontrolledTooltip delay={0} target="tooltip521847749">
-                Đăng phát triển
-              </UncontrolledTooltip>
               {isLoggedIn ? (
-                <AccountMenu />
+                <>
+                  <HomeMenu />
+                  <Notification />
+                  <AccountMenu />
+                </>
               ) : (
                 <NavLink
                   data-toggle="dropdown"

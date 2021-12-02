@@ -1,11 +1,11 @@
 .sections-page {
-  [class*="features-"],
-  [class*="blogs-"],
-  [class*="team-"],
-  [class*="projects-"],
-  [class*="pricing-"],
-  [class*="testimonials-"],
-  [class*="contactus-"]{
+  [class*='features-'],
+  [class*='blogs-'],
+  [class*='team-'],
+  [class*='projects-'],
+  [class*='pricing-'],
+  [class*='testimonials-'],
+  [class*='contactus-'] {
     padding: 80px 0;
   }
 }

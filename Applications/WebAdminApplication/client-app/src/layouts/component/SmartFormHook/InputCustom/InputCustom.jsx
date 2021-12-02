@@ -17,6 +17,7 @@ function InputCustom({
   rows = 0,
   col = 12,
   icons,
+  required,
   type = 'text',
   textarea = false,
   ...rest
@@ -36,6 +37,7 @@ function InputCustom({
         {label ? (
           <label className="form-control-label" htmlFor="validationServer04">
             {label}
+            {required ? <span className="text-danger">*</span> : ''}
           </label>
         ) : (
           <div class="input-group-prepend">

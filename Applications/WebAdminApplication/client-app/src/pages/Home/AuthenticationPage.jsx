@@ -17,22 +17,13 @@ function AuthenticationPage({ isLoggedIn }) {
     return function cleanup() {
       document.body.classList.remove('register-page');
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <div className="register-header  page-header ">
-        <div
-          className="page-header-image"
-          style={{
-            backgroundImage:
-              'url(' + require('assets/img/ill/index_bg.svg').default + ')',
-          }}
-        ></div>
         <Container className={activeContainer}>
-          <div className="form-container sign-up-container">
-            <SignUpForm />
-          </div>
           <div className="form-container sign-in-container">
             <SignInForm />
           </div>
@@ -56,19 +47,7 @@ function AuthenticationPage({ isLoggedIn }) {
               </div>
               <div className="overlay-panel overlay-right">
                 <h1 className="text-white">Chào bạn!</h1>
-                <p>
-                  Nhập thông tin cá nhân của bạn và bắt đầu hành trình với chúng
-                  tôi
-                </p>
-                <Button
-                  className="btn-neutral"
-                  color="default"
-                  id="signUp"
-                  size="sm"
-                  onClick={() => setActiveContainer('right-panel-active')}
-                >
-                  Đăng ký
-                </Button>
+                <p>Sử dụng Email Văn lang để tham gia với chúng tôi</p>
               </div>
             </div>
           </div>

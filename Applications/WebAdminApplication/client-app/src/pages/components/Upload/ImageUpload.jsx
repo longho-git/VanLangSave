@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 
 import defaultImage from 'assets/img/image_placeholder.jpg';
-import defaultAvatar from 'assets/img/placeholder.jpg';
+import uploadService from 'services/upload.service';
+import { useDispatch } from 'react-redux';
+import { storeUserProfile } from 'redux/Login/Login.actions';
 
 export default function ImageUpload({
   avatar,
@@ -15,9 +17,12 @@ export default function ImageUpload({
   addBtnClasses,
   removeBtnColor,
   removeBtnClasses,
+  userProfileId,
+  callBack,
 }) {
   const [file, setFile] = useState(null);
   const fileInput = useRef(null);
+  const dispatch = useDispatch();
   const [imagePreviewUrl, setImagePreviewUrl] = useState(
     avatar ? avatar : defaultImage,
   );
@@ -29,11 +34,18 @@ export default function ImageUpload({
     reader.onloadend = () => {
       setFile(file);
       setImagePreviewUrl(reader.result);
+      handleSubmit(file);
     };
     reader.readAsDataURL(file);
   }
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit(file) {
+    uploadService.updateAvatar(file, userProfileId).then((req) => {
+      if (req.status === 400) {
+        return;
+      }
+      dispatch(storeUserProfile(req.value));
+      callBack();
+    });
     // file is the file/image uploaded
     // in this function you can save the image (file) on form submit
     // you have to call it yourself
@@ -60,7 +72,7 @@ export default function ImageUpload({
             className={addBtnClasses}
             onClick={() => handleClick()}
           >
-            {avatar ? 'Add Photo' : 'Select image'}
+            {avatar ? 'Cập nhật ảnh' : 'Chọn ảnh khác'}
           </Button>
         ) : (
           <span>

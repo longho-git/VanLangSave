@@ -1,4 +1,4 @@
-// multilevel dropdown
+// // multilevel dropdown
 
 .dropdown.show {
   .dropdown-menu.show {
@@ -29,7 +29,7 @@
     .dropdown-item.dropdown-toggle.open {
       &:after {
         transform: rotate(180deg);
-        transition: transform .3s ease;
+        transition: transform 0.3s ease;
       }
     }
   }
@@ -38,7 +38,6 @@
 .dropdown,
 .dropup {
   .dropdown-item {
-
     &.dropdown-toggle:after {
       position: relative;
       float: right;
@@ -49,10 +48,10 @@
       -webkit-transform: scale(1.1);
       -ms-transform: scale(1.1);
       transform: scale(1.1);
-      border-radius: .3rem;
-      box-shadow: 0 7px 14px rgba(50,50,93,.1),
-                  0 3px 6px rgba(0,0,0,.08);
-      transition: all .4s ease;
+      border-radius: 0.3rem;
+      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
+        0 3px 6px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s ease;
       background: $white;
     }
   }
@@ -63,22 +62,22 @@
 .dropdown {
   .dropdown-menu {
     -webkit-animation: fpFadeInUp 300ms cubic-bezier(0.23, 1, 0.32, 1);
-            animation: fpFadeInUp 300ms cubic-bezier(0.23, 1, 0.32, 1);
-    transition: all .3s ease;
-    &:before {
-      background: $white;
-      box-shadow: none;
-      content: "";
-      display: block;
-      height: 16px;
-      width: 16px;
-      left: 5px;
-      position: absolute;
-      bottom: 100%;
-      transform: rotate(-45deg) translateY(1rem);
-      z-index: -5;
-      border-radius: .2rem;
-    }
+    animation: fpFadeInUp 300ms cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.3s ease;
+    // &:before {
+    //   background: $white;
+    //   box-shadow: none;
+    //   content: '';
+    //   display: block;
+    //   height: 16px;
+    //   width: 16px;
+    //   left: 5px;
+    //   position: absolute;
+    //   bottom: 100%;
+    //   transform: rotate(-45deg) translateY(1rem);
+    //   z-index: -5;
+    //   border-radius: 0.2rem;
+    // }
   }
 
   &.show {
@@ -88,7 +87,7 @@
         bottom: unset !important;
         top: 100% !important;
         -webkit-animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
-                animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
+        animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
         transform: none !important;
         transition: $transition-collapse;
       }
@@ -99,12 +98,12 @@
 .dropup {
   .dropdown-menu {
     -webkit-animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
-            animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
-    transition: all .3s ease;
+    animation: fpFadeInDown 300ms cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.3s ease;
     &:before {
       background: $white;
       box-shadow: none;
-      content: "";
+      content: '';
       display: block;
       height: 16px;
       width: 16px;
@@ -113,7 +112,7 @@
       bottom: 7px;
       transform: rotate(-45deg) translateY(1rem);
       z-index: -5;
-      border-radius: .2rem;
+      border-radius: 0.2rem;
     }
   }
 
@@ -123,26 +122,26 @@
         bottom: 100% !important;
         top: unset !important;
         -webkit-animation: fpFadeInUp 300ms cubic-bezier(0.23, 1, 0.32, 1);
-                animation: fpFadeInUp 300ms cubic-bezier(0.23, 1, 0.32, 1);
+        animation: fpFadeInUp 300ms cubic-bezier(0.23, 1, 0.32, 1);
         transform: none !important;
         margin-bottom: 10px;
-        transition: all .3s ease;
+        transition: all 0.3s ease;
       }
     }
   }
 }
 
 .dropdown-divider {
-  margin: .2rem 0 !important;
+  margin: 0.2rem 0 !important;
 }
 
 .dropdown-toggle:after {
-  transition: all .3s ease !important;
+  transition: all 0.3s ease !important;
 }
 
 .dropdown-menu-right {
-  right: 0!important;
-  left: auto!important;
+  right: 0 !important;
+  left: auto !important;
 
   &:before {
     right: 20px;
@@ -154,47 +153,47 @@
   from {
     opacity: 0;
     -webkit-transform: translate3d(0, -20px, 0);
-            transform: translate3d(0, -20px, 0);
+    transform: translate3d(0, -20px, 0);
   }
   to {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 @keyframes fpFadeInDown {
   from {
     opacity: 0;
     -webkit-transform: translate3d(0, -20px, 0);
-            transform: translate3d(0, -20px, 0);
+    transform: translate3d(0, -20px, 0);
   }
   to {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 @-webkit-keyframes fpFadeInUp {
   from {
     opacity: 0;
     -webkit-transform: translate3d(0, 20px, 0);
-            transform: translate3d(0, 20px, 0);
+    transform: translate3d(0, 20px, 0);
   }
   to {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }
 @keyframes fpFadeInUp {
   from {
     opacity: 0;
     -webkit-transform: translate3d(0, 20px, 0);
-            transform: translate3d(0, 20px, 0);
+    transform: translate3d(0, 20px, 0);
   }
   to {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 }

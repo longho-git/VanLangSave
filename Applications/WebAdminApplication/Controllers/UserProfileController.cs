@@ -13,24 +13,24 @@ namespace WebAdminApplication.Controllers
 {
     public class UserProfileController : BaseController
     {
-        private readonly IUserProfileService _UserProfileService;
-        public UserProfileController(IUserProfileService UserProfileService)
+        private readonly IUserProfileService _userProfileService;
+        public UserProfileController(IUserProfileService userProfileService)
         {
-            _UserProfileService = UserProfileService;
+            _userProfileService = userProfileService;
         }
 
         [Route("")]
         [HttpGet]
         public async Task<IActionResult> GetUserProfileAsyncs()
         {
-            return Ok(await _UserProfileService.GetUserProfilesAsync());
+            return Ok(await _userProfileService.GetUserProfilesAsync());
         }
 
         [Route("{id}")]
         [HttpGet]
         public async Task<IActionResult> GetUserProfileByIdAsync(int id)
         {
-            return Ok(await _UserProfileService.GetUserProfileByIdAsync(id));
+            return Ok(await _userProfileService.GetUserProfileByIdAsync(id));
         }
         [Route("userId/{id}")]
         [HttpGet]
@@ -38,7 +38,7 @@ namespace WebAdminApplication.Controllers
         {
             try
             {
-                return Ok(await _UserProfileService.GetDistricByUserIdAsync(id));
+                return Ok(await _userProfileService.GetDistricByUserIdAsync(id));
             }
             catch (Exception e)
             {
@@ -54,7 +54,7 @@ namespace WebAdminApplication.Controllers
             var issuer = GetCurrentUserIdentity<int>();
             try
             {
-                return Ok(await _UserProfileService.CreateUserProfileAsync(model, issuer));
+                return Ok(await _userProfileService.CreateUserProfileAsync(model, issuer));
             }
             catch (Exception e)
             {
@@ -69,7 +69,7 @@ namespace WebAdminApplication.Controllers
             var issuer = GetCurrentUserIdentity<int>();
             try
             {
-                return Ok(await _UserProfileService.UpdateUserProfileAsync(id, model, issuer));
+                return Ok(await _userProfileService.UpdateUserProfileAsync(id, model, issuer));
             }
             catch (Exception e)
             {
@@ -83,7 +83,7 @@ namespace WebAdminApplication.Controllers
             var issuer = GetCurrentUserIdentity<int>();
             try
             {
-                return Ok(await _UserProfileService.UpdateUserProfileAvatarAsync(id, data.data, issuer));
+                return Ok(await _userProfileService.UpdateUserProfileAvatarAsync(id, data.data, issuer));
             }
             catch (Exception e)
             {
@@ -97,7 +97,7 @@ namespace WebAdminApplication.Controllers
         {
             try
             {
-                return Ok(await _UserProfileService.DeleteUserProfileAsync(id));
+                return Ok(await _userProfileService.DeleteUserProfileAsync(id));
             }
             catch (Exception e)
             {
@@ -110,14 +110,14 @@ namespace WebAdminApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> AutoGenerateCodeAsync()
         {
-            return OkValueObject(await _UserProfileService.AutoGenerateCodeAsync());
+            return OkValueObject(await _userProfileService.AutoGenerateCodeAsync());
         }
 
         [Route("checkcodeexists/{code}")]
         [HttpGet]
         public async Task<IActionResult> CheckCodeExists(string code)
         {
-            return OkValueObject(await _UserProfileService.CheckCodeExistsAsync(code));
+            return OkValueObject(await _userProfileService.CheckCodeExistsAsync(code));
         }
     }
 }

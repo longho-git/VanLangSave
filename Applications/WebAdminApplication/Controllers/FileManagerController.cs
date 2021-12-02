@@ -118,10 +118,26 @@ namespace WebAdminApplication.Controllers
             }
         }
 
+        [Route("user/uploadAvatar/{id}")]
+        [HttpPost]
+        public async Task<IActionResult> UploadAvatarAsync([FromForm] IFormFile formFile,int id)
+        {
+            var issuer = GetCurrentUserIdentity<int>();
+            try
+            {
+                return OkValueObject(await _fileManagerService.UploadAvatarAsync(formFile,id,issuer));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Route("uploadFileDefault")]
         [HttpPost]
         public async Task<IActionResult> UploadFileDefaultAsync([FromForm] IFormFile formFile)
         {
+
             try
             {
                 return OkValueObject(await _fileManagerService.UploadFileDefaultAsync(formFile));

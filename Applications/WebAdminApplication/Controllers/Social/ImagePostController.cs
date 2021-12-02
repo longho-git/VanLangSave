@@ -5,7 +5,7 @@ using ApplicationDomain.BOA.Models;
 using AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAdminApplication.Controllers
+namespace WebAdminApplication.Controllers.Social
 {
     public class ImagePostController : BaseController
     {

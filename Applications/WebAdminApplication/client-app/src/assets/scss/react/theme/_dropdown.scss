@@ -2,7 +2,10 @@ a:not([href]):not([tabindex]).dropdown-item {
   color: $dropdown-link-color;
 }
 
-.dropdown.show .dropdown-menu.show .dropdown.show > a:not([href]):not([tabindex]).dropdown-item.dropdown-toggle:after {
+.dropdown.show
+  .dropdown-menu.show
+  .dropdown.show
+  > a:not([href]):not([tabindex]).dropdown-item.dropdown-toggle:after {
   transform: rotate(180deg);
 }
 @include media-breakpoint-down(md) {
@@ -12,7 +15,10 @@ a:not([href]):not([tabindex]).dropdown-item {
 }
 
 @include media-breakpoint-down(sm) {
-  .dropdown.show .dropdown-menu.show .dropdown-item.dropdown-toggle[aria-expanded="true"]+.dropdown-menu.show {
-    left: 30%!important;
+  .dropdown.show
+    .dropdown-menu.show
+    .dropdown-item.dropdown-toggle[aria-expanded='true']
+    + .dropdown-menu.show {
+    left: 30% !important;
   }
 }

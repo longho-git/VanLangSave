@@ -31,7 +31,6 @@
       }
     }
   }
-
 }
 
 // Style for the BlogPosts Page
@@ -71,7 +70,7 @@
 // Style for the Landing Page
 
 .landing-page {
-  .header-4 .navbar{
+  .header-4 .navbar {
     display: none;
   }
   .section-safe {
@@ -113,7 +112,6 @@
 // Style for the Ecommerce Page
 
 .main-raised {
-  margin-top: -100px;
 }
 
 .ecommerce-page {
@@ -210,10 +208,10 @@
 // Style for the Error Pages
 
 .error-page > .container .title {
-    font-size: 12em;
-    color: $default;
-    letter-spacing: 14px;
-    font-weight: 700;
+  font-size: 12em;
+  color: $default;
+  letter-spacing: 14px;
+  font-weight: 700;
 }
 
 .error-page {
@@ -269,7 +267,6 @@
       padding-top: 0 !important;
     }
   }
-
 }
 
 // Style for the Checkout Page
@@ -369,7 +366,6 @@
 }
 
 @include media-breakpoint-down(sm) {
-
   .about-us,
   .blog-post,
   .blog-posts,
@@ -400,7 +396,6 @@
 }
 
 @include media-breakpoint-down(xs) {
-
   .navbar {
     &.navbar-main {
       .navbar-nav {
@@ -412,7 +407,7 @@
     }
   }
 
-  .card-background[data-animation=zooming] a:not(.btn) {
+  .card-background[data-animation='zooming'] a:not(.btn) {
     height: auto !important;
   }
 
@@ -531,10 +526,10 @@
   }
 }
 
-@media (min-width: 640px){
+@media (min-width: 640px) {
   .product-page {
     .choices__list--dropdown .choices__item--selectable {
-        padding-right: 0;
+      padding-right: 0;
     }
   }
 }

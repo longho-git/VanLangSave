@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ApplicationDomain.BOA.IServices;
 using ApplicationDomain.BOA.Models.UserProfiles;
+using ApplicationDomain.Helper;
 using ApplicationDomain.Identity.IServices;
 using ApplicationDomain.Identity.Models;
 using ApplicationDomain.Identity.Models.Permissions;
@@ -57,9 +59,8 @@ namespace WebAdminApplication.Controllers
 
             if (result.Succeeded)
             {
-                GrantedPermission grantedPermission = await _permissionService.GetGrantedPermission(result.UserIdentity.Id, result.Roles.ToList());
-                List<Claim> additionClaims = new List<Claim>();
-                additionClaims.Add(new Claim("permission", JsonConvert.SerializeObject(grantedPermission)));
+                var grantedPermission = await _permissionService.GetGrantedPermission(result.UserIdentity.Id, result.Roles.ToList());
+                var additionClaims = new List<Claim> {new Claim("permission", JsonConvert.SerializeObject(grantedPermission))};
                 var token = _jwtTokenService.GenerateToken(result.UserIdentity, result.Roles, additionClaims);
                 var profile = await _userProfileService.GetDistricByUserIdAsync(result.UserIdentity.Id);
                 var resultLogin = new LoginModel()
@@ -85,129 +86,19 @@ namespace WebAdminApplication.Controllers
 
             return BadRequest("Tên người dùng hoặc mật khẩu không đúng");
         }
-
-        [Route("forgotpassword")]
+        [Route("signinmsal")]
         [HttpPost]
-        public async Task<IActionResult> ForgotPasswordAsync([FromBody]UserForgotPasswordRq model)
+        public async Task<IActionResult> GetSignInMsa([FromBody] EmailMSRq modelRq)
         {
-            try
-          {
-                return Ok(await _authService.ForgotPasswordAsync(model));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [Route("tltquotation")]
-        [HttpPost]
-        public async Task<IActionResult> TLTQuotationAsync([FromBody]TLTQuotationRq model)
-        {
-            try
-            {
-                var issuer = GetCurrentUserIdentity<int>();
-                return Ok(await _authService.TLTQuotationAsync(model, issuer));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [Route("mobile/resetpassword")]
-        [HttpPut]
-        public async Task<IActionResult> ResetPasswordAsync([FromBody]ResetPasswordRq model)
-        {
-            try
-            {
-                return Ok(await _authService.ChangePasswordMobileAsync(model));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [Route("mobile/resetpassword/phonenumber")]
-        [HttpPut]
-        public async Task<IActionResult> ResetPasswordByPhoneNumberAsync([FromBody] ResetPasswordRq model)
-        {
-            try
-            {
-                return Ok(await _authService.ChangePasswordMobileByPhoneAsync(model));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-        [Route("resetpassword")]
-        [HttpPut]
-        public async Task<IActionResult> ResetPasswordWebAsync([FromBody] ResetPasswordRq model)
-        {
-            try
-            {
-                return Ok(await _authService.ResetPasswordAsync(model));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [Route("checkpassword")]
-        [HttpPost]
-        public async Task<IActionResult> CheckUserPassword([FromBody]UserCheckPasswordRq model)
-        {
-            try
-            {
-                UserIdentity<int> issuer = null;
-                issuer = GetCurrentUserIdentity<int>(); var checkPassword = await _authService.CheckExistUserPasswordAsync(issuer.Id, model);
-                if (!checkPassword)
-                {
-                    return BadRequest("Wrong Password");
-                }
-                return Ok(checkPassword);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [Route("changepassword")]
-        [HttpPut]
-        public async Task<IActionResult> ChangePassword([FromBody]UserChangePasswordRq model)
-        {
+            var host = new MailAddress(modelRq.Email).Host;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            else
-            {
-                try
-                {
-                    UserIdentity<int> issuer = null;
-                    issuer = GetCurrentUserIdentity<int>();
-                    return Ok(await _authService.ChangePasswordAsync(model, issuer));
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
-            }
-        }
-        [Route("emailchecking/{email}")]
-        [HttpGet]
-        public async Task<IActionResult> CheckEmailAsync(string email)
-        {
-            return OkValueObject(await _authService.CheckEmailAsync(email));
-        }
-        [Route("phonechecking/{phone}")]
-        [HttpGet]
-        public async Task<IActionResult> CheckPhoneNumberAsync(string phone)
-        {
-            return OkValueObject(await _authService.CheckPhoneNumberAsync(phone));
+            if (host != EmailMSConstant.STUDENTMAIL && host != EmailMSConstant.LECTURERMAIL &&
+                host != EmailMSConstant.LECTUREREDU)
+                return BadRequest("Vui lòng dùng email Văn Lang!");
+            return Ok(host);
         }
 
     }

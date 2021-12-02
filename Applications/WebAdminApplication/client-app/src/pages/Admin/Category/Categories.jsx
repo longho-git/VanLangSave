@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useMemo, useState } from 'react';
 import AdminHeader from './../../../layouts/component/Header/AdminHeader';
 
@@ -16,10 +17,10 @@ import {
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import CreateCategoryForm from 'pages/components/CreateCategoryForm/CreateCategoryForm';
 import categoryService from 'services/category.service';
+import CategoryDialog from 'pages/components/CategoryDialog/CategoryDialog';
 const { SearchBar } = Search;
 
 function Categories() {
-  const [categories, setCategories] = useState([]);
   useEffect(() => {
     getCategories();
   }, []);
@@ -32,6 +33,36 @@ function Categories() {
       setCategories(data);
     });
   };
+  const [item, setItem] = useState();
+  const [modalEdit, setModalEdit] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+    getCategories();
+  };
+  const handleShow = () => setShow(true);
+  const toggleTrueFalse = () => {
+    setModalEdit(handleShow);
+  };
+  const [categories, setCategories] = useState([]);
+  const rowEvent = (item) => {
+    setItem(item);
+    toggleTrueFalse();
+  };
+  const ModalContent = () => {
+    return (
+      <Modal
+        className="modal-lg"
+        modalClassName=" bd-example-modal-lg"
+        onClosed={handleClose}
+        toggle={() => handleClose()}
+        isOpen={show}
+      >
+        <CategoryDialog item={item} />
+      </Modal>
+    );
+  };
+
   const [modalOpen, setModalOpen] = React.useState(false);
   const tableRender = useMemo(() => {
     return (
@@ -115,7 +146,7 @@ function Categories() {
                             className="table-action"
                             href="#pablo"
                             id="tooltip874640709"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={() => rowEvent(item)}
                           >
                             <i className="fas fa-user-edit" />
                           </a>
@@ -127,7 +158,6 @@ function Categories() {
                           </UncontrolledTooltip>
                           <a
                             className="table-action table-action-delete"
-                            href="#pablo"
                             id="tooltip598568751"
                             onClick={(e) => e.preventDefault()}
                           >
@@ -193,6 +223,7 @@ function Categories() {
         >
           <CreateCategoryForm />
         </Modal>
+        {show ? <ModalContent /> : null}
       </Container>
     </>
   );

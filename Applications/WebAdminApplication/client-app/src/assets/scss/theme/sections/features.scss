@@ -1,7 +1,7 @@
 .phone-container {
-    img{
-        width: 100%;
-    }
+  img {
+    width: 100%;
+  }
 }
 
 .features-2,
@@ -48,7 +48,7 @@
   .info {
     padding: 30px 10px 30px;
     margin: 30px auto 0;
-    opacity: .9;
+    opacity: 0.9;
     width: 250px;
     position: relative;
 
@@ -156,13 +156,13 @@
 }
 
 @include media-breakpoint-down(sm) {
-  .features-2 .info{
+  .features-2 .info {
     margin-bottom: 25px;
   }
 }
 
 @include media-breakpoint-down(xs) {
-  .features-6{
+  .features-6 {
     overflow: hidden;
   }
 }

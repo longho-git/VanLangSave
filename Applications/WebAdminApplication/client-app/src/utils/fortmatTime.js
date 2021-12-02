@@ -10,7 +10,7 @@ export const formatTime = (time) => {
   const today = new Date();
   const days = moment(today).diff(time, 'days');
   let result;
-  if (days >= 1) {
+  if (days >= 30) {
     result = formattedOriginalTime;
   } else {
     result = moment(time).fromNow();

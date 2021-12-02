@@ -1,8 +1,9 @@
 .alert.alert-secondary {
   color: $body-color;
   &.alert-dismissible .close {
-    &, & > span:not(.sr-only) {
-      color: rgba($body-color, .75);
+    &,
+    & > span:not(.sr-only) {
+      color: rgba($body-color, 0.75);
     }
   }
 }
