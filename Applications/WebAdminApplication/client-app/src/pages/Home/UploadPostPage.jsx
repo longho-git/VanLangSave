@@ -191,6 +191,7 @@ function UploadPostPage() {
                 name="title"
                 placeholder="Tiêu đề."
                 label="Tiêu đề"
+                maxlength="75"
                 required
                 rules={{
                   required: '*Vui lòng không bỏ trống',
@@ -245,6 +246,8 @@ function UploadPostPage() {
                 placeholder="Số lượng"
                 label="Số lượng"
                 type="number"
+                min="1"
+                max="10"
                 required
                 rules={{
                   required: '*Vui lòng không bỏ trống',
