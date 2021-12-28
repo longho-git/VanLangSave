@@ -22,6 +22,7 @@ import InputCustom from 'layouts/component/SmartFormHook/InputCustom/InputCustom
 import categoryService from 'services/category.service';
 import BackgroudUpload from 'pages/components/Upload/BackgroudUpload';
 import ReactNotificationAlert from 'react-notification-alert';
+import userService from 'services/user.service';
 // core components
 
 function UploadPostPage() {
@@ -32,6 +33,8 @@ function UploadPostPage() {
   const [defaultValues, setDefaultValues] = useState({});
   const [categories, setCategories] = useState([]);
   const [submit, setSubmit] = useState(false);
+  const [noProfile, setNoProfile] = useState(false);
+  const [noProfileMessage, setNoProfileMessage] = useState('');
   const form = new URLSearchParams(location).get('form');
   const id = new URLSearchParams(location).get('id');
   const notificationAlertRef = React.useRef(null);
@@ -41,7 +44,6 @@ function UploadPostPage() {
       message: (
         <div className="alert-text">
           <span className="alert-title" data-notify="title">
-            {' '}
             {type}
           </span>
           <span data-notify="message">{message}</span>
@@ -54,8 +56,21 @@ function UploadPostPage() {
     notificationAlertRef.current.notificationAlert(options);
   };
   useEffect(() => {
+    userService.getUserProfile(userProfile.userId).then((req) => {
+      if (req.phoneNumber === undefined) {
+        setNoProfile(true);
+        setNoProfileMessage('số điện thoại liên lạc');
+      } else if (req.address === undefined) {
+        setNoProfile(true);
+        setNoProfileMessage('địa chỉ liên lạc');
+      } else if (req.phoneNumber === undefined && req.Address === undefined) {
+        setNoProfile(true);
+        setNoProfileMessage('thông tin tài khoản');
+      }
+    });
     getCategories();
     form === 'edit' && getPost(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form, id]);
   const getCategories = () => {
     categoryService.getCategories().then((data) => {
@@ -73,7 +88,7 @@ function UploadPostPage() {
     });
   }
   const onSubmit = (data) => {
-    if (imagePost.length === 0) {
+    if (imagePost.length === 0 || imagePost[0].src === '') {
       notify('danger', 'Vui lòng thêm ảnh');
       return;
     }
@@ -161,144 +176,166 @@ function UploadPostPage() {
             </Row>
           </CardHeader>
           <CardBody className="bg-white">
-            <Row className="align-items-center">
-              <Col className="col-auto">
-                <a
-                  className="avatar avatar-sm rounded-circle"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <img
-                    alt="..."
-                    src={
-                      userProfile.avatarURL
-                        ? userProfile.avatarURL
-                        : 'https://www.dropbox.com/s/t4jamyq65xt41uo/t3ohtfyk.cjw.png?dl=1'
-                    }
-                  />
-                </a>
-              </Col>
-              <div className="col ml--2">
-                <h4 className="mb-0">
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                    {userProfile.lastName + ' ' + userProfile.firstName}
-                  </a>
-                </h4>
-              </div>
-            </Row>
-            <FormCustom onSubmit={onSubmit} defaultValues={defaultValues}>
-              <InputCustom
-                name="title"
-                placeholder="Tiêu đề."
-                label="Tiêu đề"
-                maxlength="75"
-                required
-                rules={{
-                  required: '*Vui lòng không bỏ trống',
-                }}
-              />
-              <SelectCustom
-                label="Hình thức"
-                name="type"
-                options={[
-                  {
-                    name: 'Tặng',
-                    id: 1,
-                  },
-                  {
-                    name: 'Trao đổi',
-                    id: 2,
-                  },
-                ]}
-              />
-              <SelectCustom
-                label="Tình trạng sản phẩm"
-                name="condition"
-                options={[
-                  {
-                    name: 'Mới',
-                    id: 1,
-                  },
-                  {
-                    name: 'Đã qua sử dụng',
-                    id: 2,
-                  },
-                ]}
-              />
-              <SelectCustom
-                label="Danh mục bài viết"
-                name="categoryId"
-                options={categories}
-              />
-              <InputCustom
-                name="content"
-                placeholder="Mô tả."
-                label="Mô tả"
-                rows="5"
-                textarea
-                required
-                rules={{
-                  required: '*Vui lòng không bỏ trống',
-                }}
-              />
-              <InputCustom
-                name="quantity"
-                placeholder="Số lượng"
-                label="Số lượng"
-                type="number"
-                min="1"
-                max="10"
-                required
-                rules={{
-                  required: '*Vui lòng không bỏ trống',
-                }}
-              />
-              <Col sm="12">
-                {imagePost.length < 3 && (
-                  <Button color="info" onClick={() => addImage()}>
-                    <i className="fa fa-plus" /> Thêm ảnh
-                  </Button>
-                )}
-                {imagePost.length > 0 && (
-                  <Button color="danger" onClick={() => removeImage()}>
-                    <i className="fa fa-times" /> Xoá ảnh
-                  </Button>
-                )}
-                <Row className="mt-3">
-                  {imagePost.map((item, i) => (
-                    <Col md={4}>
-                      <BackgroudUpload
-                        key={i}
-                        onChange={(src) => updateFieldChanged(i, src)}
-                        imageInit={item.src}
-                        mainPost={item.mainPost}
-                        updateMainPost={(value) => updateMainPost(i, value)}
-                        checkBox={i}
-                      />
-                    </Col>
-                  ))}
-                </Row>
-              </Col>
-              <Col>
-                {submit ? (
-                  <Button
-                    className="mb-2"
-                    color="primary"
-                    disabled
-                    size="lg"
-                    block
-                    type="button"
+            {!noProfile && (
+              <Row className="align-items-center">
+                <Col className="col-auto">
+                  <a
+                    className="avatar avatar-sm rounded-circle"
+                    href="#pablo"
+                    onClick={(e) => e.preventDefault()}
                   >
-                    <Spinner color="" type={'border'} size="sm"></Spinner>{' '}
-                    Loading...
-                  </Button>
-                ) : (
-                  <Button block color="primary">
-                    {form === 'edit' ? 'Lưu' : '  Đăng bài'}
-                  </Button>
-                )}
-              </Col>
-            </FormCustom>
+                    <img
+                      alt="..."
+                      src={
+                        userProfile.avatarURL
+                          ? userProfile.avatarURL
+                          : 'https://www.dropbox.com/s/t4jamyq65xt41uo/t3ohtfyk.cjw.png?dl=1'
+                      }
+                    />
+                  </a>
+                </Col>
+
+                <div className="col ml--2">
+                  <h4 className="mb-0">
+                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                      {userProfile.lastName + ' ' + userProfile.firstName}
+                    </a>
+                  </h4>
+                </div>
+              </Row>
+            )}
+            {!noProfile ? (
+              <FormCustom onSubmit={onSubmit} defaultValues={defaultValues}>
+                <InputCustom
+                  name="title"
+                  placeholder="Tiêu đề."
+                  label="Tiêu đề"
+                  required
+                  rules={{
+                    required: '*Vui lòng không bỏ trống',
+                  }}
+                />
+                <SelectCustom
+                  label="Hình thức"
+                  name="type"
+                  options={[
+                    {
+                      name: 'Tặng',
+                      id: 1,
+                    },
+                    {
+                      name: 'Trao đổi',
+                      id: 2,
+                    },
+                  ]}
+                />
+                <SelectCustom
+                  label="Tình trạng sản phẩm"
+                  name="condition"
+                  options={[
+                    {
+                      name: 'Mới',
+                      id: 1,
+                    },
+                    {
+                      name: 'Đã qua sử dụng',
+                      id: 2,
+                    },
+                  ]}
+                />
+                <SelectCustom
+                  label="Danh mục bài viết"
+                  name="categoryId"
+                  options={categories}
+                />
+                <InputCustom
+                  name="content"
+                  placeholder="Mô tả."
+                  label="Mô tả"
+                  rows="5"
+                  textarea
+                  required
+                  rules={{
+                    required: '*Vui lòng không bỏ trống',
+                  }}
+                />
+                <InputCustom
+                  name="quantity"
+                  placeholder="Số lượng"
+                  label="Số lượng"
+                  type="number"
+                  min='1'
+                  max='10'
+                  required
+                  rules={{
+                    required: '*Vui lòng không bỏ trống',
+                  }}
+                />
+                <Col sm="12">
+                  {imagePost.length < 3 && (
+                    <Button color="info" onClick={() => addImage()}>
+                      <i className="fa fa-plus" /> Thêm ảnh
+                    </Button>
+                  )}
+                  {imagePost.length > 0 && (
+                    <Button color="danger" onClick={() => removeImage()}>
+                      <i className="fa fa-times" /> Xoá ảnh
+                    </Button>
+                  )}
+                  <Row className="mt-3">
+                    {imagePost.map((item, i) => (
+                      <Col md={4}>
+                        <BackgroudUpload
+                          key={i}
+                          onChange={(src) => updateFieldChanged(i, src)}
+                          imageInit={item.src}
+                          mainPost={item.mainPost}
+                          updateMainPost={(value) => updateMainPost(i, value)}
+                          checkBox={i}
+                        />
+                      </Col>
+                    ))}
+                  </Row>
+                </Col>
+                <Col>
+                  {submit ? (
+                    <Button
+                      className="mb-2"
+                      color="primary"
+                      disabled
+                      size="lg"
+                      block
+                      type="button"
+                    >
+                      <Spinner color="" type={'border'} size="sm"></Spinner>{' '}
+                      Loading...
+                    </Button>
+                  ) : (
+                    <Button block color="primary">
+                      {form === 'edit' ? 'Lưu' : '  Đăng bài'}
+                    </Button>
+                  )}
+                </Col>
+              </FormCustom>
+            ) : (
+              <>
+                <div className="container">
+                  <h5 className="h3 mb-0 text-center font-weight-700">
+                    Bạn chưa cập nhật {noProfileMessage}
+                  </h5>
+
+                  <div className="d-flex justify-content-center mt-4">
+                    <Button
+                      className=""
+                      color="primary"
+                      onClick={() => history.push('/profile')}
+                    >
+                      Cập nhật thông tin
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
           </CardBody>
         </Card>
       </Container>

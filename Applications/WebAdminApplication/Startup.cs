@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using ApplicationDomain.BOA.SIgnalR;
 using ApplicationDomain.Identity.Entities;
 using AspNetCore.Common.Azure;
 using AspNetCore.Common.ConnectionString;
@@ -90,7 +91,7 @@ namespace WebAdminApplication
                         .AllowCredentials();
                     });
             });
-
+            services.AddSignalR(options => { options.KeepAliveInterval = TimeSpan.FromSeconds(5); }).AddMessagePackProtocol();
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(EFConnectionString, sqlServerOptions =>
@@ -155,7 +156,7 @@ namespace WebAdminApplication
 
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "client-app/build";
+                configuration.RootPath = "wwwroot";
             });
 
             // ALL SERVICE REGISTERS SHOULD BE PLACED BEFORE THIS LINE
@@ -180,7 +181,10 @@ namespace WebAdminApplication
                  .AllowAnyMethod()
                  .AllowAnyHeader()
                  .AllowCredentials());
-
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<SignalrHub>("/signalr");
+            });
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();
@@ -188,7 +192,7 @@ namespace WebAdminApplication
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "index.html");
+                    template: "");
 
                 routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
             });
@@ -216,9 +220,10 @@ namespace WebAdminApplication
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
                 spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
-
+                //deploy
+                //spa.Options.SourcePath = "ClientApp";
             });
-
+          
 
         }
     }

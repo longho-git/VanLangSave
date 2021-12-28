@@ -23,6 +23,11 @@
 
   .card-title {
     margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+    -webkit-line-clamp: 1;
   }
 
   .card-header,

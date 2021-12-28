@@ -104,7 +104,7 @@ function InfomationPage({ isLoggedIn }) {
                       marginBottom: '1rem',
                     }}
                   ></hr>
-                  <NavItem>
+                  {/*<NavItem>
                     <NavLink
                       className={activeTab === 'tab2' ? 'active' : ''}
                       href="#pablo"
@@ -147,7 +147,7 @@ function InfomationPage({ isLoggedIn }) {
                       marginTop: '1rem',
                       marginBottom: '1rem',
                     }}
-                  ></hr>
+                  ></hr>*/}
                   {/* <NavItem>
                     <NavLink
                       className={activeTab === 'tab3' ? 'active' : ''}
@@ -193,7 +193,7 @@ function InfomationPage({ isLoggedIn }) {
                 <TabPane tabId="tab1">
                   {isLoggedIn && <AccountProfileForm />}
                 </TabPane>
-                <TabPane tabId="tab2">
+                {/*<TabPane tabId="tab2">
                   <header>
                     <h2 className="text-uppercase">Bài đăng</h2>
                   </header>
@@ -260,192 +260,8 @@ function InfomationPage({ isLoggedIn }) {
                       </Card>
                     </Col>
                   </Row>
-                </TabPane>
-                <TabPane tabId="tab4">
-                  <Container>
-                    <Row>
-                      <Col xs="12">
-                        <Alert className="text-small" color="primary">
-                          <i className="icon-shield"></i>
-                          <span>
-                            We will never distribute your email address to third
-                            parties. Read about email communication in our
-                            privacy policy.
-                          </span>
-                        </Alert>
-                      </Col>
-                    </Row>
-                    <hr></hr>
-                    <Row>
-                      <Col xs="12">
-                        <Form>
-                          <h5 className="mb-4">Notification Preferences</h5>
-                          <div className="custom-control custom-checkbox mb-3">
-                            <input
-                              className="custom-control-input"
-                              defaultChecked
-                              id="notification1"
-                              type="checkbox"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="notification1"
-                            >
-                              <span>Someone mentions me</span>
-                            </label>
-                          </div>
-                          <div className="custom-control custom-checkbox mb-3">
-                            <input
-                              className="custom-control-input"
-                              defaultChecked
-                              id="notification2"
-                              type="checkbox"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="notification2"
-                            >
-                              <span>Someone follows me</span>
-                            </label>
-                          </div>
-                          <div className="custom-control custom-checkbox mb-3">
-                            <input
-                              className="custom-control-input"
-                              id="notification3"
-                              type="checkbox"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="notification3"
-                            >
-                              <span>Someone shares my activty</span>
-                            </label>
-                          </div>
-                          <div className="custom-control custom-checkbox mb-3">
-                            <input
-                              className="custom-control-input"
-                              id="notification4"
-                              type="checkbox"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="notification4"
-                            >
-                              <span>Someone messages me</span>
-                            </label>
-                          </div>
-                          <div className="custom-control custom-checkbox mb-3">
-                            <input
-                              className="custom-control-input"
-                              id="notification5"
-                              type="checkbox"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="notification5"
-                            >
-                              <span>Someone adds me to a project</span>
-                            </label>
-                          </div>
-                          <div className="custom-control custom-checkbox mb-3">
-                            <input
-                              className="custom-control-input"
-                              id="notification6"
-                              type="checkbox"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="notification6"
-                            >
-                              <span>Sales and promotions</span>
-                            </label>
-                          </div>
-                          <Button
-                            className="mt-3 mb-5"
-                            color="primary"
-                            size="sm"
-                            type="submit"
-                          >
-                            Update preferences
-                          </Button>
-                        </Form>
-                      </Col>
-                    </Row>
-                    <hr></hr>
-                    <Row>
-                      <Col xs="12">
-                        <Form>
-                          <h5>Notification Frequency</h5>
-                          <div className="custom-control custom-radio mb-3">
-                            <input
-                              className="custom-control-input"
-                              id="freq1"
-                              name="custom-radio-1"
-                              type="radio"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="freq1"
-                            >
-                              <span>Daily</span>
-                            </label>
-                          </div>
-                          <div className="custom-control custom-radio mb-3">
-                            <input
-                              className="custom-control-input"
-                              id="freq2"
-                              name="custom-radio-1"
-                              type="radio"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="freq2"
-                            >
-                              <span>Weekly</span>
-                            </label>
-                          </div>
-                          <div className="custom-control custom-radio mb-3">
-                            <input
-                              className="custom-control-input"
-                              id="freq3"
-                              name="custom-radio-1"
-                              type="radio"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="freq3"
-                            >
-                              <span>Monthly</span>
-                            </label>
-                          </div>
-                          <div className="custom-control custom-radio mb-3">
-                            <input
-                              className="custom-control-input"
-                              defaultChecked
-                              id="freq4"
-                              name="custom-radio-1"
-                              type="radio"
-                            ></input>
-                            <label
-                              className="custom-control-label"
-                              htmlFor="freq4"
-                            >
-                              <span>Never</span>
-                            </label>
-                          </div>
-                          <Button
-                            className="mt-3"
-                            color="primary"
-                            size="sm"
-                            type="submit"
-                          >
-                            Update
-                          </Button>
-                        </Form>
-                      </Col>
-                    </Row>
-                  </Container>
-                </TabPane>
+                </TabPane>*/}
+
               </TabContent>
             </Card>
           </Col>

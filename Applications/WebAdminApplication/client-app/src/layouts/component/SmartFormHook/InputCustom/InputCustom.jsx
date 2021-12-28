@@ -51,6 +51,7 @@ function InputCustom({
             {...register(name, rules)}
             {...rest}
             type={type}
+            col={col}
             rows={rows}
             disabled={disabled}
             defaultValue={value}

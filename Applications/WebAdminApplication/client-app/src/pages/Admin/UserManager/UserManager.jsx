@@ -4,6 +4,7 @@ import PaginationTable from 'layouts/component/Table/PaginationTable';
 import SearchTable from 'layouts/component/Table/SearchTable';
 import React, { useMemo, useState, useEffect } from 'react';
 import {
+  Alert,
   Button,
   Card,
   CardFooter,
@@ -16,11 +17,13 @@ import {
   NavLink,
   Row,
   Table,
+  UncontrolledAlert,
   UncontrolledTooltip,
 } from 'reactstrap';
 import userService from 'services/user.service';
 import { formatTime } from 'utils/fortmatTime';
 import CreateAccountManager from './../../components/CreateAccountManager/CreateAccountManager';
+import ReactBSAlert from 'react-bootstrap-sweetalert';
 const headers = [
   {
     field: 'email',
@@ -38,6 +41,11 @@ const headers = [
     sortable: false,
   },
   {
+    field: 'status',
+    name: 'Kích hoạt',
+    sortable: false,
+  },
+  {
     field: '',
     name: '',
     sortable: false,
@@ -52,6 +60,8 @@ function UserManager(props) {
   const [sorting, setSorting] = useState({ field: '', order: '' });
   const [countValue, setCountValue] = useState(null);
   const [role, setRole] = useState('normal');
+  const [alert, setAlert] = useState(false);
+  const [error, setError] = useState(false);
   const [show, setShow] = useState(false);
   const postsData = useMemo(() => {
     let computedDatas = datas;
@@ -86,6 +96,27 @@ function UserManager(props) {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countValue, role]);
+
+  const activeUser = (id, active) => {
+    userService.activeUser(id, active).then(({ status }) => {
+      if (status === 400) {
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 2000);
+      } else {
+        setAlert(true);
+        userService.getUserByRole(role).then((req) => {
+          setDatas(req);
+          setCountValue(req.lenght);
+        });
+        setTimeout(() => {
+          setAlert(false);
+        }, 2000);
+      }
+    });
+  };
+
   return (
     <>
       <Modal
@@ -98,6 +129,44 @@ function UserManager(props) {
       </Modal>
       <AdminHeader name="Danh sách tài khoản" parentName="Hệ thông" />
       <Container className="mt--6" fluid>
+        <Alert color="danger" isOpen={error}>
+          <span className="alert-icon">
+            <i className="ni ni-like-2"></i>
+          </span>
+          <span className="alert-text">
+            <strong>Không thành công!</strong> Có lỗi khi thực hiện
+          </span>
+          <button
+            type="button"
+            className="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            onClick={() => {
+              setAlert(false);
+            }}
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </Alert>
+        <Alert color="success" isOpen={alert}>
+          <span className="alert-icon">
+            <i className="ni ni-like-2"></i>
+          </span>
+          <span className="alert-text">
+            <strong>success!</strong> Bạn đã cập nhật thành công
+          </span>
+          <button
+            type="button"
+            className="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            onClick={() => {
+              setAlert(false);
+            }}
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </Alert>
         <Row>
           <div className="col">
             <Card>
@@ -190,7 +259,36 @@ function UserManager(props) {
                             {item.userName}
                           </div>
                         </td>
+                        <td>
+                          <div
+                            className="font-weight-bold"
+                            style={{ maxWidth: 200 }}
+                          >
+                            {item.status ? 'Đã kích hoạt' : 'Chưa kích hoạt'}
+                          </div>
+                        </td>
+
                         <td className="table-actions text-right">
+                          <Button
+                            className=" btn-icon"
+                            color={item.status ? 'danger' : 'info'}
+                            size="sm"
+                            type="button"
+                            id="tooltip6010652343"
+                            onClick={() => activeUser(item.id, !item.status)}
+                          >
+                            {item.status ? (
+                              <i className="fas fa-ban"></i>
+                            ) : (
+                              <i className="fas fa-check"></i>
+                            )}
+                          </Button>
+                          <UncontrolledTooltip
+                            delay={0}
+                            target="tooltip6010652343"
+                          >
+                            {item.status ? 'Kích hoạt' : 'Vô hiệu hoá'}
+                          </UncontrolledTooltip>
                           <Button
                             className=" btn-icon"
                             color="danger"

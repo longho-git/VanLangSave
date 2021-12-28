@@ -24,12 +24,13 @@ export default function BackgroudUpload({
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
+
     if (
-      file.type !== 'jpeg' &&
-      file.type !== 'jpg' &&
-      file.type !== 'png' &&
-      file.type !== 'bmp' &&
-      file.type !== 'gif'
+      file.type !== 'image/jpeg' &&
+      file.type !== 'image/jpg' &&
+      file.type !== 'image/png' &&
+      file.type !== 'image/bmp' &&
+      file.type !== 'image/gif'
     ) {
       alert('Vui lòng chọn file đuôi PNG, GIF, JPEG, JPG, TIF, etc.!!');
       return false;

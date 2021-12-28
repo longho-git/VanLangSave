@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from 'reactstrap';
+import { Button, FormGroup } from 'reactstrap';
 import { FormCustom } from 'layouts/component/SmartFormHook/FormCustom/FormCustom';
 import authService from 'services/auth.service';
 import jwt_decode from 'jwt-decode';
@@ -57,10 +57,12 @@ function SignInFormAdmin(props) {
             required: 'Vui lòng không bỏ trống',
           }}
         />
-        <Button className="mt-3" color="primary">
-          Đăng nhập
-        </Button>
+        <div className="col-12">
+          <Button color="primary">Đăng nhập</Button>
+        </div>
       </FormCustom>
+
+      {error && <div className="text-danger">{error}</div>}
     </>
   );
 }

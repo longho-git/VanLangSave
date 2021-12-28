@@ -126,6 +126,7 @@ function PostsActive() {
         }, 2000);
       }
     });
+    
   };
 
   const hiddenPost = (id) => {

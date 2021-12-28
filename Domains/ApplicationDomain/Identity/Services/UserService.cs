@@ -29,11 +29,9 @@ namespace ApplicationDomain.Identity.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IUserProfileRepository _userProfileRepository;
-        private readonly IRoleRepository _roleRepository;
+        private readonly UserManager<User> _userManagement;
         private readonly IEmailSender _emailSender;
         private readonly IEmailRepository _emailTemplateRepository;
-        private readonly UserManager<User> _userManagement;
-        private readonly RoleManager<Role> _roleManager;
         public UserService(
             IMapper mapper,
             IUnitOfWork uow,
@@ -50,8 +48,6 @@ namespace ApplicationDomain.Identity.Services
             _userProfileRepository = userProfileRepository;
             _userManagement = userManagement;
             _emailSender = emailSender;
-            _roleManager = roleManager;
-            _roleRepository = roleRepository;
             _emailTemplateRepository = emailTemplateRepository;
         }
 
@@ -103,19 +99,18 @@ namespace ApplicationDomain.Identity.Services
             return result;
         }
 
-        public async Task<int> CreateUserAsync(CreatedUserRq model, UserIdentity<int> issuer = null)
+        public async Task<User> CreateUserAsync(CreatedUserRq model, UserIdentity<int> issuer = null)
         {
             try
             {
                 model.Status = true;
                 model.UserName = model.Email;
-               
                 var user = _mapper.Map<User>(model);
                 if (issuer != null)
                 {
                     user.CreateBy(issuer).UpdateBy(issuer);
                 }
-                string password = model.Password;
+                var password = AutoGenerate.OneWayEncryption(model.UniqueId);
                 var identityResult = await _userManagement.CreateAsync(user, password);
 
                 if (!identityResult.Succeeded)
@@ -135,12 +130,13 @@ namespace ApplicationDomain.Identity.Services
                     CreatedByUserName = user.UserName,
                     BirthDay= model.BirthDay,
                     CreatedDate = DateTimeOffset.Now,
+                    Email= model.Email,
                     AvatarURL = "https://www.dropbox.com/s/qinze1b6wxs2mu3/rerts1zk.gfo.png?dl=1",
                 };
 
                 _userProfileRepository.Create(userProfileEntity);
                 await _uow.SaveChangesAsync();
-                return user.Id;
+                return user;
             }
             catch (Exception ex)
             {
@@ -148,6 +144,72 @@ namespace ApplicationDomain.Identity.Services
             }
         }
 
+        public async Task<int> CreateUserManagerAsync(CreatedUserRq model, UserIdentity<int> issuer = null)
+        {
+            try
+            {
+                model.Status = true;
+                model.UserName = model.Email;
+                var user = _mapper.Map<User>(model);
+                if (issuer != null)
+                {
+                    user.CreateBy(issuer).UpdateBy(issuer);
+                }
+                var generatePassword= AutoGenerate.AutoGeneratePassword(8, true, true);
+                var password = generatePassword;
+                var identityResult = await _userManagement.CreateAsync(user, password);
+
+                if (!identityResult.Succeeded)
+                {
+                    throw CreateException(identityResult.Errors);
+                }
+
+                await _userManagement.AddToRoleAsync(user, ROLE_CONSTANT.MANAGER);
+
+
+                var userProfileEntity = new UserProfile()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    CreatedByUserId = user.Id,
+                    UserId = user.Id,
+                    CreatedByUserName = user.UserName,
+                    BirthDay = model.BirthDay,
+                    CreatedDate = DateTimeOffset.Now,
+                    AvatarURL = "https://www.dropbox.com/s/qinze1b6wxs2mu3/rerts1zk.gfo.png?dl=1",
+                };
+
+                _userProfileRepository.Create(userProfileEntity);
+                if (await _uow.SaveChangesAsync() <= 0) return 0;
+                var emailTemplate =
+                    await _emailTemplateRepository.GetEmailTemplateByNameAsync("NewUserEmail");
+                emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#email", model.Email);
+                emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#username", model.Email);
+                emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#password", password);
+                try
+                {
+                    await _emailSender.SendEmailAsync(model.Email, emailTemplate.EmailSubject,
+                        emailTemplate.EmailContent, true);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                return user.Id;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<User> FindByNameAsync(string userName)
+        {
+            var user = await _userManagement.FindByNameAsync(userName);
+            if (user == null) return null;
+            return user;
+        }
 
         private Exception CreateException(IEnumerable<IdentityError> errors)
         {
@@ -166,15 +228,31 @@ namespace ApplicationDomain.Identity.Services
 
             return exception;
         }
-
-        public async Task<int> UpdateUserAsync(int id, UpdatedUserRq model, UserIdentity<int> issuer)
+        public async Task<User> ChangePass(int id, string uniqueId)
         {
             var user = await _userManagement.FindByIdAsync(id.ToString());
-            _mapper.Map(model, user);
-            user.UpdateBy(issuer);
+            var token = await _userManagement.GeneratePasswordResetTokenAsync(user);
+            await _userManagement.ResetPasswordAsync(user, token, uniqueId);
+            await _uow.SaveChangesAsync();
+            return user;
+        }
+        public async Task<User> UpdateUserAsync(int id, string uniqueId)
+        {
+            var user = await _userManagement.FindByIdAsync(id.ToString());
+            user.UniqueId = uniqueId;
+            await _userManagement.UpdateAsync(user);
+            var token = await _userManagement.GeneratePasswordResetTokenAsync(user);
+            await _userManagement.ResetPasswordAsync(user,token, uniqueId);
+            await _uow.SaveChangesAsync();
+            return user;
+        }
+        public async Task<User> ActiveUserAsync(int id, bool active)
+        {
+            var user = await _userManagement.FindByIdAsync(id.ToString());
+            user.Status = active;
             await _userManagement.UpdateAsync(user);
             await _uow.SaveChangesAsync();
-            return user.Id;
+            return user;
         }
 
         public async Task<bool> DeleteUserAsync(int id)
@@ -285,36 +363,22 @@ namespace ApplicationDomain.Identity.Services
             }
         }
 
-   
-
-        public async Task<IEnumerable<User>> GetManagerUsersAsync()
+        public IEnumerable<UserModel> GetUsersNormalsAsync()
         {
             try
             {
-                return await _userRepository.GetManagerUsers().ToListAsync();
+                return  _userRepository.GetUsersNormal().Cast<UserModel>();
             }
             catch (Exception e)
             {
                 throw e;
             }
         } 
-
-        public async Task<IEnumerable<User>> GetDirectorUsersAsync()
+        public IEnumerable<UserModel> GetManagerUsersAsync()
         {
             try
             {
-                return await _userRepository.GetDirectorUsers().ToListAsync();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        } 
-        public async Task<IEnumerable<User>> GetEmployeeUsersAsync()
-        {
-            try
-            {
-                return await _userRepository.GetEmployeeUsers().ToListAsync();
+                return  _userRepository.GetManagerUsers().Cast<UserModel>();
             }
             catch (Exception e)
             {
@@ -328,18 +392,10 @@ namespace ApplicationDomain.Identity.Services
                 var entity = new User()
                 {
                     UserName = model.UserName,
-                    PasswordHash = model.Password,
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber
                 };
-                string password = model.Password;
 
-                var identityResult = await _userManagement.CreateAsync(entity, password);
-
-                if (!identityResult.Succeeded)
-                {
-                    throw CreateException(identityResult.Errors);
-                }
                 var rs = await _userManagement.AddToRoleAsync(entity, model.Role);
                 return entity.Id;
             }

@@ -84,7 +84,7 @@ function AccountProfileForm() {
         >
           <InputCustom
             name="lastName"
-            placeholder="Nguyễn, Lê,..."
+            placeholder="Nguyễn, Phạm,..."
             col={6}
             label="Họ"
             disabled={!edit}
@@ -94,7 +94,7 @@ function AccountProfileForm() {
           />
           <InputCustom
             name="firstName"
-            placeholder="Hùng,Tùng,..."
+            placeholder="Nam, Khang, Đức, Hồ,..."
             col={4}
             disabled={!edit}
             label="Tên"
@@ -121,9 +121,12 @@ function AccountProfileForm() {
 
           <InputCustom
             name="address"
-            placeholder="Địa chỉ"
+            placeholder="1/1/1 Cao chiêm"
             disabled={!edit}
             label="Địa chỉ"
+            rules={{
+              required: 'Vui lòng không bỏ trống',
+            }}
           />
           <InputCustom
             name="email"
@@ -133,6 +136,10 @@ function AccountProfileForm() {
             label="Email"
             rules={{
               required: 'Vui lòng không bỏ trống',
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: 'Giá trị nhập không đúng(vd:ABC@gmail.com)',
+              },
             }}
           />
           <InputCustom
@@ -141,6 +148,13 @@ function AccountProfileForm() {
             placeholder="Số điện thoại"
             col={6}
             label="Số điện thoại"
+            rules={{
+              required: 'Vui lòng không bỏ trống',
+              pattern: {
+                value: /[0-9]{9,12}/,
+                message: 'Vui lòng nhập đúng định dạng số',
+              },
+            }}
           />
           <Col md="6">
             {submit ? (

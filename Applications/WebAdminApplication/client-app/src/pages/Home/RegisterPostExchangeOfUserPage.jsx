@@ -250,7 +250,7 @@ function RegisterPostExchangeOfUserPage() {
                             {item.postStatuts === 4 ||
                             item.postStatuts === 5 ? (
                               <a
-                                className="font-weight-bold"
+                                className="font-weight-bold text-truncate"
                                 onClick={() =>
                                   openInNewTab(`/post/${item.postId}`)
                                 }
@@ -260,7 +260,7 @@ function RegisterPostExchangeOfUserPage() {
                               </a>
                             ) : (
                               <div
-                                className="font-weight-bold"
+                                className="font-weight-bold text-truncate"
                                 href="#pablo"
                                 style={{ maxWidth: 100 }}
                               >
@@ -332,7 +332,7 @@ function RegisterPostExchangeOfUserPage() {
                                     size="sm"
                                     type="button"
                                     id="tooltip1"
-                                    onClick={() => setOpenModal(true)}
+                                    onClick={() => setOpenModalForm(true)}
                                   >
                                     <i className="fas fa-window-close"></i>
                                   </Button>
@@ -351,14 +351,14 @@ function RegisterPostExchangeOfUserPage() {
                                   color="danger"
                                   size="sm"
                                   type="button"
-                                  id="tooltip233"
+                                  id="tooltip2323"
                                   onClick={() => setOpenModal(true)}
                                 >
                                   <i className="fas fa-eye pt-1"></i>
                                 </Button>
                                 <UncontrolledTooltip
                                   delay={0}
-                                  target="tooltip233"
+                                  target="tooltip2323"
                                 >
                                   Xem lý do từ chối
                                 </UncontrolledTooltip>
@@ -371,14 +371,14 @@ function RegisterPostExchangeOfUserPage() {
                                   color="info"
                                   size="sm"
                                   type="button"
-                                  id="tooltip2"
+                                  id="tooltip232"
                                   onClick={() => rowEvent(item.post.userId)}
                                 >
                                   <i className="fas fa-eye pt-1"></i>
                                 </Button>
                                 <UncontrolledTooltip
                                   delay={0}
-                                  target="tooltip2"
+                                  target="tooltip232"
                                 >
                                   Xem thông tin liên lạc
                                 </UncontrolledTooltip>

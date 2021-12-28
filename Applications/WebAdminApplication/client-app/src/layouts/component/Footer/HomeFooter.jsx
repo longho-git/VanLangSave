@@ -17,7 +17,7 @@ function HomeFooter(props) {
         <footer className="footer bg-transparent">
           <Container>
             <Row>
-              <Col md="4">
+              <Col md="5">
                 <div className="column">
                   <img
                     alt="..."
@@ -26,60 +26,9 @@ function HomeFooter(props) {
                   ></img>
                 </div>
               </Col>
-              <Col md="2" xs="6">
-                <div className="column">
-                  <h4 className="mt-3">Danh mục</h4>
-                  <ul>
-                    <li>
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                        <span>Payments</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                        <span>Billing</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                        <span>Connect</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                        <span>Sigma</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                        <span>Issuing</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                        <span>Terminal</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </Col>
-              <Col md="2" xs="6">
-                <div className="column">
-                  <h4 className="mt-3">Menu</h4>
-                  <ul>
-                    <NavItem>
-                      <a href="https://creative-tim.com/contact-us">
-                        Trang chủ
-                      </a>
-                    </NavItem>
-                    <NavItem>
-                      <a href="https://creative-tim.com/about-us">Danh mục</a>
-                    </NavItem>
-                  </ul>
-                </div>
-              </Col>
 
-              <Col md="3" xs="6">
+
+              <Col md="6" xs="6">
                 <div className="column">
                   <h4 className="mt-3">TRƯỜNG ĐẠI HỌC VĂN LANG</h4>
                   <div className="social-feed">

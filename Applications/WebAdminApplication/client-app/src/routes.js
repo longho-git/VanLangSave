@@ -3,6 +3,7 @@ import PostsActive from 'pages/Admin/PostsActive/PostsActive';
 import PostsWaiting from 'pages/Admin/PostsWaiting/PostsWaiting';
 import UserManager from 'pages/Admin/UserManager/UserManager';
 import HistoryRegisterPage from './pages/Admin/HistoryRegister/HistoryRegisterPage';
+import DashBoard from 'pages/Admin/DashBoard/DashBoardPage';
 
 const routes = [
   {
@@ -50,6 +51,14 @@ const routes = [
         name: 'Đã duyệt',
         miniName: 'R',
         component: PostsActive,
+        layout: '/admin',
+        isView: 'Manager',
+      },
+      {
+        path: '/dashBoard',
+        name: 'Thống kê',
+        miniName: 'T',
+        component: DashBoard,
         layout: '/admin',
         isView: 'Manager',
       },

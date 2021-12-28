@@ -1,13 +1,14 @@
 import RegisterPostGive from 'pages/components/RegisterPostDialog/RegisterPostGive';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import {
   Badge,
   Button,
   ButtonGroup,
   Card,
   CardBody,
+  CardHeader,
   Col,
   Container,
   Media,
@@ -22,6 +23,7 @@ import { formatTime } from './../../utils/fortmatTime';
 import Scrollbars from 'react-custom-scrollbars';
 import PostByCategory from 'pages/components/PostByCategory/PostByCategory';
 import RegisterPostExchange from 'pages/components/RegisterPostDialog/RegisterPostExchange';
+import userService from 'services/user.service';
 
 // Core Components
 
@@ -29,12 +31,33 @@ function PostPage({ isLoggedIn }) {
   const userProfile = useSelector((state) => state.login.userProfile);
   const [post, setPost] = useState({});
   const [items, setItems] = useState([]);
+  const history = useHistory();
   const { id } = useParams();
   const [show, setShow] = useState(false);
+  const [noProfile, setNoProfile] = useState(false);
+  const [noProfileMessage, setNoProfileMessage] = useState('');
   const handleClose = () => {
     setShow(false);
   };
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    userService.getUserProfile(userProfile.userId).then((req) => {
+      console.log(
+        '🚀 ~ file: PostPage.jsx ~ line 44 ~ userService.getUserProfile ~ req',
+        req,
+      );
+      if (req.phoneNumber === undefined && req.address === undefined) {
+        setNoProfileMessage('thông tin tài khoản');
+        setNoProfile(true);
+      } else if (req.address === undefined) {
+        setNoProfileMessage('địa chỉ liên lạc');
+        setNoProfile(true);
+      } else if (req.phoneNumber === undefined) {
+        setNoProfileMessage('số điện thoại liên lạc');
+        setNoProfile(true);
+      }
+      setShow(true);
+    });
+  };
   useEffect(() => {
     getPost(id);
   }, [id]);
@@ -55,7 +78,22 @@ function PostPage({ isLoggedIn }) {
         toggle={() => handleClose()}
         isOpen={show}
       >
-        {post.type === 1 ? (
+        {noProfile ? (
+          <Card className="bg-secondary border-0 mb-0">
+            <h5 className="h3 mb-0 text-center font-weight-700 mt-3">
+              Bạn chưa cập nhật {noProfileMessage}
+            </h5>
+            <div className="d-flex justify-content-center mt-4 mb-4">
+              <Button
+                className=""
+                color="primary"
+                onClick={() => history.push('/profile')}
+              >
+                Cập nhật thông tin
+              </Button>
+            </div>
+          </Card>
+        ) : post.type === 1 ? (
           <RegisterPostGive closeModal={() => handleClose()} postId={post.id} />
         ) : (
           <RegisterPostExchange
@@ -78,7 +116,7 @@ function PostPage({ isLoggedIn }) {
               <Row>
                 <Col md="7" className="mx-auto">
                   <blockquote className="blockquote">
-                    <h4 className="display-4 text-uppercase">{post.title}</h4>
+                    <h4 className="display-4 text-uppercase cus-txt">{post.title}</h4>
                     <footer className="blockquote-footer">
                       <cite title="Source Title">
                         {formatTime(post.createdDate)}

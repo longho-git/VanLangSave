@@ -90,6 +90,22 @@ class UserService {
       });
   }
 
+  activeUser(userId, active) {
+    const token = localStorage.getItem('token');
+    const accessToken = JSON.parse(token);
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+    return axios
+      .put(API_URL + `User/active/${userId}/${active}`, config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  }
+
   updateUserProfile(userId, data) {
     const token = localStorage.getItem('token');
     const accessToken = JSON.parse(token);

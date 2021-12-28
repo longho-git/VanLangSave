@@ -17,19 +17,24 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ApplicationDomain.Identity.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace ApplicationDomain.BOA.Services
 {
     public class UserProfileService : ServiceBase, IUserProfileService
     {
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly UserManager<User> _userManagement;
         public UserProfileService(
+            UserManager<User> userManagement,
             IUserProfileRepository userProfileRepository,
             IMapper mapper,
             IUnitOfWork uow
             ) : base(mapper, uow)
         {
             _userProfileRepository = userProfileRepository;
+            _userManagement = userManagement;
         }
 
         public async Task<IEnumerable<UserProfileModel>> GetUserProfilesAsync()
@@ -66,15 +71,19 @@ namespace ApplicationDomain.BOA.Services
         {
             try
             {
+              
                 var userProfile = await _userProfileRepository.GetEntityByIdAsync(id);
                 if (userProfile == null)
                 {
                     return 0;
                 }
+                var user = await _userManagement.FindByIdAsync(userProfile.UserId.ToString());
+                user.PhoneNumber = model.PhoneNumber;
+                await _userManagement.UpdateAsync(user);
                 _mapper.Map( model, userProfile);
                 userProfile.UpdateBy(issuer);
                 _userProfileRepository.Update(userProfile);
-                return await _uow.SaveChangesAsync() == 1 ? id : 0;
+                return await _uow.SaveChangesAsync() > 0 ? id : 0;
             }
             catch (Exception e)
             {

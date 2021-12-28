@@ -169,7 +169,7 @@ function AdminSidebar({ toggleSidenav, sidenavOpen, routes, logo, rtlActive }) {
   }
   const scrollBarInner = (
     <div className="scrollbar-inner">
-      <div className="sidenav-header d-flex align-items-center">
+      <div className="sidenav-header d-flex align-items-center bg-info">
         {logo ? (
           <NavbarBrand {...navbarBrandProps}>
             <img

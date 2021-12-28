@@ -229,6 +229,7 @@ function HistoryRegisterPage({ postId }) {
                     })}
                   </tbody>
                 </Table>
+                
               </Card>
             </div>
           </Row>

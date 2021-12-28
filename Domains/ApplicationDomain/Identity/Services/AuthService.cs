@@ -20,16 +20,19 @@ namespace ApplicationDomain.Identity.Services
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly IEmailService _emailService;
+        private readonly IUserService _userService;
         public AuthService(
             IMapper mapper,
             IUnitOfWork uow,
             SignInManager<User> signInManager,
             UserManager<User> userManager,
             IEmailService emailService,
+            IUserService userService,
             IUserRepository userRepository
             ) : base(mapper, uow)
         {
             _userRepository = userRepository;
+            _userService = userService;
             _signInManager = signInManager;
             _userManager = userManager;
             _emailService = emailService;
@@ -37,20 +40,22 @@ namespace ApplicationDomain.Identity.Services
 
         public async Task<SignInModel> SignInAsync(string userName, string password, bool lockoutOnFailure)
         {
-            var user = await _userManager.FindByEmailAsync(userName);
-
+            var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
             {
-                user = await _userManager.FindByNameAsync(userName);
-                if (user == null)
+                return new SignInModel
                 {
-                    return new SignInModel
-                    {
-                        Succeeded = false
-                    };
-                }
+                    Succeeded = false
+                };
             }
 
+            if (!user.Status)
+            {
+                return new SignInModel
+                {
+                    IsNotAllowed = true
+                };
+            }
             var signInResult = new SignInModel(await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure));
             if (!signInResult.Succeeded)
             {
@@ -64,6 +69,26 @@ namespace ApplicationDomain.Identity.Services
                 UserName = user.UserName,
             };
             return signInResult;
+        }
+        public async Task<User> SignInMSALAsync(EmailMSRq modelRq)
+        {
+            try
+            {
+                var user = await _userService.FindByNameAsync(modelRq.UserName);
+                if (user == null)
+                {
+                    if (modelRq.UniqueId != string.Empty)
+                    {
+                        //var userId = await _userService.CreateUserMSAAsync(modelRq.UserName, modelRq.Email, modelRq.UniqueId);
+                        user = await _userService.FindByNameAsync(modelRq.UserName);
+                    }
+                }
+                return user;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
         public async Task<bool> CheckEmailAsync(string email)
         {

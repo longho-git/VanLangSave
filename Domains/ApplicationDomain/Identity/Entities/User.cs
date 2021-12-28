@@ -22,6 +22,7 @@ namespace ApplicationDomain.Identity.Entities
         public string UpdatedByUserName { set; get; }
         public string NetResetCode { set; get; }
         public string ResetCode { set; get; }
+         public string UniqueId { get; set; }
 
         public User()
         {

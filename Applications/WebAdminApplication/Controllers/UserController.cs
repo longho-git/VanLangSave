@@ -204,6 +204,21 @@ namespace WebAdminApplication.Controllers
             }
         }
 
+        [Route("active/{userId}/{active}")]
+        [HttpPut]
+        public async Task<IActionResult> RegisterUserAsync(int userId,bool active)
+        {
+            try
+            {
+          
+                return Ok(await _userService.ActiveUserAsync(userId,active));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+
         [Route("manager/create")]
         [HttpPost]
         public async Task<IActionResult> CreateManagerUserAsync([FromBody] CreatedUserRq model)

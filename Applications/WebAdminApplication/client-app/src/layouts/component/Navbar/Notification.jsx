@@ -16,6 +16,7 @@ import notificationService from 'services/notification.service';
 import { formatTime } from 'utils/fortmatTime';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import ReactNotificationAlert from 'react-notification-alert';
 const WS_URL = process.env.REACT_APP_WS_ENDPOINT;
 function Notification(props) {
   const userProfile = useSelector((state) => state.login.userProfile);
@@ -23,7 +24,24 @@ function Notification(props) {
   const [notifications, setNotifications] = useState([]);
   const history = useHistory();
   const [countNotifications, setCountNotifications] = useState(0);
-
+  const notificationAlertRef = React.useRef(null);
+  const notify = (type, message) => {
+    let options = {
+      place: 'tc',
+      message: (
+        <div className="alert-text">
+          <span className="alert-title" data-notify="title">
+            {type}
+          </span>
+          <span data-notify="message">{message}</span>
+        </div>
+      ),
+      type: type,
+      icon: 'ni ni-bell-55',
+      autoDismiss: 7,
+    };
+    notificationAlertRef.current.notificationAlert(options);
+  };
   useEffect(() => {
     const connect = new HubConnectionBuilder()
       .withUrl(WS_URL + 'signalr')
@@ -53,6 +71,7 @@ function Notification(props) {
           connection.on('BroadcastMessage', (message) => {
             if (message.recipientId === userProfile.id) {
               getNotification();
+              notify('info', 'Bạn có 1 thông báo mới');
             }
           });
         })
@@ -62,6 +81,9 @@ function Notification(props) {
   }, [connection]);
   return (
     <UncontrolledDropdown nav>
+      <div className="rna-wrapper">
+        <ReactNotificationAlert ref={notificationAlertRef} />
+      </div>
       <DropdownToggle className="nav-link" color="" tag="a">
         <div className="nav-link-icon">
           <i className="ni ni-bell-55 "></i>

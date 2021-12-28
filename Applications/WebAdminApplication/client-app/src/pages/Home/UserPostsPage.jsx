@@ -217,13 +217,13 @@ function UserPostsPage() {
                               <a
                                 className="font-weight-bold"
                                 onClick={() => pushUrl(`/post/${item.id}`)}
-                                style={{ maxWidth: 200 }}
+                                style={{ maxWidth: 100 }}
                               >
                                 {item.title}
                               </a>
                             ) : (
                               <div
-                                className="font-weight-bold"
+                                className="font-weight-bold text-truncate"
                                 href="#pablo"
                                 style={{ maxWidth: 200 }}
                               >

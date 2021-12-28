@@ -10,9 +10,9 @@ namespace ApplicationDomain.Identity.IRepositories
     public interface IUserRepository : IGenericRepository<User, int>
     {
         IQueryable GetUsers();
-        IQueryable<User> GetManagerUsers();
-        IQueryable<User> GetDirectorUsers();
-        IQueryable<User> GetEmployeeUsers();
+        IQueryable<User> GetSYSADMINUsers();
+        IQueryable GetUsersNormal();
+        IQueryable GetManagerUsers();
         string GetNetResetCodeByResetCode(string code);
         Task<User> GetUserByPhoneNumber(string phoneNumber);
     }
