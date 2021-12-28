@@ -3,7 +3,7 @@
 ## Target framework:
 
 - .NET Core 2.2 
-- Angular 9.2.4
+- React
 
 
 ## IDE Recommend
