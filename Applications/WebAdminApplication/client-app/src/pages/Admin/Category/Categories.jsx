@@ -18,7 +18,7 @@ import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import CreateCategoryForm from 'pages/components/CreateCategoryForm/CreateCategoryForm';
 import categoryService from 'services/category.service';
 import CategoryDialog from 'pages/components/CategoryDialog/CategoryDialog';
-const { SearchBar } = Search;
+import SearchTable from 'layouts/component/Table/SearchTable';
 
 function Categories() {
   useEffect(() => {
@@ -62,7 +62,8 @@ function Categories() {
       </Modal>
     );
   };
-
+  const [search, setSearch] = useState('');
+  const ITEMS_PER_PAGE = 5;
   const [modalOpen, setModalOpen] = React.useState(false);
   const tableRender = useMemo(() => {
     return (
@@ -100,15 +101,10 @@ function Categories() {
                 id="datatable-basic_filter"
                 className="dataTables_filter px-4 pb-1"
               >
-                <label>
-                  Tìm kiếm:
-                  <SearchBar
-                    className="form-control-sm"
-                    placeholder=""
-                    {...props.searchProps}
-                  />
-                </label>
               </div>
+              <SearchTable
+                placeholder={'Nhập tên danh mục'}
+              />
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
@@ -154,7 +150,7 @@ function Categories() {
                             delay={0}
                             target="tooltip874640709"
                           >
-                            Edit product
+                            Cập nhật danh mục
                           </UncontrolledTooltip>
                           <a
                             className="table-action table-action-delete"
@@ -167,7 +163,7 @@ function Categories() {
                             delay={0}
                             target="tooltip598568751"
                           >
-                            Delete product
+                            Xóa danh mục
                           </UncontrolledTooltip>
                         </td>
                       </tr>

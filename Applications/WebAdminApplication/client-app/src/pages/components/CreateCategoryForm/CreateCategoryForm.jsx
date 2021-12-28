@@ -102,7 +102,7 @@ function CreateCategoryForm(props) {
                 </div>
               </Col>
               <Button className="mt-3" color="primary">
-                Thêm
+                Thêm danh mục
               </Button>
             </FormCustom>
           </CardBody>

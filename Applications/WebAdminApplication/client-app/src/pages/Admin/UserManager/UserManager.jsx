@@ -52,7 +52,7 @@ const headers = [
   },
 ];
 function UserManager(props) {
-  const ITEMS_PER_PAGE = 15;
+  const ITEMS_PER_PAGE = 5;
   const [totalItems, setTotalItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
@@ -289,21 +289,7 @@ function UserManager(props) {
                           >
                             {item.status ? 'Kích hoạt' : 'Vô hiệu hoá'}
                           </UncontrolledTooltip>
-                          <Button
-                            className=" btn-icon"
-                            color="danger"
-                            size="sm"
-                            type="button"
-                            id="tooltip601065234"
-                          >
-                            <i className=" ni ni-fat-remove pt-1"></i>
-                          </Button>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip601065234"
-                          >
-                            Xoá tài khoản
-                          </UncontrolledTooltip>
+                          
                         </td>
                       </tr>
                     );
