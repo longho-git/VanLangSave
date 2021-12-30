@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApplicationDomain.BOA.IServices;
 
 namespace ApplicationDomain.Identity.Services
 {
@@ -32,6 +33,8 @@ namespace ApplicationDomain.Identity.Services
         private readonly UserManager<User> _userManagement;
         private readonly IEmailSender _emailSender;
         private readonly IEmailRepository _emailTemplateRepository;
+        private readonly IPostService _postService;
+        private readonly IPostRepository _postRepository;
         public UserService(
             IMapper mapper,
             IUnitOfWork uow,
@@ -41,7 +44,9 @@ namespace ApplicationDomain.Identity.Services
             UserManager<User> userManagement,
             IEmailSender emailSender,
             RoleManager<Role> roleManager,
-            IEmailRepository emailTemplateRepository
+            IEmailRepository emailTemplateRepository,
+            IPostService postService,
+            IPostRepository postRepository
             ) : base(mapper, uow)
         {
             _userRepository = userRepository;
@@ -49,6 +54,8 @@ namespace ApplicationDomain.Identity.Services
             _userManagement = userManagement;
             _emailSender = emailSender;
             _emailTemplateRepository = emailTemplateRepository;
+            _postService = postService;
+            _postRepository = postRepository;
         }
 
         public IEnumerable<UserModel> GetListUsers()
@@ -250,6 +257,20 @@ namespace ApplicationDomain.Identity.Services
         {
             var user = await _userManagement.FindByIdAsync(id.ToString());
             user.Status = active;
+            if (active == false)
+            {
+                var posts = await _postService.GetAllPostOfUserIdAsync(id);
+                foreach (var item in posts)
+                {
+                    if (item.Active == true)
+                    {
+                        var post = await _postRepository.GetEntityByIdAsync(item.Id);
+                        post.Active = false;
+                        _postRepository.Update(post);
+                        await _uow.SaveChangesAsync();
+                    }
+                }
+            }
             await _userManagement.UpdateAsync(user);
             await _uow.SaveChangesAsync();
             return user;

@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using ApplicationDomain.BOA.IServices;
 using ApplicationDomain.BOA.Models;
 using ApplicationDomain.BOA.Models.UserProfiles;
+using ApplicationDomain.Identity.Entities;
 using AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAdminApplication.Controllers
@@ -14,8 +16,10 @@ namespace WebAdminApplication.Controllers
     public class UserProfileController : BaseController
     {
         private readonly IUserProfileService _userProfileService;
-        public UserProfileController(IUserProfileService userProfileService)
+        private readonly UserManager<User> _userManagement;
+        public UserProfileController(IUserProfileService userProfileService, UserManager<User> userManagement)
         {
+            _userManagement = userManagement;
             _userProfileService = userProfileService;
         }
 
@@ -38,7 +42,8 @@ namespace WebAdminApplication.Controllers
         {
             try
             {
-                return Ok(await _userProfileService.GetDistricByUserIdAsync(id));
+                var user = await _userManagement.FindByIdAsync(id.ToString());
+                return user.Status == false ? Ok("Not active") : Ok(await _userProfileService.GetDistricByUserIdAsync(id));
             }
             catch (Exception e)
             {

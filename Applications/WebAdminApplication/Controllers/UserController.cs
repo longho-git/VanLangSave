@@ -171,7 +171,7 @@ namespace WebAdminApplication.Controllers
                 else if (result.IsNotAllowed)
                 {
                     return BadRequest(
-                        "Tài khoản người dùng không được phép, hãy đảm bảo rằng tài khoản của bạn đã được xác minh");
+                        "Tài khoản người dùng đã bị vô hiệu hóa! Vui lòng liên hệ Admin để biết thêm chi tiết");
                 }
                 else if (result.RequiresTwoFactor)
                 {

@@ -12,12 +12,8 @@ import {
   CardFooter,
   CardHeader,
   Container,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
   Row,
   Table,
-  UncontrolledDropdown,
   UncontrolledTooltip,
 } from 'reactstrap';
 // core components
@@ -38,7 +34,7 @@ function PostsActive() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState({ field: '', order: '' });
   const [search, setSearch] = useState('');
-  const ITEMS_PER_PAGE = 50;
+  const ITEMS_PER_PAGE = 6;
   const headers = [
     {
       field: 'ownerName',

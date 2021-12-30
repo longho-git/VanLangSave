@@ -2,32 +2,26 @@
 import React, { useState } from 'react';
 import {
   Badge,
-  Button,
   Card,
   CardBody,
   CardHeader,
-  Row,
   Table,
 } from 'reactstrap';
 import userService from 'services/user.service';
 
 function CardInfo({ userProfileId }) {
-  console.log(
-    '🚀 ~ file: CardInfo.jsx ~ line 15 ~ CardInfo ~ userProfileId',
-    userProfileId,
-  );
   const [userProfile, setUserProfile] = useState();
+  const [error, setError] = useState(false);
   React.useEffect(() => {
     getUserProfile(userProfileId);
   }, []);
   function getUserProfile(userId) {
     userService.getUserProfile(userId).then((data) => {
-      console.log(
-        '🚀 ~ file: CardInfo.jsx ~ line 17 ~ userService.getUserProfileById ~ data',
-        data.avatarURL,
-      );
       if (data.status === 400) {
         return;
+      }
+      if (data === 'Not active'){
+        setError(true);
       }
       setUserProfile(data);
     });
@@ -35,7 +29,8 @@ function CardInfo({ userProfileId }) {
 
   return userProfile ? (
     <Card className="card-profile" style={{ marginBottom: 0 }}>
-      <CardHeader
+     {!error ? <>
+        <CardHeader
         className="bg-info"
         style={{
           backgroundImage:
@@ -80,6 +75,9 @@ function CardInfo({ userProfileId }) {
           </tbody>
         </Table>
       </CardBody>
+      </> : 
+      <h3 className='text-center m-4'> Tài khoản bạn đang giao dịch đã bị khóa! </h3>
+     }
     </Card>
   ) : (
     'null'
