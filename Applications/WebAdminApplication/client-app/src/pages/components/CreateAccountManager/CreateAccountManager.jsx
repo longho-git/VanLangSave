@@ -40,20 +40,20 @@ function CreateAccountManager({ isClose }) {
         <FormCustom onSubmit={onSubmit} defaultValues={defaultValues}>
           <InputCustom
             name="lastName"
-            placeholder="Nguyễn, Lê,..."
+            placeholder="Nguyễn, Phạm,..."
             label="Họ"
             icon={<i className="ni ni-hat-3" />}
             rules={{
-              required: 'required',
+              required: 'Vui lòng không bỏ trống',
             }}
           />
           <InputCustom
             name="firstName"
-            placeholder="Hùng,Tùng,..."
+            placeholder="Đức,Khang,..."
             label="Tên"
             icon={<i className="ni ni-hat-3" />}
             rules={{
-              required: 'required',
+              required: 'Vui lòng không bỏ trống',
             }}
           />
           <InputCustom
@@ -63,7 +63,7 @@ function CreateAccountManager({ isClose }) {
             type="date"
             icon={<i className="ni ni-hat-3" />}
             rules={{
-              required: 'required',
+              required: 'Vui lòng không bỏ trống',
             }}
           />
           <InputCustom
@@ -73,23 +73,23 @@ function CreateAccountManager({ isClose }) {
             type="tel"
             icon={<i className="ni ni-email-83" />}
             rules={{
-              required: 'required',
+              required: 'Vui lòng không bỏ trống',
               pattern: {
                 value: /[0-9]{9,12}/,
-                message: 'Entered value does not match phone format',
+                message: 'Vui lòng nhập đúng định dạng số',
               },
             }}
           />
           <InputCustom
             name="email"
-            placeholder="tai.t1723434800@vanlanguni.vn"
+            placeholder="ABC@gmail.com"
             label="Email"
             icon={<i className="ni ni-email-83" />}
             rules={{
-              required: 'required',
+              required: 'Vui lòng không bỏ trống',
               pattern: {
                 value: /\S+@\S+\.\S+/,
-                message: 'Entered value does not match email format',
+                message: 'Giá trị nhập không đúng(vd:ABC@gmail.com)',
               },
             }}
           />

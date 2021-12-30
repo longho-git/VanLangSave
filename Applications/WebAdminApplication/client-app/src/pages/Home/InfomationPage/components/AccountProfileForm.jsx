@@ -133,7 +133,7 @@ function AccountProfileForm() {
             placeholder="email"
             col={6}
             disabled={!edit}
-            label="Email"
+            label="ABC@gmail.com"
             rules={{
               required: 'Vui lòng không bỏ trống',
               pattern: {
@@ -145,14 +145,14 @@ function AccountProfileForm() {
           <InputCustom
             name="phoneNumber"
             disabled={!edit}
-            placeholder="Số điện thoại"
+            placeholder="0793174711"
             col={6}
             label="Số điện thoại"
             rules={{
               required: 'Vui lòng không bỏ trống',
               pattern: {
                 value: /[0-9]{9,12}/,
-                message: 'Vui lòng nhập đúng định dạng số',
+                message: 'Vui lòng nhập đúng định dạng',
               },
             }}
           />

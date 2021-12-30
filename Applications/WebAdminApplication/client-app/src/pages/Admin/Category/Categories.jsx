@@ -92,7 +92,6 @@ function Categories() {
             sort: true,
           },
         ]}
-        search
       >
         {(props) => {
           return (
@@ -208,9 +207,9 @@ function Categories() {
               </Col>
             </Row>
           </CardHeader>
-
           {tableRender}
         </Card>
+        
         <Modal
           isOpen={modalOpen}
           toggle={() => setModalOpen(!modalOpen)}
