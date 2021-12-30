@@ -12,14 +12,12 @@ import {
   Button,
   Card,
   CardHeader,
+  CardFooter,
   Container,
   Modal,
   Row,
   Table,
-  Col,
   UncontrolledTooltip,
-  Breadcrumb,
-  BreadcrumbItem,
 } from 'reactstrap';
 // core components
 import { formatTime } from 'utils/fortmatTime';
@@ -27,8 +25,10 @@ import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
 import SearchTable from 'layouts/component/Table/SearchTable';
 import HeaderTable from 'layouts/component/Table/HeaderTable';
+import PaginationTable from './../../../layouts/component/Table/PaginationTable';
 import historyRegisterPostService from 'services/historyRegisterPost.service';
 import CardInfo from 'pages/components/CardInfo/CardInfo';
+import AdminHeader from 'layouts/component/Header/AdminHeader';
 import { Link } from 'react-router-dom';
 
 const headers = [
@@ -76,7 +76,7 @@ function HistoryRegisterPage({ postId }) {
     setUserProfileId(item);
     handleShow();
   };
-  const ITEMS_PER_PAGE = 50;
+  const ITEMS_PER_PAGE = 10;
   function pushUrl(url) {
     history.push(url);
   }
@@ -107,8 +107,8 @@ function HistoryRegisterPage({ postId }) {
     if (search) {
       computedPosts = computedPosts.filter(
         (comment) =>
-          comment.title.toLowerCase().includes(search.toLowerCase()) ||
-          comment.typeName.toLowerCase().includes(search.toLowerCase()),
+          comment.postTitle.toLowerCase().includes(search.toLowerCase()) ||
+          comment.status.toLowerCase().includes(search.toLowerCase()),
       );
     }
 
@@ -131,19 +131,9 @@ function HistoryRegisterPage({ postId }) {
 
   return (
     <>
-      <div className="section section-hero section-shaped">
-        <Container className="mt-5" fluid>
+      <AdminHeader name="Lịch sử giao dịch" parentName="Hệ thống" />
+        <Container className="mt--6" fluid>
           <Row>
-            <Col md="12">
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <Link to="/">Trang chủ</Link>
-                </BreadcrumbItem>
-                <BreadcrumbItem aria-current="page" className="active">
-                  Lịch sử giao dịch
-                </BreadcrumbItem>
-              </Breadcrumb>
-            </Col>
             <div className="col">
               <Card>
                 <CardHeader>
@@ -229,12 +219,20 @@ function HistoryRegisterPage({ postId }) {
                     })}
                   </tbody>
                 </Table>
-                
+                <CardFooter className="py-4">
+                <nav aria-label="...">
+                  <PaginationTable
+                    total={totalItems}
+                    itemsPerPage={ITEMS_PER_PAGE}
+                    currentPage={currentPage}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </nav>
+              </CardFooter>
               </Card>
             </div>
           </Row>
         </Container>
-      </div>
       {show ? <ModalContent /> : null}
     </>
   );
