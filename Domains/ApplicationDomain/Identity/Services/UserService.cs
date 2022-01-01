@@ -266,6 +266,7 @@ namespace ApplicationDomain.Identity.Services
                     {
                         var post = await _postRepository.GetEntityByIdAsync(item.Id);
                         post.Active = false;
+                        post.Statuts = PostStatus.Hidden;
                         _postRepository.Update(post);
                         await _uow.SaveChangesAsync();
                     }
