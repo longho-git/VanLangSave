@@ -208,8 +208,9 @@ function UploadPostPage() {
               <FormCustom onSubmit={onSubmit} defaultValues={defaultValues}>
                 <InputCustom
                   name="title"
-                  placeholder="Tiêu đề."
+                  placeholder="Vui Lòng nhập dưới 75 kí tự"
                   label="Tiêu đề"
+                  maxLength="75"
                   required
                   rules={{
                     required: '*Vui lòng không bỏ trống',
@@ -261,14 +262,15 @@ function UploadPostPage() {
                 />
                 <InputCustom
                   name="quantity"
-                  placeholder="Số lượng"
+                  placeholder="Tối đa 10 sản phẩm"
                   label="Số lượng"
                   type="number"
-                  min='1'
-                  max='10'
                   required
                   rules={{
                     required: '*Vui lòng không bỏ trống',
+                    pattern: {
+                      value: /[0-9]/
+                    },
                   }}
                 />
                 <Col sm="12">
