@@ -122,7 +122,7 @@ function RegisterPostGiveOfUserPage({ postId }) {
         confirmBtnText="Ok"
         btnSize=""
       >
-        Your file has been deleted.
+        Đăng kí của bạn đã được xóa.
       </ReactBSAlert>,
     );
   };

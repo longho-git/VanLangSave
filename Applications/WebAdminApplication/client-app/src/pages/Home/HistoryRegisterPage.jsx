@@ -98,8 +98,8 @@ function HistoryRegisterPage() {
     if (search) {
       computedPosts = computedPosts.filter(
         (comment) =>
-          comment.title.toLowerCase().includes(search.toLowerCase()) ||
-          comment.typeName.toLowerCase().includes(search.toLowerCase()),
+          comment.postTitle.toLowerCase().includes(search.toLowerCase()) ||
+          comment.status.toLowerCase().includes(search.toLowerCase()),
       );
     }
 

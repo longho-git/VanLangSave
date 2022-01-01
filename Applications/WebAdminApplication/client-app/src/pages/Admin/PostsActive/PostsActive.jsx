@@ -98,6 +98,7 @@ function PostsActive() {
   };
 
   const confirmedAlert = () => {
+    if(deletePost == true){
     setAlert(
       <ReactBSAlert
         success
@@ -109,9 +110,25 @@ function PostsActive() {
         confirmBtnText="Ok"
         btnSize=""
       >
-        Your file has been deleted.
+        Bài viết đã xóa.
       </ReactBSAlert>,
-    );
+      );
+    } else {
+      setAlert(
+        <ReactBSAlert
+          danger
+          style={{ display: 'block', marginTop: '-100px' }}
+          title="Thất bại!"
+          onConfirm={() => setAlert(null)}
+          onCancel={() => setAlert(null)}
+          confirmBtnBsStyle="primary"
+          confirmBtnText="Ok"
+          btnSize=""
+        >
+          Không thể xóa bài viết do đã được đăng kí. 
+        </ReactBSAlert>,
+      );
+    }
   };
   const deletePost = (id) => {
     postService.deletePost(id).then((req) => {
@@ -122,7 +139,6 @@ function PostsActive() {
         }, 2000);
       }
     });
-    
   };
 
   const hiddenPost = (id) => {

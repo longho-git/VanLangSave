@@ -43,7 +43,7 @@ function UserPostsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState({ field: '', order: '' });
   const [search, setSearch] = useState('');
-  const ITEMS_PER_PAGE = 50;
+  const ITEMS_PER_PAGE = 8;
   const headers = [
     {
       field: 'title',
@@ -123,20 +123,37 @@ function UserPostsPage() {
   };
 
   const confirmedAlert = () => {
-    setAlert(
-      <ReactBSAlert
-        success
-        style={{ display: 'block', marginTop: '-100px' }}
-        title="Thành công!"
-        onConfirm={() => setAlert(null)}
-        onCancel={() => setAlert(null)}
-        confirmBtnBsStyle="primary"
-        confirmBtnText="Ok"
-        btnSize=""
-      >
-        Your file has been deleted.
-      </ReactBSAlert>,
-    );
+    if(deletePost == true){
+      setAlert(
+        <ReactBSAlert
+          success
+          style={{ display: 'block', marginTop: '-100px' }}
+          title="Thành công!"
+          onConfirm={() => setAlert(null)}
+          onCancel={() => setAlert(null)}
+          confirmBtnBsStyle="primary"
+          confirmBtnText="Ok"
+          btnSize=""
+        >
+          Bài viết đã xóa.
+        </ReactBSAlert>,
+        );
+      } else {
+        setAlert(
+          <ReactBSAlert
+            danger
+            style={{ display: 'block', marginTop: '-100px' }}
+            title="Thất bại!"
+            onConfirm={() => setAlert(null)}
+            onCancel={() => setAlert(null)}
+            confirmBtnBsStyle="primary"
+            confirmBtnText="Ok"
+            btnSize=""
+          >
+            Bài viết đã hoàn tất giao dịch hoặc đang được đăng kí.
+          </ReactBSAlert>,
+        );
+      }
   };
   const deletePost = (id) => {
     postService.deletePost(id).then((req) => {

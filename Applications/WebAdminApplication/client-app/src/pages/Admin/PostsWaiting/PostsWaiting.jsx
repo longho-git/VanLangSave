@@ -119,7 +119,6 @@ function PostsWaiting() {
         confirmBtnText="Ok"
         btnSize=""
       >
-        Your file has been deleted.
       </ReactBSAlert>,
     );
   };
