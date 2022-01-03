@@ -24,6 +24,9 @@ class AuthService {
       lastName,
       email,
       uniqueId,
+    })
+    .catch((error) => {
+      return error.response;
     });
   }
 

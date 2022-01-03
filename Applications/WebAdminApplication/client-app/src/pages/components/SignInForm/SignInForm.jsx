@@ -38,14 +38,7 @@ function SignInForm(props) {
     ) {
       history.push('/');
       return;
-    } else if (
-      user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ===
-      'Manager'
-    ) {
-      history.push('/admin/postwaiting');
-      return;
-    }
-    history.push('/admin/categories');
+    } 
   };
   const handleLogin = () => {
     instance
