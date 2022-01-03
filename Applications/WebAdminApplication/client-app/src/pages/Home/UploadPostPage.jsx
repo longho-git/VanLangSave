@@ -265,6 +265,8 @@ function UploadPostPage() {
                   placeholder="Tối đa 10 sản phẩm"
                   label="Số lượng"
                   type="number"
+                  min = "1"
+                  max = "10"
                   required
                   rules={{
                     required: '*Vui lòng không bỏ trống',
