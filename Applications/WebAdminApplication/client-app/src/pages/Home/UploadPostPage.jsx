@@ -254,6 +254,7 @@ function UploadPostPage() {
                   placeholder="Mô tả."
                   label="Mô tả"
                   rows="5"
+                  maxLength="100"
                   textarea
                   required
                   rules={{
@@ -265,6 +266,7 @@ function UploadPostPage() {
                   placeholder="Tối đa 10 sản phẩm"
                   label="Số lượng"
                   type="number"
+                  maxLength="2"
                   required
                   rules={{
                     required: '*Vui lòng không bỏ trống',
