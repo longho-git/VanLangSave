@@ -85,6 +85,7 @@ function AccountProfileForm() {
           <InputCustom
             name="lastName"
             placeholder="Nguyễn, Phạm,..."
+            maxLength="20"
             col={6}
             label="Họ"
             disabled={!edit}
@@ -95,6 +96,7 @@ function AccountProfileForm() {
           <InputCustom
             name="firstName"
             placeholder="Nam, Khang, Đức, Hồ,..."
+            maxLength="50"
             col={4}
             disabled={!edit}
             label="Tên"
@@ -122,6 +124,7 @@ function AccountProfileForm() {
           <InputCustom
             name="address"
             placeholder="1/1/1 Cao chiêm"
+            maxLength="100"
             disabled={!edit}
             label="Địa chỉ"
             rules={{

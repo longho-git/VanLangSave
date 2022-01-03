@@ -63,6 +63,7 @@ function CreateCategoryForm({ isClose }) {
               <InputCustom
                 name="name"
                 label="Tên loại"
+                maxLength="50"
                 rules={{
                   required: 'Vui lòng không bỏ trống',
                 }}
@@ -70,6 +71,7 @@ function CreateCategoryForm({ isClose }) {
               <InputCustom
                 name="col"
                 label="Col"
+                maxLength="2"
                 rules={{
                   required: 'Vui lòng không bỏ trống',
                 }}
