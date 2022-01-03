@@ -6,8 +6,9 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import InputCustom from 'layouts/component/SmartFormHook/InputCustom/InputCustom';
 import Dropzone from 'dropzone';
+import categoryService from 'services/category.service';
 
-function CreateCategoryForm(props) {
+function CreateCategoryForm({ isClose }) {
   const [defaultValues, setDefaultValues] = useState({
     name: '',
     col: '',
@@ -18,10 +19,13 @@ function CreateCategoryForm(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const onSubmit = async (data) => {
-    console.log(
-      '🚀 ~ file: CreateCategoryForm.jsx ~ line 32 ~ onSubmit ~ data',
-      data,
-    );
+    categoryService.createCategory(data).then((req) => {
+      if (req.status === 200) {
+        isClose();
+      } else {
+        setError(true);
+      }
+    });
   };
   useEffect(() => {
     let currentSingleFile = undefined;

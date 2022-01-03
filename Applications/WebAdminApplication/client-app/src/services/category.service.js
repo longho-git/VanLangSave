@@ -90,21 +90,20 @@ class CategoryService {
         return error.response;
       });
   }
-  createCategory(data, image) {
-    const { name,
-      col} = data;
+  createCategory(data) {
+    const { name, col, imageURL } = data;
     const token = localStorage.getItem('token');
     const accessToken = JSON.parse(token);
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
     };
     return axios
-      .post(
+      .Post(
         API_URL + `Category`,
         {
-        name,
-        imageURL: image,
-        col
+          name,
+          col,
+          imageURL,
         },
         config,
       )
