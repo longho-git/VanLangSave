@@ -254,7 +254,7 @@ function UploadPostPage() {
                   placeholder="Mô tả."
                   label="Mô tả"
                   rows="5"
-                  maxLength="100"
+                  maxLength="200"
                   textarea
                   required
                   rules={{
