@@ -90,8 +90,8 @@ class CategoryService {
         return error.response;
       });
   }
-  createCategory(data, listImage) {
-    const { title, type, content } = data;
+  createCategory(data) {
+    const { name, col, imageURL } = data;
     const token = localStorage.getItem('token');
     const accessToken = JSON.parse(token);
     const config = {
@@ -101,10 +101,9 @@ class CategoryService {
       .Post(
         API_URL + `Category`,
         {
-          title,
-          type,
-          content,
-          ImageCategoryModelRqList: listImage,
+          name,
+          col,
+          imageURL,
         },
         config,
       )

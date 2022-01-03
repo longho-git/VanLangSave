@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   CardHeader,
+  CardFooter,
   Col,
   Container,
   Modal,
@@ -14,16 +15,82 @@ import {
   Table,
   UncontrolledTooltip,
 } from 'reactstrap';
-import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import CreateCategoryForm from 'pages/components/CreateCategoryForm/CreateCategoryForm';
 import categoryService from 'services/category.service';
 import CategoryDialog from 'pages/components/CategoryDialog/CategoryDialog';
 import SearchTable from 'layouts/component/Table/SearchTable';
+import ReactBSAlert from 'react-bootstrap-sweetalert';
+import PaginationTable from 'layouts/component/Table/PaginationTable';
+import HeaderTable from 'layouts/component/Table/HeaderTable';
+
+
 
 function Categories() {
+  const [search, setSearch] = useState('');
+  const [alert, setAlert] = useState(null);
+  const [countValue, setCountValue] = useState(null);
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [item, setItem] = useState();
+  const [modalEdit, setModalEdit] = useState(false);
+  const [show, setShow] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const handleShow = () => setShow(true);
+  const [totalItems, setTotalItems] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sorting, setSorting] = useState({ field: '', order: '' });
+  const ITEMS_PER_PAGE = 3;
+  const headers = [
+    {
+      field: 'name',
+      name: 'Tên danh mục',
+      sortable: true,
+    },
+    {
+      field: 'col',
+      name: 'Col',
+      sortable: false,
+    },
+    {
+      field: 'imageURL',
+      name: 'Hình ảnh',
+      sortable: false,
+    },
+    {
+      field: '',
+      name: '',
+      sortable: false,
+    },
+  ];
+
   useEffect(() => {
     getCategories();
   }, []);
+
+  const postCategories = useMemo(() => {
+    let computedCategories = categories;
+    if (search) {
+      computedCategories = computedCategories.filter(
+        (comment) =>
+          comment.name.toLowerCase().includes(search.toLowerCase()),
+      );
+    }
+
+    setTotalItems(computedCategories.length);
+
+    //Sorting posts
+    if (sorting.field) {
+      const reversed = sorting.order === 'asc' ? 1 : -1;
+      computedCategories = computedCategories.sort(
+        (a, b) => reversed * a[sorting.field].localeCompare(b[sorting.field]),
+      );
+    }
+
+    //Current Page slice
+    return computedCategories.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      (currentPage - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE,
+    );
+  }, [categories, currentPage, search, sorting]);
 
   const getCategories = () => {
     categoryService.getCategories().then((data) => {
@@ -33,18 +100,81 @@ function Categories() {
       setCategories(data);
     });
   };
-  const [item, setItem] = useState();
-  const [modalEdit, setModalEdit] = useState(false);
-  const [show, setShow] = useState(false);
+
+  const confirmAlert = (id) => {
+    setAlert(
+      <ReactBSAlert
+        warning
+        style={{ display: 'block', marginTop: '-100px' }}
+        title="Bạn có chắc?"
+        onCancel={() => setAlert(null)}
+        onConfirm={() => deleteCategory(id)}
+        showCancel
+        confirmBtnBsStyle="danger"
+        cancelBtnText="Huỷ"
+        cancelBtnBsStyle="secondary"
+        confirmBtnText="Vâng, chắn chắn!"
+        btnSize=""
+      >
+        Bạn sẽ không thể phục hồi khi thực hiện!
+      </ReactBSAlert>,
+    );
+  };
+
+  const confirmedAlert = () => {
+    if(deleteCategory == true){
+    setAlert(
+      <ReactBSAlert
+        success
+        style={{ display: 'block', marginTop: '-100px' }}
+        title="Thành công!"
+        onConfirm={() => setAlert(null)}
+        onCancel={() => setAlert(null)}
+        confirmBtnBsStyle="primary"
+        confirmBtnText="Ok"
+        btnSize=""
+      >
+        Danh mục đã xóa
+      </ReactBSAlert>,
+      );
+    } else {
+      setAlert(
+        <ReactBSAlert
+          danger
+          style={{ display: 'block', marginTop: '-100px' }}
+          title="Thất bại!"
+          onConfirm={() => setAlert(null)}
+          onCancel={() => setAlert(null)}
+          confirmBtnBsStyle="primary"
+          confirmBtnText="Ok"
+          btnSize=""
+        >
+          Không thể xóa vì đã có bài đăng trong danh mục
+        </ReactBSAlert>,
+      );
+    }
+  };
+
+  const deleteCategory = (id) => {
+    categoryService.deleteCategory(id).then((req) => {
+      if (req) {
+        confirmedAlert();
+        setTimeout(() => {
+          setCountValue(countValue - 1);
+        }, 2000);
+      }
+    });
+  };
+
   const handleClose = () => {
     setShow(false);
     getCategories();
   };
-  const handleShow = () => setShow(true);
+  
   const toggleTrueFalse = () => {
     setModalEdit(handleShow);
   };
-  const [categories, setCategories] = useState([]);
+  
   const rowEvent = (item) => {
     setItem(item);
     toggleTrueFalse();
@@ -62,58 +192,53 @@ function Categories() {
       </Modal>
     );
   };
-  const [search, setSearch] = useState('');
-  const ITEMS_PER_PAGE = 5;
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const tableRender = useMemo(() => {
-    return (
-      <ToolkitProvider
-        data={categories}
-        keyField="title"
-        columns={[
-          {
-            dataField: 'name',
-            text: 'Tên danh mục',
-            sort: true,
-          },
-          {
-            dataField: 'col',
-            text: 'Col',
-            sort: true,
-          },
-          {
-            dataField: 'imageURL',
-            text: 'Hình ảnh',
-            sort: true,
-          },
-          {
-            dataField: 'action',
-            text: '',
-            sort: true,
-          },
-        ]}
-      >
-        {(props) => {
-          return (
-            <div className="py-4 table-responsive">
-              <div
-                id="datatable-basic_filter"
-                className="dataTables_filter px-4 pb-1"
-              >
-              </div>
-              <SearchTable
+
+  
+
+  return (
+    <>
+    {alert}
+      <AdminHeader name="Danh mục" parentName="Danh sách" />
+      <Container className="mt--6" fluid>
+        <Card>
+          <CardHeader className="border-0">
+            <Row>
+              <Col xs="6">
+                <h3 className="mb-0">Danh mục</h3>
+              </Col>
+              <Col className="text-right" xs="6">
+                <Button
+                  className="btn-neutral btn-round btn-icon"
+                  color="default"
+                  id="tooltip969372949"
+                  onClick={() => setModalOpen(!modalOpen)}
+                  size="sm"
+                >
+                  <span className="btn-inner--icon mr-1">
+                    <i className="fas fa-plus" />
+                  </span>
+                  <span className="btn-inner--text">Thêm mới</span>
+                </Button>
+                <UncontrolledTooltip delay={0} target="tooltip969372949">
+                  Thêm
+                </UncontrolledTooltip>
+              </Col>
+            </Row>
+          </CardHeader>
+          <SearchTable
+                onSearch={(value) => {
+                  setSearch(value);
+                  setCurrentPage(1);
+               }}
                 placeholder={'Nhập tên danh mục'}
               />
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    {props.baseProps.columns.map((item) => (
-                      <th>{item.text}</th>
-                    ))}
-                  </tr>
-                </thead>
+          <Table className="align-items-center table-flush" responsive>
+            <HeaderTable
+                  headers={headers}
+                  onSorting={(field, order) => setSorting({ field, order })}
+            />
                 <tbody>
-                  {props.baseProps.data.map((item) => {
+                  {postCategories.map((item) => {
                     return (
                       <tr>
                         <td className="table-user">
@@ -154,7 +279,7 @@ function Categories() {
                           <a
                             className="table-action table-action-delete"
                             id="tooltip598568751"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={(e) => confirmAlert(item.id)}
                           >
                             <i className="fas fa-trash" />
                           </a>
@@ -169,45 +294,18 @@ function Categories() {
                     );
                   })}
                 </tbody>
-              </Table>
-            </div>
-          );
-        }}
-      </ToolkitProvider>
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categories]);
+          </Table>
 
-  return (
-    <>
-      <AdminHeader name="Danh mục" parentName="Danh sách" />
-      <Container className="mt--6" fluid>
-        <Card>
-          <CardHeader className="border-0">
-            <Row>
-              <Col xs="6">
-                <h3 className="mb-0">Danh mục</h3>
-              </Col>
-              <Col className="text-right" xs="6">
-                <Button
-                  className="btn-neutral btn-round btn-icon"
-                  color="default"
-                  id="tooltip969372949"
-                  onClick={() => setModalOpen(!modalOpen)}
-                  size="sm"
-                >
-                  <span className="btn-inner--icon mr-1">
-                    <i className="fas fa-plus" />
-                  </span>
-                  <span className="btn-inner--text">Thêm mới</span>
-                </Button>
-                <UncontrolledTooltip delay={0} target="tooltip969372949">
-                  Thêm
-                </UncontrolledTooltip>
-              </Col>
-            </Row>
-          </CardHeader>
-          {tableRender}
+          <CardFooter className="py-4">
+                <nav aria-label="...">
+                  <PaginationTable
+                    total={totalItems}
+                    itemsPerPage={ITEMS_PER_PAGE}
+                    currentPage={currentPage}
+                    onPageChange={(page) => setCurrentPage(page)}
+                  />
+                </nav>
+          </CardFooter>
         </Card>
         
         <Modal
@@ -221,7 +319,9 @@ function Categories() {
         {show ? <ModalContent /> : null}
       </Container>
     </>
+    
   );
+  
 }
 
 export default Categories;
