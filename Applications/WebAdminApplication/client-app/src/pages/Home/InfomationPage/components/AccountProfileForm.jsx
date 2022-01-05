@@ -133,7 +133,7 @@ function AccountProfileForm() {
             placeholder="email"
             col={6}
             disabled={!edit}
-            label="ABC@gmail.com"
+            label="Email"
             rules={{
               required: 'Vui lòng không bỏ trống',
               pattern: {
