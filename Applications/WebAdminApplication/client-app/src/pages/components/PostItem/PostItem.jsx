@@ -52,7 +52,7 @@ function PostItem({ item }) {
         confirmBtnText="Ok"
         btnSize=""
       >
-        Your file has been deleted.
+        Bài viết của bạn đã xoá.
       </ReactBSAlert>,
     );
   };

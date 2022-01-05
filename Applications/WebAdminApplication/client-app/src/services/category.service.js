@@ -98,11 +98,11 @@ class CategoryService {
       headers: { Authorization: `Bearer ${accessToken}` },
     };
     return axios
-      .Post(
+      .post(
         API_URL + `Category`,
         {
           name,
-          col,
+          col: 3,
           imageURL,
         },
         config,
