@@ -1,36 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardHeader, CardBody, Col, CardTitle } from 'reactstrap';
+import { Button, Card, CardHeader, CardBody, Col, CardTitle, Label, Spinner } from 'reactstrap';
 import { FormCustom } from 'layouts/component/SmartFormHook/FormCustom/FormCustom';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import InputCustom from 'layouts/component/SmartFormHook/InputCustom/InputCustom';
 import Dropzone from 'dropzone';
 import categoryService from 'services/category.service';
+import uploadService from 'services/upload.service';
 
 function CreateCategoryForm({ isClose }) {
   const [defaultValues, setDefaultValues] = useState({
     name: '',
     col: '',
   });
-  const [image, setImage] = useState('');
+  const [imageURL, setimageURL] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
   const onSubmit = async (data) => {
-    categoryService.createCategory(data).then((req) => {
-      if (req.status === 200) {
-        isClose();
-      } else {
-        setError(true);
-      }
-    });
+    const dt = { ...data, imageURL };
+    if (imageURL) {
+      console.log(dt);
+      await categoryService.createCategory(dt).then((req) => {
+        console.log(dt);
+        if (req.status === 200) {
+          isClose();
+        } else {
+          setError(true);
+        }
+      });
+    }
   };
   useEffect(() => {
+    console.log('run usefffct')
     let currentSingleFile = undefined;
     // single dropzone file - accepts only images
-    new Dropzone(document.getElementById('dropzone-single'), {
+    const dropzone = new Dropzone(document.getElementById('dropzone-single'), {
       url: '/',
       thumbnailWidth: null,
       thumbnailHeight: null,
@@ -45,16 +52,25 @@ function CreateCategoryForm({ isClose }) {
           if (currentSingleFile) {
             this.removeFile(currentSingleFile);
           }
+          setLoading(true);
           currentSingleFile = file;
+          uploadService.postImage(currentSingleFile).then((req) => {
+            setimageURL(req.value);
+            if (req.statusCode === 200) setLoading(false);
+          });
+
         });
       },
     });
-    document.getElementsByClassName('dz-preview-single')[0].innerHTML = '';
+    // document.getElementsByClassName('dz-preview-single')[0].innerHTML = '';
   }, []);
   return (
     <>
       <div className="modal-body p-0">
         <Card className="bg-secondary shadow border-0 mb-0">
+          {
+            loading && <Spinner color="" type={'border'} size="sm"></Spinner>
+          }
           <CardHeader className="bg-white pb-5">
             <CardTitle tag="h3">Thêm mới danh mục</CardTitle>
           </CardHeader>
@@ -63,18 +79,13 @@ function CreateCategoryForm({ isClose }) {
               <InputCustom
                 name="name"
                 label="Tên loại"
-                rules={{
-                  required: 'Vui lòng không bỏ trống',
-                }}
-              />
-              <InputCustom
-                name="col"
-                label="Col"
+                maxLength="50"
                 rules={{
                   required: 'Vui lòng không bỏ trống',
                 }}
               />
               <Col md={12}>
+                <Label>Hình ảnh</Label>
                 <div
                   className="dropzone dropzone-single mb-3"
                   id="dropzone-single"

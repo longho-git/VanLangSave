@@ -38,18 +38,18 @@ function Categories() {
   const [totalItems, setTotalItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState({ field: '', order: '' });
-  const ITEMS_PER_PAGE = 3;
+  const ITEMS_PER_PAGE = 10;
   const headers = [
     {
       field: 'name',
       name: 'Tên danh mục',
       sortable: true,
     },
-    {
-      field: 'col',
-      name: 'Col',
-      sortable: false,
-    },
+    //{
+      //field: 'col',
+      //name: 'Col',
+      //sortable: false,
+    //},
     {
       field: 'imageURL',
       name: 'Hình ảnh',
@@ -255,9 +255,9 @@ function Categories() {
                             {item.name}
                           </a>
                         </td>
-                        <td>
-                          <b>{item.col}</b>
-                        </td>
+                        {/* <td>
+                         <b>{item.col}</b>
+                       </td> */}
                         <td className="table-user">
                           <img
                             alt="..."
