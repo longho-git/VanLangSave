@@ -91,7 +91,6 @@ function PostsOfUser() {
         confirmBtnText="Ok"
         btnSize=""
       >
-        Your file has been deleted.
       </ReactBSAlert>,
     );
   };

@@ -97,8 +97,13 @@ function PostsActive() {
     );
   };
 
+  const handleConfirmedAlert = (value) => {
+    console.log(value.status)
+    console.log(value)
+    value.status == 400 ? failConfirmedAlert() : confirmedAlert();
+  }
+
   const confirmedAlert = () => {
-    if(deletePost == true){
     setAlert(
       <ReactBSAlert
         success
@@ -112,28 +117,29 @@ function PostsActive() {
       >
         Bài viết đã xóa.
       </ReactBSAlert>,
-      );
-    } else {
-      setAlert(
-        <ReactBSAlert
-          danger
-          style={{ display: 'block', marginTop: '-100px' }}
-          title="Thất bại!"
-          onConfirm={() => setAlert(null)}
-          onCancel={() => setAlert(null)}
-          confirmBtnBsStyle="primary"
-          confirmBtnText="Ok"
-          btnSize=""
-        >
-          Không thể xóa bài viết do đã được đăng kí. 
-        </ReactBSAlert>,
-      );
-    }
+    );
   };
+  const failConfirmedAlert = () => {
+    setAlert(
+      <ReactBSAlert
+        danger
+        style={{ display: 'block', marginTop: '-100px' }}
+        title="Thất bại!"
+        onConfirm={() => setAlert(null)}
+        onCancel={() => setAlert(null)}
+        confirmBtnBsStyle="primary"
+        confirmBtnText="Ok"
+        btnSize=""
+      >
+        Không thể xóa bài viết do đã được đăng kí. 
+      </ReactBSAlert>,
+    );
+  };
+
   const deletePost = (id) => {
     postService.deletePost(id).then((req) => {
       if (req) {
-        confirmedAlert();
+        handleConfirmedAlert(req);
         setTimeout(() => {
           setCountValue(countValue - 1);
         }, 2000);

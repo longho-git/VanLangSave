@@ -122,43 +122,49 @@ function UserPostsPage() {
     );
   };
 
+  const handleConfirmedAlert = (value) => {
+    // console.log(value.status)
+    // console.log(value)
+    value.status == 400 ? failConfirmedAlert() : confirmedAlert();
+  }
+
   const confirmedAlert = () => {
-    if(deletePost == true){
-      setAlert(
-        <ReactBSAlert
-          success
-          style={{ display: 'block', marginTop: '-100px' }}
-          title="Thành công!"
-          onConfirm={() => setAlert(null)}
-          onCancel={() => setAlert(null)}
-          confirmBtnBsStyle="primary"
-          confirmBtnText="Ok"
-          btnSize=""
-        >
-          Bài viết đã xóa.
-        </ReactBSAlert>,
-        );
-      } else {
-        setAlert(
-          <ReactBSAlert
-            danger
-            style={{ display: 'block', marginTop: '-100px' }}
-            title="Thất bại!"
-            onConfirm={() => setAlert(null)}
-            onCancel={() => setAlert(null)}
-            confirmBtnBsStyle="primary"
-            confirmBtnText="Ok"
-            btnSize=""
-          >
-            Bài viết đã hoàn tất giao dịch hoặc đang được đăng kí.
-          </ReactBSAlert>,
-        );
-      }
+    setAlert(
+      <ReactBSAlert
+        success
+        style={{ display: 'block', marginTop: '-100px' }}
+        title="Thành công!"
+        onConfirm={() => setAlert(null)}
+        onCancel={() => setAlert(null)}
+        confirmBtnBsStyle="primary"
+        confirmBtnText="Ok"
+        btnSize=""
+      >
+        Bài viết đã xóa.
+      </ReactBSAlert>,
+    );
   };
+  const failConfirmedAlert = () => {
+    setAlert(
+      <ReactBSAlert
+        danger
+        style={{ display: 'block', marginTop: '-100px' }}
+        title="Thất bại!"
+        onConfirm={() => setAlert(null)}
+        onCancel={() => setAlert(null)}
+        confirmBtnBsStyle="primary"
+        confirmBtnText="Ok"
+        btnSize=""
+      >
+        Bài viết đã hoàn tất giao dịch hoặc đang được đăng kí.
+      </ReactBSAlert>,
+    );
+  };
+
   const deletePost = (id) => {
     postService.deletePost(id).then((req) => {
       if (req) {
-        confirmedAlert();
+        handleConfirmedAlert(req);
         setTimeout(() => {
           setCountValue(countValue - 1);
         }, 2000);
@@ -303,25 +309,25 @@ function UserPostsPage() {
                             {(item.statuts === 4 ||
                               item.statuts === 5 ||
                               (item.type === 2 && item.statuts === 2)) && (
-                              <>
-                                <Button
-                                  className=" btn-icon"
-                                  color="success"
-                                  size="sm"
-                                  type="button"
-                                  id="tooltipView2"
-                                  onClick={() => rowEvent(item)}
-                                >
-                                  <i className=" ni ni-zoom-split-in pt-1"></i>
-                                </Button>
-                                <UncontrolledTooltip
-                                  delay={0}
-                                  target="tooltipView2"
-                                >
-                                  Xem danh sách đăng ký
-                                </UncontrolledTooltip>
-                              </>
-                            )}
+                                <>
+                                  <Button
+                                    className=" btn-icon"
+                                    color="success"
+                                    size="sm"
+                                    type="button"
+                                    id="tooltipView2"
+                                    onClick={() => rowEvent(item)}
+                                  >
+                                    <i className=" ni ni-zoom-split-in pt-1"></i>
+                                  </Button>
+                                  <UncontrolledTooltip
+                                    delay={0}
+                                    target="tooltipView2"
+                                  >
+                                    Xem danh sách đăng ký
+                                  </UncontrolledTooltip>
+                                </>
+                              )}
 
                             <Button
                               className=" btn-icon"

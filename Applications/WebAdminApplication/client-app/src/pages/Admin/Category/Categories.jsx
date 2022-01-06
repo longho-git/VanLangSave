@@ -121,8 +121,13 @@ function Categories() {
     );
   };
 
+  const handleConfirmedAlert = (value) => {
+    // console.log(value.status)
+    // console.log(value)
+    value.status == 400 ? failConfirmedAlert() : confirmedAlert();
+  }
+
   const confirmedAlert = () => {
-    if(deleteCategory == true){
     setAlert(
       <ReactBSAlert
         success
@@ -134,31 +139,31 @@ function Categories() {
         confirmBtnText="Ok"
         btnSize=""
       >
-        Danh mục đã xóa
+        Danh mục đã xóa.
       </ReactBSAlert>,
-      );
-    } else {
-      setAlert(
-        <ReactBSAlert
-          danger
-          style={{ display: 'block', marginTop: '-100px' }}
-          title="Thất bại!"
-          onConfirm={() => setAlert(null)}
-          onCancel={() => setAlert(null)}
-          confirmBtnBsStyle="primary"
-          confirmBtnText="Ok"
-          btnSize=""
-        >
-          Không thể xóa vì đã có bài đăng trong danh mục
-        </ReactBSAlert>,
-      );
-    }
+    );
+  };
+  const failConfirmedAlert = () => {
+    setAlert(
+      <ReactBSAlert
+        danger
+        style={{ display: 'block', marginTop: '-100px' }}
+        title="Thất bại!"
+        onConfirm={() => setAlert(null)}
+        onCancel={() => setAlert(null)}
+        confirmBtnBsStyle="primary"
+        confirmBtnText="Ok"
+        btnSize=""
+      >
+        Danh mục đã có bài đăng.
+      </ReactBSAlert>,
+    );
   };
 
   const deleteCategory = (id) => {
     categoryService.deleteCategory(id).then((req) => {
       if (req) {
-        confirmedAlert();
+        handleConfirmedAlert(req);
         setTimeout(() => {
           setCountValue(countValue - 1);
         }, 2000);

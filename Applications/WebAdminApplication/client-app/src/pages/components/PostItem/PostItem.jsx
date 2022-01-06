@@ -52,7 +52,6 @@ function PostItem({ item }) {
         confirmBtnText="Ok"
         btnSize=""
       >
-        Your file has been deleted.
       </ReactBSAlert>,
     );
   };

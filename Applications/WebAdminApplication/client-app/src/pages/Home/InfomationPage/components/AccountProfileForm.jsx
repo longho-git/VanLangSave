@@ -148,6 +148,7 @@ function AccountProfileForm() {
             placeholder="0793174711"
             col={6}
             label="Số điện thoại"
+            type="number"
             rules={{
               required: 'Vui lòng không bỏ trống',
               pattern: {
