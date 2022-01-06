@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardBody, CardHeader, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Label, Row } from 'reactstrap';
 import { FormCustom } from 'layouts/component/SmartFormHook/FormCustom/FormCustom';
 import InputCustom from 'layouts/component/SmartFormHook/InputCustom/InputCustom';
 import BackgroudUpload from '../Upload/BackgroudUpload';
@@ -30,14 +30,6 @@ function CategoryDialog({ item }) {
               name="name"
               placeholder="Tên danh mục"
               label="Tên danh mục"
-              rules={{
-                required: 'Vui lòng không bỏ trống',
-              }}
-            />
-            <InputCustom
-              name="col"
-              placeholder="Số cột"
-              label="Số cột"
               rules={{
                 required: 'Vui lòng không bỏ trống',
               }}
