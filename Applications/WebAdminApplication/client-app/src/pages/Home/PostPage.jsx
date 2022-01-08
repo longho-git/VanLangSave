@@ -116,7 +116,9 @@ function PostPage({ isLoggedIn }) {
               <Row>
                 <Col md="7" className="mx-auto">
                   <blockquote className="blockquote">
-                    <h4 className="display-4 text-uppercase cus-txt">{post.title}</h4>
+                    <h4 className="display-4 text-uppercase cus-txt">
+                      {post.title}
+                    </h4>
                     <footer className="blockquote-footer">
                       <cite title="Source Title">
                         {formatTime(post.createdDate)}

@@ -42,4 +42,8 @@
     <ProjectReference Include="..\..\BuildingBlocks\Validation\AspNetCore.FluentValidation\AspNetCore.FluentValidation.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BOA\Models\NewFolder\" />
+  </ItemGroup>
+
 </Project>

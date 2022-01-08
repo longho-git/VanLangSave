@@ -10,7 +10,7 @@ namespace ApplicationDomain.BOA.Models.Categories
     {
         public string Name { get; set; }
         public string ImageURL { get; set; }
-        public int Col { get; set; }
+        public int Col  { get; set; }
     }
 
     public class CategoryModelRqMapper : Profile

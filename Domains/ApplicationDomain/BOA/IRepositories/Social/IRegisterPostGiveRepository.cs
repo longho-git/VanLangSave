@@ -10,6 +10,7 @@ namespace ApplicationDomain.BOA.IRepositories
 {
     public interface IRegisterPostGiveRepository : IGenericRepository<RegisterPostGive, int>
     {
+        Task<int> CountRegisterPostGives();
         IQueryable GetRegisterPostGives();
         IQueryable GetRegisterPostGiveById(int id);
         IQueryable GetRegisterPostGiveByPostId(int id);

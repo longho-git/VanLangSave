@@ -24,6 +24,16 @@ namespace Infrastructure.Repositories.Identity
             _dbContext = dbContext;
             _userManager = userManager;
         }
+
+        public async Task<List<User>> GetCountUserFromTo(DateTime fromDate, DateTime toDate)
+        {
+            var result = await dbSet.Where(r 
+                => r.Status==true 
+                   &&r.CreatedDate >= fromDate
+                   && r.CreatedDate <= toDate
+            ).ToListAsync();
+            return result;
+        }
         public IQueryable GetUsers()
         {
             var query = (from user in _userManager.Users

@@ -21,6 +21,7 @@ namespace WebAdminApplication.Controllers
         {
             _userManagement = userManagement;
             _userProfileService = userProfileService;
+            _userManagement = userManagement;
         }
 
         [Route("")]

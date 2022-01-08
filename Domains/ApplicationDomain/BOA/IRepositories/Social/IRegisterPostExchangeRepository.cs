@@ -17,5 +17,6 @@ namespace ApplicationDomain.BOA.IRepositories
         IQueryable GetRegisterPostExchangeByUserProfileId(int id);
         IQueryable GetHistoryRegisterPostExchangeByUserProfileId(int id);
         IQueryable GetRegisterPostExchangeDoneByUserProfileId(int id);
+        Task<int> CountRegisterPostExchanges();
     }
 }

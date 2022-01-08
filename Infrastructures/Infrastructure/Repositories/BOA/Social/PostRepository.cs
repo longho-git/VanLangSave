@@ -1,10 +1,13 @@
-﻿using ApplicationDomain.BOA.Entities;
+﻿using System;
+using System.Collections.Generic;
+using ApplicationDomain.BOA.Entities;
 using ApplicationDomain.BOA.IRepositories;
 using ApplicationDomain.Helper;
 using AspNetCore.UnitOfWork.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using ApplicationDomain.BOA.Models.Posts;
 
 namespace Infrastructure.Repositories.BOA
 {
@@ -61,6 +64,15 @@ namespace Infrastructure.Repositories.BOA
             return dbSet
                 .Where(r => r.Active == true && r.Statuts != PostStatus.Hidden && r.Statuts != PostStatus.Done && r.Title.Contains(searchTitle))
                 .OrderByDescending(r => r.CreatedDate);
+        }
+
+        public async Task<int> GetPostCountFromTo( DateTime fromDate, DateTime toDate)
+        {
+            var result = await dbSet.Where(r => 
+                                             r.CreatedDate >= fromDate
+                                                && r.CreatedDate <= toDate
+                ).ToListAsync();
+            return result.Count;
         }
     }
 }

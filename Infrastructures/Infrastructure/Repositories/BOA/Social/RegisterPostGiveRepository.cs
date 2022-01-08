@@ -19,7 +19,11 @@ namespace Infrastructure.Repositories.BOA
         {
             return dbSet.OrderBy(r => r.Remark);
         }
-
+        public async Task<int> CountRegisterPostGives()
+        {
+            var result = await dbSet.Where(r => r.StatusId == RegisterPost.Approve).ToListAsync();
+            return result.Count();
+        }
         public IQueryable GetRegisterPostGiveById(int id)
         {
             return dbSet.Where(d => d.Id == id).Include(d => d.Post);

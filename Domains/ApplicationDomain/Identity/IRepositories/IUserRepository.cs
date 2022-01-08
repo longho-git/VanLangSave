@@ -1,5 +1,7 @@
 ﻿
 
+using System;
+using System.Collections.Generic;
 using ApplicationDomain.Identity.Entities;
 using AspNetCore.UnitOfWork;
 using System.Linq;
@@ -15,5 +17,6 @@ namespace ApplicationDomain.Identity.IRepositories
         IQueryable GetManagerUsers();
         string GetNetResetCodeByResetCode(string code);
         Task<User> GetUserByPhoneNumber(string phoneNumber);
+        Task<List<User>> GetCountUserFromTo(DateTime fromDate, DateTime toDate);
     }
 }
