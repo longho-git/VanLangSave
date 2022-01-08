@@ -74,5 +74,14 @@ namespace Infrastructure.Repositories.BOA
                 ).ToListAsync();
             return result.Count;
         }
+        public async Task<int> GetPostCountFromToByUserId(int userId,DateTime fromDate, DateTime toDate)
+        {
+            var result = await dbSet.Where(r =>
+                r.CreatedDate >= fromDate
+                && r.CreatedDate <= toDate 
+                && r.CreatedByUserId == userId
+            ).ToListAsync();
+            return result.Count;
+        }
     }
 }

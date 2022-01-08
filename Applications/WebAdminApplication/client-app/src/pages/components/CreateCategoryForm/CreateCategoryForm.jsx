@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardHeader, CardBody, Col, CardTitle, Label, Spinner } from 'reactstrap';
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  Col,
+  CardTitle,
+  Label,
+  Spinner,
+} from 'reactstrap';
 import { FormCustom } from 'layouts/component/SmartFormHook/FormCustom/FormCustom';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -17,24 +26,19 @@ function CreateCategoryForm({ isClose }) {
   const [imageURL, setimageURL] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const dispatch = useDispatch();
-  const history = useHistory();
   const onSubmit = async (data) => {
     const dt = { ...data, imageURL };
     if (imageURL) {
-      console.log(dt);
       await categoryService.createCategory(dt).then((req) => {
-        console.log(dt);
-        if (req.status === 200) {
-          isClose();
-        } else {
+        if (req.status === 400) {
           setError(true);
+        } else {
+          isClose();
         }
       });
     }
   };
   useEffect(() => {
-    console.log('run usefffct')
     let currentSingleFile = undefined;
     // single dropzone file - accepts only images
     const dropzone = new Dropzone(document.getElementById('dropzone-single'), {
@@ -58,7 +62,6 @@ function CreateCategoryForm({ isClose }) {
             setimageURL(req.value);
             if (req.statusCode === 200) setLoading(false);
           });
-
         });
       },
     });
@@ -68,9 +71,7 @@ function CreateCategoryForm({ isClose }) {
     <>
       <div className="modal-body p-0">
         <Card className="bg-secondary shadow border-0 mb-0">
-          {
-            loading && <Spinner color="" type={'border'} size="sm"></Spinner>
-          }
+          {loading && <Spinner color="" type={'border'} size="sm"></Spinner>}
           <CardHeader className="bg-white pb-5">
             <CardTitle tag="h3">Thêm mới danh mục</CardTitle>
           </CardHeader>

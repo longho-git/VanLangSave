@@ -1,24 +1,21 @@
-﻿using ApplicationDomain.BOA.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ApplicationDomain.BOA.Entities;
 using ApplicationDomain.BOA.IRepositories;
 using ApplicationDomain.BOA.IServices;
+using ApplicationDomain.BOA.IServices.Notification;
+using ApplicationDomain.BOA.Models;
 using ApplicationDomain.BOA.Models.RegisterPostGives;
-
+using ApplicationDomain.BOA.Models.UserProfiles;
+using ApplicationDomain.Helper;
 using AspNetCore.Common.Identity;
 using AspNetCore.DataBinding.AutoMapper;
 using AspNetCore.UnitOfWork;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-using System;
-using System.Collections.Generic;
-
-using System.Threading.Tasks;
-using ApplicationDomain.BOA.IServices.Notification;
-using ApplicationDomain.BOA.Models;
-using ApplicationDomain.BOA.Models.UserProfiles;
-using ApplicationDomain.Helper;
-
-namespace ApplicationDomain.BOA.Services
+namespace ApplicationDomain.BOA.Services.Social
 {
     public class RegisterPostGiveService : ServiceBase, IRegisterPostGiveService
     {

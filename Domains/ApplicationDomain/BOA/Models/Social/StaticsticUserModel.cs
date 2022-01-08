@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ApplicationDomain.BOA.Models.Social
 {
-    class StaticsticModel
+    public class StaticsticModel
     {
 
         public int CountPost { get; set; }

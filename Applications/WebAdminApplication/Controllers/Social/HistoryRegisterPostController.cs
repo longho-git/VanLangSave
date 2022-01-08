@@ -44,6 +44,20 @@ namespace WebAdminApplication.Controllers.Social
                 return BadRequest(e.Message);
             }
         }
+        [Route("statics/{fromDate}/{toDate}")]
+        [HttpGet]
+        public async Task<IActionResult> GetStaticsticAsyncs(DateTime fromDate, DateTime toDate)
+        {
+            var issuer = GetCurrentUserIdentity<int>();
+            try
+            {
+                return Ok(await _historyRegisterPostService.GetStaticstic(fromDate, toDate));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
     }
 }

@@ -132,94 +132,91 @@ function HistoryRegisterPage({ postId }) {
   return (
     <>
       <AdminHeader name="Lịch sử giao dịch" parentName="Hệ thống" />
-        <Container className="mt--6" fluid>
-          <Row>
-            <div className="col">
-              <Card>
-                <CardHeader>
-                  <h3 className="mb-0">Lịch sử giao dịch</h3>
-                </CardHeader>
-                <SearchTable
-                  onSearch={(value) => {
-                    setSearch(value);
-                    setCurrentPage(1);
-                  }}
-                  placeholder={'Nhập tiêu đề, hình thức bài viết'}
+      <Container className="mt--6" fluid>
+        <Row>
+          <div className="col">
+            <Card>
+              <CardHeader>
+                <h3 className="mb-0">Lịch sử giao dịch</h3>
+              </CardHeader>
+              <SearchTable
+                onSearch={(value) => {
+                  setSearch(value);
+                  setCurrentPage(1);
+                }}
+                placeholder={'Nhập tiêu đề, hình thức bài viết'}
+              />
+              <Table className="align-items-center table-flush" responsive>
+                <HeaderTable
+                  headers={headers}
+                  onSorting={(field, order) => setSorting({ field, order })}
                 />
-                <Table className="align-items-center table-flush" responsive>
-                  <HeaderTable
-                    headers={headers}
-                    onSorting={(field, order) => setSorting({ field, order })}
-                  />
-                  <tbody>
-                    {postsData.map((item) => {
-                      return (
-                        <tr>
-                          <td>
-                            <div
-                              className="font-weight-bold"
-                              style={{ maxWidth: 200 }}
-                            >
-                              {formatTime(item.registerDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div
-                              className="font-weight-bold"
-                              href="#pablo"
-                              style={{ maxWidth: 100 }}
-                            >
-                              {item.postTitle}
-                            </div>
-                          </td>
+                <tbody>
+                  {postsData.map((item) => {
+                    return (
+                      <tr>
+                        <td>
+                          <div
+                            className="font-weight-bold"
+                            style={{ maxWidth: 200 }}
+                          >
+                            {formatTime(item.registerDate)}
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            className="font-weight-bold"
+                            href="#pablo"
+                            style={{ maxWidth: 100 }}
+                          >
+                            {item.postTitle}
+                          </div>
+                        </td>
 
-                          <td>
-                            <div
-                              className="font-weight-bold"
-                              style={{ maxWidth: 200 }}
-                            >
-                              {item.postConditrion}
-                            </div>
-                          </td>
-                          <td>
-                            <div
-                              className="font-weight-bold text-truncate mw-25"
-                              style={{ maxWidth: 200 }}
-                            >
-                              {item.status}
-                            </div>
-                          </td>
-                          <td className="table-actions text-right">
-                            {((item.statusId === 4 &&
-                              item.postConditrion === 'Tặng') ||
-                              (item.statusId === 5 &&
-                                item.postConditrion === 'Trao đổi')) && (
-                              <>
-                                <Button
-                                  className=" btn-icon"
-                                  color="info"
-                                  size="sm"
-                                  type="button"
-                                  id="tooltip2"
-                                  onClick={() => rowEvent(item.userId)}
-                                >
-                                  <i className="fas fa-eye pt-1"></i>
-                                </Button>
-                                <UncontrolledTooltip
-                                  delay={0}
-                                  target="tooltip2"
-                                >
-                                  Xem thông tin liên lạc
-                                </UncontrolledTooltip>
-                              </>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-                <CardFooter className="py-4">
+                        <td>
+                          <div
+                            className="font-weight-bold"
+                            style={{ maxWidth: 200 }}
+                          >
+                            {item.postConditrion}
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            className="font-weight-bold text-truncate mw-25"
+                            style={{ maxWidth: 200 }}
+                          >
+                            {item.status}
+                          </div>
+                        </td>
+                        <td className="table-actions text-right">
+                          {((item.statusId === 4 &&
+                            item.postConditrion === 'Tặng') ||
+                            (item.statusId === 5 &&
+                              item.postConditrion === 'Trao đổi')) && (
+                            <>
+                              <Button
+                                className=" btn-icon"
+                                color="info"
+                                size="sm"
+                                type="button"
+                                id="tooltip2"
+                                onClick={() => rowEvent(item.userId)}
+                              >
+                                <i className="fas fa-eye pt-1"></i>
+                              </Button>
+                              <UncontrolledTooltip delay={0} target="tooltip2">
+                                Xem thông tin liên lạc
+                              </UncontrolledTooltip>
+                            </>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+              <CardFooter className="py-4">
                 <nav aria-label="...">
                   <PaginationTable
                     total={totalItems}
@@ -229,10 +226,10 @@ function HistoryRegisterPage({ postId }) {
                   />
                 </nav>
               </CardFooter>
-              </Card>
-            </div>
-          </Row>
-        </Container>
+            </Card>
+          </div>
+        </Row>
+      </Container>
       {show ? <ModalContent /> : null}
     </>
   );

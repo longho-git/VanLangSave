@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ApplicationDomain.BOA.Models.Social;
 using ApplicationDomain.BOA.Models.Social.RegisterPostExchange;
 
 namespace ApplicationDomain.BOA.IServices
@@ -13,5 +14,6 @@ namespace ApplicationDomain.BOA.IServices
     {
         Task<List<HistoryRegisterPostModel>> GetHistoryRegisterPostAsync(UserIdentity<int> issuer);
         Task<List<HistoryRegisterPostModel>> GetHistoryRegisterPostAllAsync();
+        Task<StaticsticModel> GetStaticstic(DateTime fromDate, DateTime toDate);
     }
 }

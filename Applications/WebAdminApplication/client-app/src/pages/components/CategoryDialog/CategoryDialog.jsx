@@ -6,13 +6,15 @@ import InputCustom from 'layouts/component/SmartFormHook/InputCustom/InputCustom
 import BackgroudUpload from '../Upload/BackgroudUpload';
 import categoryService from 'services/category.service';
 
-function CategoryDialog({ item }) {
+function CategoryDialog({ item, closeDialog }) {
   const [defaultValues, setDefaultValues] = useState(item);
   const [image, setImage] = useState(item.imageURL);
   const onSubmit = (data) => {
     categoryService.updateCategory(data, image).then((data) => {
       if (data.status === 400) {
         return;
+      } else {
+        closeDialog();
       }
     });
   };

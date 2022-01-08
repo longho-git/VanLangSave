@@ -1,26 +1,18 @@
-﻿using ApplicationDomain.BOA.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ApplicationDomain.BOA.Entities;
 using ApplicationDomain.BOA.IRepositorie;
 using ApplicationDomain.BOA.IRepositories;
 using ApplicationDomain.BOA.IService;
-using ApplicationDomain.BOA.IServices;
-using ApplicationDomain.BOA.Models;
 using ApplicationDomain.BOA.Models.Categories;
-using AspNetCore.AutoGenerate;
 using AspNetCore.Common.Identity;
 using AspNetCore.DataBinding.AutoMapper;
 using AspNetCore.UnitOfWork;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ApplicationDomain.BOA.Services
+namespace ApplicationDomain.BOA.Services.Social
 {
     public class CategoryService : ServiceBase, ICategoryService
     {

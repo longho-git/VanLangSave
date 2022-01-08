@@ -280,7 +280,7 @@ namespace Infrastructure.SeedData
                 "Xin cảm ơn,<br/>" +
                 "VNT support" +
                 "</span> ",
-                EmailSubject = "Thông tin đăng nhập hệ thống [VNTtech.vn]"
+                EmailSubject = "Thông tin đăng nhập hệ thống [vanlangsave]"
             });
             emailTemplates.Add(new EmailTemplate()
             {
@@ -294,7 +294,7 @@ namespace Infrastructure.SeedData
                 "Xin cảm ơn,<br/>" +
                 "VNT support" +
                 "</span> ",
-                EmailSubject = "Khôi phục mật khẩu đăng nhập hệ thống [VNTtech.vn]"
+                EmailSubject = "Khôi phục mật khẩu đăng nhập hệ thống [vanlangsave]"
             });
             emailTemplates.Add(new EmailTemplate()
             {
@@ -305,7 +305,7 @@ namespace Infrastructure.SeedData
                 "Xin cảm ơn,<br/>" +
                 "VNT support" +
                 "</span> ",
-                EmailSubject = "Thay đổi mật khẩu đăng nhập hệ thống [VNTtech.vn]"
+                EmailSubject = "Thay đổi mật khẩu đăng nhập hệ thống [vanlangsave]"
             });
             dbContext.AddRange(emailTemplates);
             await dbContext.SaveChangesAsync();

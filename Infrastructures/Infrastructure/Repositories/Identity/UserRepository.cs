@@ -25,14 +25,14 @@ namespace Infrastructure.Repositories.Identity
             _userManager = userManager;
         }
 
-        public async Task<List<User>> GetCountUserFromTo(DateTime fromDate, DateTime toDate)
+        public async Task<int> GetCountUserFromTo(DateTime fromDate, DateTime toDate)
         {
             var result = await dbSet.Where(r 
                 => r.Status==true 
                    &&r.CreatedDate >= fromDate
                    && r.CreatedDate <= toDate
             ).ToListAsync();
-            return result;
+            return result.Count;
         }
         public IQueryable GetUsers()
         {
@@ -47,7 +47,7 @@ namespace Infrastructure.Repositories.Identity
                              CreatedDate = user.CreatedDate,
                              UpdatedByUserName = user.UpdatedByUserName,
                              UpdatedDate = user.UpdatedDate,
-                         });
+                         }).Where(r=>r.UserName != "system");
             return query;
         }
 

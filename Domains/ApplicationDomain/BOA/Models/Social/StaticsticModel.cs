@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ApplicationDomain.BOA.Models.Social
 {
-    class StaticsticUserModel
+    public class StaticsticUserModel
     {
         public string Email { get; set; }
         public string Name { get; set; }

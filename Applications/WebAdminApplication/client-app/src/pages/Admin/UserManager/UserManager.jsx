@@ -17,13 +17,10 @@ import {
   NavLink,
   Row,
   Table,
-  UncontrolledAlert,
   UncontrolledTooltip,
 } from 'reactstrap';
 import userService from 'services/user.service';
-import { formatTime } from 'utils/fortmatTime';
 import CreateAccountManager from './../../components/CreateAccountManager/CreateAccountManager';
-import ReactBSAlert from 'react-bootstrap-sweetalert';
 const headers = [
   {
     field: 'email',
@@ -289,7 +286,6 @@ function UserManager(props) {
                           >
                             {item.status ? 'Kích hoạt' : 'Vô hiệu hoá'}
                           </UncontrolledTooltip>
-                          
                         </td>
                       </tr>
                     );

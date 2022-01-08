@@ -1,20 +1,17 @@
-﻿using ApplicationDomain.BOA.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ApplicationDomain.BOA.Entities;
 using ApplicationDomain.BOA.IRepositories;
 using ApplicationDomain.BOA.IServices;
 using ApplicationDomain.BOA.Models.ProductNeeds;
-
 using AspNetCore.Common.Identity;
 using AspNetCore.DataBinding.AutoMapper;
 using AspNetCore.UnitOfWork;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-using System;
-using System.Collections.Generic;
-
-using System.Threading.Tasks;
-
-namespace ApplicationDomain.BOA.Services
+namespace ApplicationDomain.BOA.Services.Social
 {
     public class ProductNeedService : ServiceBase, IProductNeedService
     {

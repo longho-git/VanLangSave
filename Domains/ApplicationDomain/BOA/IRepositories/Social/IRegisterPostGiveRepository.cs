@@ -10,11 +10,12 @@ namespace ApplicationDomain.BOA.IRepositories
 {
     public interface IRegisterPostGiveRepository : IGenericRepository<RegisterPostGive, int>
     {
-        Task<int> CountRegisterPostGives();
+        Task<int> CountRegisterPostGives(DateTime fromDate, DateTime toDate);
         IQueryable GetRegisterPostGives();
         IQueryable GetRegisterPostGiveById(int id);
         IQueryable GetRegisterPostGiveByPostId(int id);
         IQueryable GetRegisterPostGiveByUserProfileId(int id);
         IQueryable GetHistoryRegisterPostGiveByUserProfileId(int id);
+        Task<int> CountRegisterPostGiveByUser(int userId, DateTime fromDate, DateTime toDate);
     }
 }

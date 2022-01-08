@@ -29,6 +29,14 @@ const routes = [
         isView: 'SysAdmin',
         layout: '/admin',
       },
+      {
+        path: '/dashBoard',
+        name: 'Thống kê',
+        miniName: 'T',
+        component: DashBoard,
+        layout: '/admin',
+        isView: 'SysAdmin',
+      },
     ],
   },
   {

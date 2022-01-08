@@ -17,6 +17,6 @@ namespace ApplicationDomain.Identity.IRepositories
         IQueryable GetManagerUsers();
         string GetNetResetCodeByResetCode(string code);
         Task<User> GetUserByPhoneNumber(string phoneNumber);
-        Task<List<User>> GetCountUserFromTo(DateTime fromDate, DateTime toDate);
+        Task<int> GetCountUserFromTo(DateTime fromDate, DateTime toDate);
     }
 }

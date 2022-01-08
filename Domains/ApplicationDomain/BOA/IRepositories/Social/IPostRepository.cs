@@ -1,6 +1,8 @@
-﻿using ApplicationDomain.BOA.Entities;
+﻿using System;
+using ApplicationDomain.BOA.Entities;
 using AspNetCore.UnitOfWork;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ApplicationDomain.BOA.IRepositories
 {
@@ -15,5 +17,7 @@ namespace ApplicationDomain.BOA.IRepositories
         IQueryable GetPostByUserProfileId(int id);
         IQueryable SearchPostsActive(string searchTitle);
         IQueryable GetAllPostByUserId(int id);
+        Task<int> GetPostCountFromTo(DateTime fromDate, DateTime toDate);
+        Task<int> GetPostCountFromToByUserId(int userId, DateTime fromDate, DateTime toDate);
     }
 }
