@@ -98,7 +98,7 @@ function Dashboard() {
                         margin: '30px 20px 0 10px',
                       }}
                     >
-                      <i class="fas fa-chevron-down text-center"></i>
+                      <i class="fas fa-filter"></i>
                     </Button>
                   </div>
                 </FormCustom>
