@@ -54,6 +54,10 @@ function AccountMenu(props) {
           </Media>
         </DropdownToggle>
         <DropdownMenu aria-labelledby="navbar-success_dropdown_1" left>
+          <DropdownItem to="/profile" tag={Link}>
+            <i className="ni ni-single-02 "></i>
+            Thông tin tài khoản
+          </DropdownItem>
           <DropdownItem onClick={(e) => logoutUser(e)}>
             <i className="ni ni-lock-circle-open text-muted"></i>
             Đăng xuất
