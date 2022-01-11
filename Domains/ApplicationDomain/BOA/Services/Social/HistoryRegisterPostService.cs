@@ -171,12 +171,13 @@ namespace ApplicationDomain.BOA.Services.Social
                 var countPostByUser = await _postRepository.GetPostCountFromToByUserId(user.Id, fromDate, toDate);
                 var transExchangeOfUser = await _registerPostExchangeRepository.CountRegisterPostExchangesByUser(user.Id,fromDate, toDate);
                 var transGiveOfUser = await _registerPostGiveRepository.CountRegisterPostGiveByUser(user.Id,fromDate, toDate);
+                var userProfile = await _userProfileRepository.GetDistricByUserId(user.Id).MapQueryTo<UserProfileModel>(_mapper).ToListAsync();
                 var userStaticstic = new StaticsticUserModel()
                 {
-                    Name = user.UserName,
+                    Name = userProfile[0].FirstName+" "+userProfile[0].LastName,
                     Email = user.Email,
                     CountPost = countPostByUser ,
-                    CountTrans = transExchangeOfUser+ transGiveOfUser
+                    CountTrans = transExchangeOfUser + transGiveOfUser
                 };
                 listUserStatis.Add(userStaticstic);
             }
