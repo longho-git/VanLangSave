@@ -213,15 +213,15 @@ namespace WebAdminApplication
             }
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = Path.Join(env.ContentRootPath, "client-app");
+                //spa.Options.SourcePath = Path.Join(env.ContentRootPath, "client-app");
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-                spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+                //if (env.IsDevelopment())
+                //{
+                //    spa.UseReactDevelopmentServer(npmScript: "start");
+                //}
+                //spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
                 //deploy
-                //spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "ClientApp";
             });
           
 

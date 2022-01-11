@@ -153,37 +153,6 @@ namespace Infrastructure.SeedData
 
         }
 
-
-        private static async Task<int> SeedCompanyAsync(ApplicationDbContext dbContext)
-        {
-            Console.WriteLine("Start to seed Company");
-            var userManagement = _serviceProvider.GetService<UserManager<User>>();
-            var system = userManagement.FindByNameAsync("system").Result;
-            var model = new Company
-            {
-                Code = "VNT",
-                Email = "VNT@gmail.com",
-                Address = "Quận 12",
-                Fax = "123456789",
-                ForeignName = "Viet Nhat Tan",
-                LogoURL = "http://www.vietnhattan.com.vn/wp-content/uploads/2016/12/cropped-VNT_LOGO-192x192.png",
-                Name = "CTY TNHH CƠ KHÍ CHÍNH XÁC VIỆT NHẬT TÂN",
-                PhoneNumber = "0936915227",
-                ShortName = "VNT",
-                TaxCode = "123456789",
-                WebsiteURL = "http://www.vietnhattan.com.vn/",
-                CreatedByUserId = system.Id,
-                CreatedByUserName = system.UserName,
-                UpdatedByUserId = system.Id,
-                UpdatedByUserName = system.UserName,
-            };
-            await dbContext.AddAsync(model);
-            await dbContext.SaveChangesAsync();
-            Console.WriteLine("Finished seed Company");
-            return model.Id;
-        }
-
-
         private static async Task<int> SeedCategoryAsync(ApplicationDbContext dbContext)
         {
             Console.WriteLine("Start to seed Category");
@@ -216,7 +185,7 @@ namespace Infrastructure.SeedData
             var lap = new Category
             {
                 Name = "Máy tính $ Laptop",
-                Col = 6,
+                Col = 3,
                 ImageURL = "https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
                 CreatedByUserId = system.Id,
                 CreatedByUserName = system.UserName,
@@ -228,7 +197,7 @@ namespace Infrastructure.SeedData
             var phone1 = new Category
             {
                 Name = "Nhà cửa đời sống",
-                Col =6,
+                Col =3,
                 ImageURL = "https://images.pexels.com/photos/4262010/pexels-photo-4262010.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
                 CreatedByUserId = system.Id,
                 CreatedByUserName = system.UserName,
@@ -278,7 +247,7 @@ namespace Infrastructure.SeedData
                 "Mật khẩu: <b>#password</b><br />" +
                 "Để an toàn cho việc đăng nhập vào hệ thống, bạn vui lòng đăng nhập vào hệ thống và sử dụng chức năng đổi mật khẩu.<br/><br/>" +
                 "Xin cảm ơn,<br/>" +
-                "VNT support" +
+                "VLS support" +
                 "</span> ",
                 EmailSubject = "Thông tin đăng nhập hệ thống [vanlangsave]"
             });
@@ -292,7 +261,7 @@ namespace Infrastructure.SeedData
                 "Để an toàn cho việc đăng nhập vào hệ thống," +
                 "bạn vui lòng đăng nhập vào hệ thống và sử dụng chức năng đổi mật khẩu.<br/><br/>" +
                 "Xin cảm ơn,<br/>" +
-                "VNT support" +
+                "VLS support" +
                 "</span> ",
                 EmailSubject = "Khôi phục mật khẩu đăng nhập hệ thống [vanlangsave]"
             });
@@ -303,7 +272,7 @@ namespace Infrastructure.SeedData
                 "Xin chào <b>#email</b>,<br/><br/>" +
                 "Mật khẩu cho tài khoản <b>#username</b> của bạn đã thay đổi.<br/><br/>" +
                 "Xin cảm ơn,<br/>" +
-                "VNT support" +
+                "VLS support" +
                 "</span> ",
                 EmailSubject = "Thay đổi mật khẩu đăng nhập hệ thống [vanlangsave]"
             });

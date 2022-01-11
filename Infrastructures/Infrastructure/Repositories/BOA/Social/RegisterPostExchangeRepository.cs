@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories.BOA
             var result = await dbSet.Where(r =>
                 r.CreatedDate >= fromDate
                 && r.CreatedDate <= toDate
-                && r.StatusId == RegisterPost.Approve).ToListAsync();
+                && r.StatusId == RegisterPostStatus.Done).ToListAsync();
             return result.Count();
         }
         public async Task<int> CountRegisterPostExchangesByUser(int userId,DateTime fromDate, DateTime toDate)
@@ -35,7 +35,7 @@ namespace Infrastructure.Repositories.BOA
             var result = await dbSet.Where(r =>
                 r.CreatedDate >= fromDate
                 && r.CreatedDate <= toDate
-                && r.StatusId == RegisterPost.Approve && r.CreatedByUserId == userId).ToListAsync();
+                && r.StatusId == RegisterPostStatus.Done && r.CreatedByUserId == userId).ToListAsync();
             return result.Count();
         }
 
