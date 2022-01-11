@@ -68,7 +68,7 @@ namespace ApplicationDomain.BOA.Services.Social
                 {
                     ActorId = userRegister[0].Id,
                     EntityId = registerPostExchange.Id,
-                    MainURL = "registerList",
+                    MainURL = "registerExchangeList",
                     Message = MessageRaw.RegisterExchangePost,
                     RecipientId = recipient[0].Id,
                 };
@@ -241,7 +241,7 @@ namespace ApplicationDomain.BOA.Services.Social
                 {
                     ActorId = post.UserProfileId.Value,
                     EntityId = registerPostExchange.Id,
-                    MainURL = "registerList",
+                    MainURL = "registerExchangeList",
                     Message = MessageRaw.RegisterExchangeReject,
                     RecipientId = registerPostExchange.UserRegisterId,
                 };
@@ -274,7 +274,7 @@ namespace ApplicationDomain.BOA.Services.Social
                 {
                     ActorId = registerPostExchange.UserRegisterId,
                     EntityId = registerPostExchange.Id,
-                    MainURL = "registerList",
+                    MainURL = "userpost",
                     Message = MessageRaw.RegisterExchangeReject,
                     RecipientId = post.UserProfileId.Value,
                 };
