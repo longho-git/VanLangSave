@@ -67,7 +67,7 @@ namespace ApplicationDomain.BOA.Services.Social
                     ActorId = userRegister[0].Id,
                     EntityId = registerPostGive.Id,
                     MainURL = "userpost",
-                    Message = MessageRaw.RegisterPost,
+                    Message = MessageRaw.RegisterPost + "" + post.Title,
                     RecipientId = recipient[0].Id,
                 };
                 await _notificationClientService.CreateNotificationAsync(notification, issuer);

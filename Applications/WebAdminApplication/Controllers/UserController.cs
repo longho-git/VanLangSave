@@ -171,7 +171,7 @@ namespace WebAdminApplication.Controllers
                 else if (result.IsNotAllowed)
                 {
                     return BadRequest(
-                        "Tài khoản của bạn đã bị khóa! Vui lòng liên hệ Admin để biết thêm chi tiết");
+                        "Tài khoản của bạn đã bị khóa! Vui lòng liên hệ Admin: vlssuport@gmail.com để biết thêm chi tiết");
                 }
                 else if (result.RequiresTwoFactor)
                 {

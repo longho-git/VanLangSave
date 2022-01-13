@@ -68,7 +68,7 @@ namespace ApplicationDomain.BOA.Services.Social
                 {
                     ActorId = userRegister[0].Id,
                     EntityId = registerPostExchange.Id,
-                    MainURL = "registerExchangeList",
+                    MainURL = "userpost",
                     Message = MessageRaw.RegisterExchangePost,
                     RecipientId = recipient[0].Id,
                 };
