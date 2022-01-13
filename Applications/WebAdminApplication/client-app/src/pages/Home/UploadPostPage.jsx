@@ -208,7 +208,7 @@ function UploadPostPage() {
               <FormCustom onSubmit={onSubmit} defaultValues={defaultValues}>
                 <InputCustom
                   name="title"
-                  placeholder="Vui Lòng nhập dưới 75 kí tự"
+                  placeholder="Tiêu đề tối đa 75 kí tự"
                   label="Tiêu đề"
                   maxLength="75"
                   required
@@ -251,8 +251,9 @@ function UploadPostPage() {
                 />
                 <InputCustom
                   name="content"
-                  placeholder="Mô tả."
+                  placeholder="Mô tả tối đa 300 kí tự."
                   label="Mô tả"
+                  maxLength="300"
                   rows="5"
                   textarea
                   required
