@@ -116,7 +116,7 @@ function StaticsUserList({ userList, postId }) {
     <>
       <Row>
         <div className="col">
-          <Card>
+          
             <SearchTable
               onSearch={(value) => {
                 setSearch(value);
@@ -172,7 +172,8 @@ function StaticsUserList({ userList, postId }) {
                 })}
               </tbody>
             </Table>
-            <CardFooter className="py-4">
+          
+          <CardFooter className="py-4">
               <nav aria-label="...">
                 <PaginationTable
                   total={totalItems}
@@ -182,7 +183,6 @@ function StaticsUserList({ userList, postId }) {
                 />
               </nav>
             </CardFooter>
-          </Card>
         </div>
       </Row>
       {show ? <ModalContent /> : null}
