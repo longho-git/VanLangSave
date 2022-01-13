@@ -1,13 +1,6 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
-// react plugin that prints a given react component
-// react component for creating dynamic tables
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-// react component used to create sweet alerts
-// reactstrap components
 import {
   Button,
   Card,
@@ -142,17 +135,17 @@ function StaticsUserList({ userList, postId }) {
                     <tr>
                       <td>
                         <div
-                          className="font-weight-bold"
-                          style={{ maxWidth: 200 }}
+                          className="font-weight-bold cus-text2"
+                          style={{ maxWidth: 300 }}
                         >
                           {item.email}
                         </div>
                       </td>
                       <td>
                         <div
-                          className="font-weight-bold"
+                          className="font-weight-bold cus-text2"
                           href="#pablo"
-                          style={{ maxWidth: 100 }}
+                          style={{ maxWidth: 300 }}
                         >
                           {item.name}
                         </div>
@@ -161,7 +154,7 @@ function StaticsUserList({ userList, postId }) {
                       <td>
                         <div
                           className="font-weight-bold"
-                          style={{ maxWidth: 200 }}
+                          style={{ maxWidth: 100 }}
                         >
                           {item.countPost}
                         </div>
@@ -169,7 +162,7 @@ function StaticsUserList({ userList, postId }) {
                       <td>
                         <div
                           className="font-weight-bold text-truncate mw-25"
-                          style={{ maxWidth: 200 }}
+                          style={{ maxWidth: 100 }}
                         >
                           {item.countTrans}
                         </div>

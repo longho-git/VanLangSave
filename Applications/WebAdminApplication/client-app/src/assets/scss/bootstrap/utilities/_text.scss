@@ -128,3 +128,11 @@
   white-space: normal;
   -webkit-line-clamp: 3;
 }
+
+.cus-text2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: normal;
+  -webkit-line-clamp: 1;
+}
