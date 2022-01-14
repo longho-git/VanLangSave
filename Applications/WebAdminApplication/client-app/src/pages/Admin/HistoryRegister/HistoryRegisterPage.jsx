@@ -165,9 +165,9 @@ function HistoryRegisterPage({ postId }) {
                         </td>
                         <td>
                           <div
-                            className="font-weight-bold"
+                            className="font-weight-bold cus-text2"
                             href="#pablo"
-                            style={{ maxWidth: 100 }}
+                            style={{ maxWidth: 200 }}
                           >
                             {item.postTitle}
                           </div>
