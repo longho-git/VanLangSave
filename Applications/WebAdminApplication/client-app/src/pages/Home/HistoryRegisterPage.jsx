@@ -166,7 +166,7 @@ function HistoryRegisterPage() {
                           </td>
                           <td>
                             <div
-                              className="font-weight-bold text-truncate "
+                              className="font-weight-bold text-truncate cus-text2"
                               href="#pablo"
                               style={{ maxWidth: 150 }}
                             >
